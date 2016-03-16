@@ -1,30 +1,15 @@
+package view;
+import controller.Hexgame;
 import java.awt.*;
+
 import javax.swing.*;
 
 /* This is a companion class to hexgame.java. It handles all of the mechanics related to hexagon grids. */
 
-public class hexmech
+public class Hexgrid
 {
-  /* Helpful references: 
-http://www.codeproject.com/Articles/14948/Hexagonal-grid-for-games-and-other-projects-Part-1
-http://weblogs.java.net/blog/malenkov/archive/2009/02/hexagonal_tile.html
-http://www.tonypa.pri.ee/tbw/tut25.html
-	 */
-
-	/*
-#define HEXEAST 0
-#define HEXSOUTHEAST 1
-#define HEXSOUTHWEST 2
-#define HEXWEST 3
-#define HEXNORTHWEST 4
-#define HEXNORTHEAST 5
-	 */
 
 	//Constants
-	public final static boolean orFLAT= true;
-	public final static boolean orPOINT= false;
-	public static boolean ORIENT= orFLAT;  //this is not used. We're never going to do pointy orientation
-
 	public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
 	//false: x,y are the co-ords of the top left rect. co-ord.
 
@@ -90,16 +75,7 @@ and calculates all six of the points in the hexagon.
 		cy = new int[] {y,y,y+r,y+r+r,y+r+r,y+r};
 		return new Polygon(cx,cy,6);
 
-		/*
-		   x=200;
-		   poly = new Polygon();
-		   poly.addPoint(x,y);
-		   poly.addPoint(x+s,y);
-		   poly.addPoint(x+s+t,y+r);
-		   poly.addPoint(x+s,y+r+r);
-		   poly.addPoint(x,y+r+r);
-		   poly.addPoint(x-t,y+r);
-		 */
+	
 	}
 
 /********************************************************************
@@ -115,10 +91,10 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		Polygon poly = hex(x,y);
-		g2.setColor(hexgame.COLOURCELL);
-		//g2.fillPolygon(hexmech.hex(x,y));
+		g2.setColor(Color.ORANGE);
+		//g2.fillPolygon(Hexgrid.hex(x,y));
 		g2.fillPolygon(poly);
-		g2.setColor(hexgame.COLOURGRID);
+		g2.setColor(Color.BLACK);
 		g2.drawPolygon(poly);
 	}
 
@@ -140,17 +116,17 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		if (n < 0) {
-			g2.setColor(hexgame.COLOURONE);
+			g2.setColor(new Color(255,255,255,200));
 			g2.fillPolygon(hex(x,y));
-			g2.setColor(hexgame.COLOURONETXT);
+			g2.setColor(Color.BLUE);
 			c = (char)(-n);
 			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME: handle XYVertex
 			//g2.drawString(x+","+y, x+r+BORDERS, y+r+BORDERS+4);
 		}
 		if (n > 0) {
-			g2.setColor(hexgame.COLOURTWO);
+			g2.setColor(new Color(0,0,0,200));
 			g2.fillPolygon(hex(x,y));
-			g2.setColor(hexgame.COLOURTWOTXT);
+			g2.setColor(new Color(255,100,255));
 			c = (char)n;
 			g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4); //FIXME handle XYVertex
 			//g2.drawString(i+","+j, x+r+BORDERS, y+r+BORDERS+4);
