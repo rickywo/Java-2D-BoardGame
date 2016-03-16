@@ -7,8 +7,10 @@ import view.MainPanel;
 
 /**********************************
   This is the main class of a Java program to play a game based on hexagonal tiles.
-  The mechanism of handling hexes is in the file hexmech.java.
+  The mechanism of handling hexes is in the file Hexgrid.java.
 
+  Modified by: Ricky Wu
+  Date: March 2016
   Written by: M.H.
   Date: December 2012
 
