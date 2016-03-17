@@ -1,6 +1,6 @@
 package model;
 
-public interface UnitInterface {
+public interface EntityInterface {
 	public void resetTrun();
 	public int calSteps(int steps);
 	public void moveTo(Point p);
