@@ -13,7 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -56,7 +60,7 @@ public class MainPanel {
 		content.add(panel);
 		//this.add(panel);  -- cannot be done in a static context
 		//for hexes in the FLAT orientation, the height of a 10x10 grid is 1.1764 * the width. (from h / (s+t))
-		frame.setSize( (int)(Hexgame.SCRSIZE/1.23), Hexgame.SCRSIZE);
+		frame.setSize(Hexgame.SCRSIZE, Hexgame.SCRSIZE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
@@ -66,10 +70,20 @@ public class MainPanel {
 	{		
 		//mouse variables here
 		//Point mPt = new Point(0,0);
+		InputStream is;
+		BufferedImage image;
+		
 
 		public GridPanel()
 		{	
 			setBackground(COLOURBACK);
+			/*try {
+				is = MainPanel.class.getResourceAsStream("/Tiles/Terrain/Mars/mars_02.png");
+				image = ImageIO.read(is);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 
 			MyMouseListener ml = new MyMouseListener();            
 			addMouseListener(ml);
@@ -85,13 +99,13 @@ public class MainPanel {
 			//draw grid
 			for (int i=0;i<Hexgame.BSIZE;i++) {
 				for (int j=0;j<Hexgame.BSIZE;j++) {
-					Hexgrid.drawHex(i,j,g2);
+					Rectmech.draw(i,j,g2);
 				}
 			}
 			//fill in hexes
 			for (int i=0;i<Hexgame.BSIZE;i++) {
 				for (int j=0;j<Hexgame.BSIZE;j++) {					
-					Hexgrid.fillHex(i,j,board[i][j],g2);
+					Rectmech.fill(i,j,board[i][j],g2);
 				}
 			}
 
@@ -103,7 +117,7 @@ public class MainPanel {
 				int y = e.getY(); 
 				//mPt.x = x;
 				//mPt.y = y;
-				Point p = new Point( Hexgrid.pxtoHex(e.getX(),e.getY()) );
+				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
 				if (p.x < 0 || p.y < 0 || p.x >= Hexgame.BSIZE || p.y >= Hexgame.BSIZE) return;
 
 
@@ -119,7 +133,7 @@ public class MainPanel {
 				
 				int x = e.getX(); 
 				int y = e.getY();
-				Point p = new Point( Hexgrid.pxtoHex(e.getX(),e.getY()) );
+				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
 				
 				if (p.x < 0 || p.y < 0 || p.x >= Hexgame.BSIZE || p.y >= Hexgame.BSIZE) return;
 				if(!p.equals(cursorXYPos)) {
@@ -127,7 +141,7 @@ public class MainPanel {
 					cursorXYPos = p;
 				}
 				board[p.x][p.y] = -1;
-				System.out.println("MouseExited");
+				System.out.println("x:"+x+", y:"+y);
 				repaint();
 			}	
 			

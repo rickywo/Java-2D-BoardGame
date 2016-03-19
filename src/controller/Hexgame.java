@@ -2,7 +2,7 @@ package controller;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*; 
-import view.Hexgrid;
+import view.Rectmech;
 import view.MainPanel;
 
 /**********************************
@@ -45,10 +45,10 @@ public class Hexgame
 
 	void initGame(){
 
-		Hexgrid.setXYasVertex(false); //RECOMMENDED: leave this as FALSE.
+		//Hexgrid.setXYasVertex(false); //RECOMMENDED: leave this as FALSE.
 
-		Hexgrid.setHeight(HEXSIZE); //Either setHeight or setSize must be run to initialize the hex
-		Hexgrid.setBorders(BORDERS);
+		Rectmech.setLength(HEXSIZE); //Either setHeight or setSize must be run to initialize the hex
+		Rectmech.setBorders(BORDERS);
 
 		for (int i=0;i<BSIZE;i++) {
 			for (int j=0;j<BSIZE;j++) {
@@ -57,8 +57,5 @@ public class Hexgame
 		}
 
 		//set up board here
-/*		board[3][3] = (int)'A';
-		board[4][3] = (int)'Q';
-		board[4][4] = -(int)'B';*/
 	}
 }
