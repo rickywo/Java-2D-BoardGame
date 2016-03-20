@@ -21,29 +21,24 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.Hexgame;
+import model.ImageManager;
+import controller.GameController;
 
 
 public class MainPanel {
 	
-	final static Color COLOURBACK =  Color.WHITE;
-	final static Color COLOURCELL =  Color.ORANGE;	 
-	final static Color COLOURGRID =  Color.BLACK;	 
-	final static Color COLOURONE = new Color(255,255,255,200);
-	final static Color COLOURONETXT = Color.BLUE;
-	final static Color COLOURTWO = new Color(0,0,0,200);
-	final static Color COLOURTWOTXT = new Color(255,100,255);
-	
 	
 	int[][] board; // Current board matrix to store pieces
+	private GameController game;
 	private GridPanel panel;
 	private JFrame frame;
 	private Container content;
 	private Point cursorXYPos;
 	
 
-	public MainPanel(int[][] board) {
+	public MainPanel(int[][] board, GameController game) {
 		this.board = board;
+		this.game = game;
 		this.cursorXYPos = new Point(0, 0);
 		createAndShowGUI();
 	}
@@ -54,13 +49,13 @@ public class MainPanel {
 
 
 		//JFrame.setDefaultLookAndFeelDecorated(true);
-		frame = new JFrame("Hex Testing 4");
+		frame = new JFrame("Human vs Alien");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		content = frame.getContentPane();
 		content.add(panel);
 		//this.add(panel);  -- cannot be done in a static context
 		//for hexes in the FLAT orientation, the height of a 10x10 grid is 1.1764 * the width. (from h / (s+t))
-		frame.setSize(Hexgame.SCRSIZE, Hexgame.SCRSIZE);
+		frame.setSize(GameController.SCRSIZE, GameController.SCRSIZE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
@@ -76,7 +71,7 @@ public class MainPanel {
 
 		public GridPanel()
 		{	
-			setBackground(COLOURBACK);
+			setBackground(Color.GRAY);
 			/*try {
 				is = MainPanel.class.getResourceAsStream("/Tiles/Terrain/Mars/mars_02.png");
 				image = ImageIO.read(is);
@@ -94,17 +89,16 @@ public class MainPanel {
 		{
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 			super.paintComponent(g2);
-			//draw grid
-			for (int i=0;i<Hexgame.BSIZE;i++) {
-				for (int j=0;j<Hexgame.BSIZE;j++) {
-					Rectmech.draw(i,j,g2);
+			//draw grid map
+			for (int i=0;i<GameController.BSIZE;i++) {
+				for (int j=0;j<GameController.BSIZE;j++) {
+					Rectmech.draw(i,j, game.getMap()[i][j],g2);
 				}
 			}
 			//fill in hexes
-			for (int i=0;i<Hexgame.BSIZE;i++) {
-				for (int j=0;j<Hexgame.BSIZE;j++) {					
+			for (int i=0;i<GameController.BSIZE;i++) {
+				for (int j=0;j<GameController.BSIZE;j++) {					
 					Rectmech.fill(i,j,board[i][j],g2);
 				}
 			}
@@ -118,7 +112,7 @@ public class MainPanel {
 				//mPt.x = x;
 				//mPt.y = y;
 				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
-				if (p.x < 0 || p.y < 0 || p.x >= Hexgame.BSIZE || p.y >= Hexgame.BSIZE) return;
+				if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
 
 
 				//What do you want to do when a hexagon is clicked?
@@ -135,7 +129,7 @@ public class MainPanel {
 				int y = e.getY();
 				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
 				
-				if (p.x < 0 || p.y < 0 || p.x >= Hexgame.BSIZE || p.y >= Hexgame.BSIZE) return;
+				if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
 				if(!p.equals(cursorXYPos)) {
 					board[cursorXYPos.x][cursorXYPos.y] = 0;
 					cursorXYPos = p;

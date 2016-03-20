@@ -1,5 +1,5 @@
 import javax.swing.SwingUtilities;
-import controller.Hexgame;
+import controller.GameController;
 
 
 
@@ -9,7 +9,7 @@ public class HumanAlien {
 	{
 		SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					Hexgame.singleton();
+					GameController.singleton();
 				}
 		});
 	}
