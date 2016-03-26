@@ -1,6 +1,6 @@
 package model;
 
-import model.Profession.Professions;
+//import model.Profession.Professions;
 
 public class Weapon {
 
@@ -9,42 +9,70 @@ public class Weapon {
 	}
 	
 	//stores 1 human job, 1 alien job
-	private Profession[] professions = new Profession[2];	
+	//private String[] professions = new String[2];	
 	private Weapons weaponName;
+	private String name;
 	
 	public Weapon(Weapons weaponName) {
 		this.weaponName = weaponName;
-		linkProfessions();
+		name = "";
+		createWeapon();
 	}
 	
-	private void linkProfessions(){
+	private void createWeapon(){
 		switch(weaponName)
 		{
 			case CANNON:
-				professions[0] = new Profession(Professions.AREAATTACKER);
-				professions[1] = new Profession(Professions.SNIPER);
+				createCannon();
 				break;
 			case GUN:
-				professions[0] = new Profession(Professions.WARRIOR);
-				professions[1] = new Profession(Professions.GOBLIN);
+				createGun();
 				break;
 			case MAGICALHANDS:
-				professions[0] = new Profession(Professions.MEDIC);
-				professions[1] = new Profession(Professions.WITCH);
+				createMagicalHands();
 				break;
 			case SHIELD:
-				professions[0] = new Profession(Professions.PROTECTOR);
-				professions[1] = new Profession(Professions.LADYLISA);
+				createShield();
 				break;
 			case COMBATKIT:
-				professions[0] = new Profession(Professions.COMBATENGINEER);
-				professions[1] = new Profession(Professions.DRAGON);
+				createCombatKit();
 				break;
 			case FLAG:
-				professions[0] = new Profession(Professions.CHEERLEADER);
-				professions[1] = new Profession(Professions.TROLL);
+				createFlag();
 				break;
 		}
+	}
+	
+	private void createCannon(){	//area attacker, sniper
+		name = "Cannon";
+	}
+	
+	private void createGun(){	//warrior, goblin
+		name = "Gun";
+	}
+	
+	private void createMagicalHands(){	//medic, witch
+		name = "Magical Hands";
+	}
+	
+	private void createShield(){	//protector, ladylisa
+		name = "Shield";
+	}
+	
+	private void createCombatKit(){	//combat engineer, dragon
+		name = "Combat Kit";
+	}
+	
+	private void createFlag(){	//cheerleader, troll
+		name = "Flag";
+	}
+	
+	public Weapon getWeapon(){
+		return this;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 }

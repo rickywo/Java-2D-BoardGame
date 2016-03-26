@@ -1,5 +1,6 @@
 package model;
 import java.util.*;
+
 import model.Weapon.Weapons;
 
 public class MainGame {
@@ -8,16 +9,28 @@ public class MainGame {
 	private static final int NUM_WEAPONS = 20;
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
 	private int turn;
+	private static MainGame game = null;
+	private static EntityFactory entityFactory = null;
 	
 	public MainGame() {
 		turn = 0;
 		initialSetup();
 	}
+	
+	public static MainGame singleton() {
+		if(game == null) {
+			game = new MainGame();
+		}
+		return game;
+	}
 
 	public void initialSetup(){
 		generateBoard();
 		generatePieces();
+		entityFactory.getHumanTeam(); //remove later
+		entityFactory.getAlienTeam(); //remove later
 		generateWeapons();
+		getWeapons(); //remove later
 	}
 	
 	private void generateBoard(){
@@ -25,8 +38,10 @@ public class MainGame {
 	}
 	
 	private void generatePieces(){
-		EntityFactory entityFactory = new EntityFactory();
+		entityFactory = new EntityFactory();
 		entityFactory.initialisePieces();
+		//check pieces generated correctly
+		
 	}
 	
 	private void generateWeapons(){
@@ -58,4 +73,14 @@ public class MainGame {
 			boardWeapons[i] = weapon;
 		}
 	}
+	
+	public Weapon[] getWeapons(){
+		//TODO remove this later
+		System.out.println("Creating Weapons...");
+		for(int i=0; i<boardWeapons.length; i++){
+			System.out.println(boardWeapons[i].getName());
+		}
+		return boardWeapons;
+	}
+	
 }

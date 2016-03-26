@@ -9,66 +9,74 @@ public class Profession {
 	}
 
 	private Professions professionName;
-	private int hp;
-	private int strength;
-	private int agility;
-	private int defense;
-	private String attackName;
-	private String jobName;
+	private Weapon weapon;
+//	private int currentHP;
+//	private int maxHP;
+//	private int strength;
+//	private int agility;
+//	private int defense;
+//	private String attackName;
+
 	
-	public Profession(Professions professionName)	
+	public Profession(Professions professionName, Entity entity)	
 	{
 		this.professionName = professionName;
-		assignProfession();
+		assignProfession(entity);
 	}
 	
-	public Profession assignProfession()
+//	public Profession (Professions professionName)
+//	{
+//		this.professionName = professionName;
+//		assignProfession();
+//	}
+	
+	public Profession assignProfession(Entity entity)
 	{
 		switch(professionName)
 		{
 			case COMMANDER:
-				assignCommander();
+				assignCommander(entity);
 				return this;
 			case SOLDIER:
-				assignSoldier();
+				assignSoldier(entity);
 				return this;
 			case MEDIC:
-				assignMedic();
+				assignMedic(entity);
 				return this;
 			case AREAATTACKER:
-				assignAreaAttacker();
+				assignAreaAttacker(entity);
 				return this;
 			case WARRIOR:
-				assignWarrior();
+				assignWarrior(entity);
 				return this;
 			case PROTECTOR:
-				assignProtector();
+				assignProtector(entity);
 			case COMBATENGINEER:
-				assignCombatEngineer();
+				assignCombatEngineer(entity);
 				return this;
 			case CHEERLEADER:
-				assignCheerleader();
+				assignCheerleader(entity);
 			case CHIEF:
-				assignChief();
+				assignChief(entity);
 				return this;
 			case SPAWN:
-				assignSpawn();
+				assignSpawn(entity);
 			case LADYLISA:
-				assignLadyLisa();
+				assignLadyLisa(entity);
 				return this;
 			case WITCH:
-				assignWitch();
+				assignWitch(entity);
 				return this;
 			case GOBLIN:
-				assignGoblin();
+				assignGoblin(entity);
 				return this;
 			case SNIPER:
-				assignSniper();
+				assignSniper(entity);
 			case TROLL:
-				assignTroll();
+				assignTroll(entity);
 				return this;
 			case DRAGON:
-				assignDragon();
+				assignDragon(entity);
 				return this;
 			default:
 				return null;
@@ -76,78 +84,96 @@ public class Profession {
 
 	}
 	
-	private void assignCommander(){
-		this.hp = 200;
-		this.strength = 30;
-		this.agility = 2;
-		this.defense = 15;
-		this.attackName = "Charge";
-		this.jobName = "Commander";
+	private void assignCommander(Entity entity){
+		int hp = 200;
+		entity.setMaxHP(hp);
+		entity.setCurrentHP(hp);
+		entity.setStrength(30);
+		entity.setAgility(2);
+		entity.setDefense(15);
+		entity.setAttackName("Charge");
 	}
 	
-	private void assignSoldier(){
-		this.hp = 50;
-		this.strength = 10;
-		this.agility = 1;
-		this.defense = 10;
-		this.attackName = "Attack";
-		this.jobName = "Soldier";
+	private void assignSoldier(Entity entity){
+		int hp = 50;
+		entity.setMaxHP(hp);
+		entity.setCurrentHP(hp);
+		entity.setStrength(10);
+		entity.setAgility(1);
+		entity.setDefense(10);
+		entity.setAttackName("Attack");
+		entity.setProfession(this);
 	}
 	
-	private void assignMedic(){
+	private void assignMedic(Entity entity){
 		
 	}
 	
-	private void assignAreaAttacker(){
+	private void assignAreaAttacker(Entity entity){
 		
 	}
 	
-	private void assignWarrior(){
+	private void assignWarrior(Entity entity){
 		
 	}
 	
-	private void assignProtector(){
+	private void assignProtector(Entity entity){
 		
 	}
 	
-	private void assignCombatEngineer(){
+	private void assignCombatEngineer(Entity entity){
 		
 	}
 	
-	private void assignCheerleader(){
+	private void assignCheerleader(Entity entity){
 		
 	}
 	
-	private void assignChief(){
+	private void assignChief(Entity entity){
+		int hp = 200;
+		entity.setMaxHP(hp);
+		entity.setCurrentHP(hp);
+		entity.setStrength(30);
+		entity.setAgility(2);
+		entity.setDefense(15);
+		entity.setAttackName("Command");
+		entity.setProfession(this);
+	}
+	
+	private void assignSpawn(Entity entity){
+		int hp = 50;
+		entity.setMaxHP(hp);
+		entity.setCurrentHP(hp);
+		entity.setStrength(10);
+		entity.setAgility(1);
+		entity.setDefense(10);
+		entity.setAttackName("Fight");
+		entity.setProfession(this);
+	}
+	
+	private void assignLadyLisa(Entity entity){
 		
 	}
 	
-	private void assignSpawn(){
+	private void assignWitch(Entity entity){
 		
 	}
 	
-	private void assignLadyLisa(){
+	private void assignGoblin(Entity entity){
 		
 	}
 	
-	private void assignWitch(){
+	private void assignSniper(Entity entity){
 		
 	}
 	
-	private void assignGoblin(){
+	private void assignTroll(Entity entity){
 		
 	}
 	
-	private void assignSniper(){
+	private void assignDragon(Entity entity){
 		
 	}
 	
-	private void assignTroll(){
-		
-	}
-	
-	private void assignDragon(){
-		
-	}
 
 }
