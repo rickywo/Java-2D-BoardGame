@@ -161,7 +161,8 @@ public class Entity implements EntityInterface{
 		System.out.println("Agility: " + agility);
 		System.out.println("Defense: " + defense);
 		System.out.println("Attack Name: " + attackName);
-		System.out.println("Profession: " + profession.toString());
+		System.out.println("Profession: " + profession.getName());
+		System.out.println("Description: " + profession.getDescription());
 		System.out.println("Weapon: " + weapon);
 		System.out.println();
 				

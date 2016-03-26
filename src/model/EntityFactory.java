@@ -22,12 +22,12 @@ public class EntityFactory {
 	
 	private void initialiseHumanTeam(){
 		//Create leader
-		Entity leader = new Entity("Commander", 0);
+		Entity leader = new Entity("Human1", 0);
 		leader.setProfession(new Profession(Professions.COMMANDER, leader));
 		humanTeam.add(leader);
 		//Create rest of team
 		for(int i=0; i<NUM_PIECES_PER_TEAM-1; i++){
-			Entity entity = new Entity("Soldier", 0);
+			Entity entity = new Entity("Human"+(i+2), 0);
 			entity.setProfession(new Profession(Professions.SOLDIER, entity));
 			humanTeam.add(entity);
 		}
@@ -36,12 +36,12 @@ public class EntityFactory {
 	private void initialiseAlienTeam(){
 		//Create leader
 		Entity leader = null;
-		leader = new Entity("Chief", 1);
+		leader = new Entity("Alien1", 1);
 		leader.setProfession(new Profession(Professions.CHIEF, leader));
 		alienTeam.add(leader);
 		//Create rest of team
 		for(int i=0; i<NUM_PIECES_PER_TEAM-1; i++){
-			Entity entity = new Entity("Spawn", 1);
+			Entity entity = new Entity("Alien"+(i+2), 1);
 			entity.setProfession(new Profession(Professions.SPAWN, entity));
 			alienTeam.add(entity);
 		}

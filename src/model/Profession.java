@@ -10,6 +10,9 @@ public class Profession {
 
 	private Professions professionName;
 	private Weapon weapon;
+	private String name;
+	private String description;
+	//private int id; //0-19 as id for each job. 0-9 humans, 10-19 aliens
 //	private int currentHP;
 //	private int maxHP;
 //	private int strength;
@@ -21,6 +24,9 @@ public class Profession {
 	public Profession(Professions professionName, Entity entity)	
 	{
 		this.professionName = professionName;
+		this.name = "";
+		this.weapon = null;
+		this.description = "";
 		assignProfession(entity);
 	}
 	
@@ -92,6 +98,8 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Charge");
+		this.name = "Commander";
+		this.description = "Leader of Human Team";
 	}
 	
 	private void assignSoldier(Entity entity){
@@ -102,7 +110,8 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Attack");
-		entity.setProfession(this);
+		this.name = "Soldier";
+		this.description = "Base member of Human Team";
 	}
 	
 	private void assignMedic(Entity entity){
@@ -137,7 +146,8 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Command");
-		entity.setProfession(this);
+		this.name = "Chief";
+		this.description = "Leader of Alien Team";
 	}
 	
 	private void assignSpawn(Entity entity){
@@ -148,7 +158,8 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Fight");
-		entity.setProfession(this);
+		this.name = "Spawn";
+		this.description = "Base member of Alien Team";
 	}
 	
 	private void assignLadyLisa(Entity entity){
@@ -173,6 +184,14 @@ public class Profession {
 	
 	private void assignDragon(Entity entity){
 		
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getDescription(){
+		return this.description;
 	}
 	
 
