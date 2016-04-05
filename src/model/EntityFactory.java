@@ -4,6 +4,8 @@ import model.Profession.Professions;
 
 public class EntityFactory {
 	
+	// Factory class, each team has one instance, dependency injection
+	
 	private ArrayList<Entity> humanTeam = new ArrayList<Entity>();
 	private ArrayList<Entity> alienTeam = new ArrayList<Entity>();
 	

@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 
 import model.ImageManager;
 import controller.GameController;
+import controller.MainGame;
 
 
 public class MainPanel {
@@ -91,14 +92,14 @@ public class MainPanel {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			super.paintComponent(g2);
 			//draw grid map
-			for (int i=0;i<GameController.BSIZE;i++) {
-				for (int j=0;j<GameController.BSIZE;j++) {
+			for (int i=0;i<MainGame.BSIZE;i++) {
+				for (int j=0;j<MainGame.BSIZE;j++) {
 					Rectmech.draw(i,j, game.getMap()[i][j],g2);
 				}
 			}
 			//fill in hexes
-			for (int i=0;i<GameController.BSIZE;i++) {
-				for (int j=0;j<GameController.BSIZE;j++) {					
+			for (int i=0;i<MainGame.BSIZE;i++) {
+				for (int j=0;j<MainGame.BSIZE;j++) {					
 					Rectmech.fill(i,j,board[i][j],g2);
 				}
 			}
@@ -112,7 +113,7 @@ public class MainPanel {
 				//mPt.x = x;
 				//mPt.y = y;
 				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
-				if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
+				if (p.x < 0 || p.y < 0 || p.x >= MainGame.BSIZE || p.y >= MainGame.BSIZE) return;
 
 
 				//What do you want to do when a hexagon is clicked?
@@ -129,7 +130,7 @@ public class MainPanel {
 				int y = e.getY();
 				Point p = new Point( Rectmech.pxtoRect(e.getX(),e.getY()) );
 				
-				if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
+				if (p.x < 0 || p.y < 0 || p.x >= MainGame.BSIZE || p.y >= MainGame.BSIZE) return;
 				if(!p.equals(cursorXYPos)) {
 					board[cursorXYPos.x][cursorXYPos.y] = 0;
 					cursorXYPos = p;

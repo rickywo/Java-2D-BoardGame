@@ -1,11 +1,26 @@
-package model;
+package controller;
+
 import java.util.*;
+
+import model.*;
 import model.Weapon.Weapons;
 
+/**
+ * 
+ * @author Human v Alien Team
+ * MainGame Class: controller for game system,
+ * deals with game board, pieces and weapons so on.
+ * Handles game turns, pieces' movement, combats
+ *   
+ *
+ */
 public class MainGame {
 
 	//board has 20? weapons at start
+	public final static int BSIZE = 16; //board size.
+	public final static Entity EMPTY = null;
 	private static final int NUM_WEAPONS = 20;
+	private Entity[][] board = new Entity[BSIZE][BSIZE];
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
 	private int turn;
 	
@@ -21,6 +36,11 @@ public class MainGame {
 	}
 	
 	private void generateBoard(){
+		for (int i=0;i<BSIZE;i++) {
+			for (int j=0;j<BSIZE;j++) {
+				board[i][j] = EMPTY;
+			}
+		}
 		//link to hexgame class
 	}
 	

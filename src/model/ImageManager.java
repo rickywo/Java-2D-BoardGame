@@ -13,19 +13,22 @@ public class ImageManager {
 	
 	private static final String TILES = "tiles";
 	
+	// Is it better to make it a resource model to store and provide images
+	// instead of using static functions
+	
 	
 	//set to 1.0 for non-Retina image instances
 	public static final float REAL_DENSITY = 2.0f;
 
-	private static HashMap<String,BufferedImage> cache = new HashMap<String,BufferedImage>();
-	private static HashMap<String,Image> instanceCache = new HashMap<String,Image>();
+	private static HashMap<String, BufferedImage> cache = new HashMap<String, BufferedImage>();
+	private static HashMap<String, Image> instanceCache = new HashMap<String, Image>();
 	private static Properties defaultScales = null;	
 
 	private static void load(String name) throws Exception {
 
 		BufferedImage b = ImageIO.read(ImageManager.class.getClass().getResource(name));
 		cache.put(name, b);
-		System.out.println("Loaded image resource "+name);
+		System.out.println("Loaded image resource " + name);
 
 	}
 
@@ -36,7 +39,7 @@ public class ImageManager {
 				load(name);
 			} catch (Exception e) {
 				System.out.println("Failed to load image resource "+name);
-				return new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+				return new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 			}
 		}
 

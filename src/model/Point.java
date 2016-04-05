@@ -1,7 +1,7 @@
 package model;
 
 import java.lang.IndexOutOfBoundsException;
-import controller.Hexgame;
+import controller.MainGame;
 
 public class Point {
 	private int x;
@@ -11,7 +11,7 @@ public class Point {
 		y = 0;
 	}
 	public Point(int x, int y) throws IndexOutOfBoundsException {
-		if (x < 0 || y < 0 || x >= Hexgame.BSIZE || y >= Hexgame.BSIZE) 
+		if (x < 0 || y < 0 || x >= MainGame.BSIZE || y >= MainGame.BSIZE) 
 			throw new IndexOutOfBoundsException();
 		this.x = x;
 		this.y = y;
