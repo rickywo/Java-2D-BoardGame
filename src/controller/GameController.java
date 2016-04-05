@@ -1,26 +1,19 @@
 package controller;
-import java.awt.*;
-
-import javax.swing.*;
 
 import model.ImageManager;
-
-import java.awt.event.*; 
 import java.awt.image.BufferedImage;
 
 import view.Rectmech;
 import view.MainPanel;
 
-/**********************************
-  This is the main class of a Java program to play a game based on hexagonal tiles.
-  The mechanism of handling hexes is in the file Hexgrid.java.
-
-  Modified by: Ricky Wu
-  Date: March 2016
-  Written by: M.H.
-  Date: December 2012
-
- ***********************************/
+/**
+ *
+ * @author Human v Alien Team
+ * This class is the controller to handle UI events,
+ * process the axial parameters and pass them to MainGame
+ *
+ *
+ */
 
 public class GameController
 {
@@ -53,9 +46,8 @@ public class GameController
 
 	void initGame(){
 
-		//Hexgrid.setXYasVertex(false); //RECOMMENDED: leave this as FALSE.
 
-		Rectmech.setLength(RECTSIZE); //Either setHeight or setSize must be run to initialize the hex
+		Rectmech.setLength(RECTSIZE);
 		Rectmech.setBorders(BORDERS);
 
 		for (int i=0;i<BSIZE;i++) {
