@@ -94,8 +94,8 @@ public class Rectmech {
 	 *****************************************************************************/
 	public static Point pxtoRect(int mx, int my) {
 		Point p = new Point(-1, -1);
-		mx -= BORDERS;
-		my -= BORDERS;
+		mx -= 236;//BORDERS;
+		my -= 32;//BORDERS;
 
 		int x = (int) (mx / l); int y = (int) (my / l); 
 

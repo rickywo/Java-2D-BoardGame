@@ -110,7 +110,7 @@ public class MainPanel {
                 int x = e.getX();
                 int y = e.getY();
                 Point p = new Point(Rectmech.pxtoRect(x, y));
-
+                System.out.println("px:" + p.x + ", py:" + p.y);
                 // Do nothing if mouse click the area out of bound
                 if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
 
