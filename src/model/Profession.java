@@ -1,12 +1,6 @@
 package model;
 
 public class Profession {
-	
-	public enum Professions {
-		COMMANDER, SOLDIER, MEDIC, AREAATTACKER, WARRIOR, PROTECTOR,
-		COMBATENGINEER, CHEERLEADER, 
-		CHIEF, SPAWN, LADYLISA, WITCH, GOBLIN, SNIPER, TROLL, DRAGON
-	}
 
 	private Professions professionName;
 	private Weapon weapon;
