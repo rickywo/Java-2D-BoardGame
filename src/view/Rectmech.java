@@ -40,8 +40,8 @@ public class Rectmech {
 	 *********************************************************/
 	public static Rectangle rect(int x, int y) {
 
-		y += BORDERS;
-		x += BORDERS; 
+		y += 32;//BORDERS;
+		x += 236;//BORDERS;
 		
 		if (l == 0) {
 			System.out.println("ERROR: size of rectangle has not been set");

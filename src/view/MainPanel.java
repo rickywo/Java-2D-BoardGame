@@ -1,13 +1,6 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.MenuItem;
-import java.awt.Point;
-import java.awt.PopupMenu;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.GameController;
+import model.ImageManager;
 
 
 public class MainPanel {
@@ -51,6 +45,7 @@ public class MainPanel {
         content = frame.getContentPane();
         content.add(panel);
         frame.setSize(GameController.SCRSIZE, GameController.SCRSIZE);
+        frame.setSize(900, 675);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -78,10 +73,11 @@ public class MainPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             super.paintComponent(g2);
             // draw the tiles and characters on the map
+            paintBackground(g2);
             for (int i = 0; i < GameController.BSIZE; i++) {
                 for (int j = 0; j < GameController.BSIZE; j++) {
                     // Paint the tiles
-                    Rectmech.draw(i, j, game.gameBoard[i][j].getTileImg(), g2);
+                     Rectmech.draw(i, j, game.gameBoard[i][j].getTileImg(), g2);
                     // Paint the characters
                     if (game.gameBoard[i][j].getEntity() != null)
                         Rectmech.draw(i, j, game.gameBoard[i][j].getCharImg(), g2);
@@ -97,6 +93,16 @@ public class MainPanel {
 
         }
 
+        private void paintBackground(Graphics2D g2) {
+            Rectangle rect = new Rectangle(0, 0, 900, 675);
+            // defensive design: Handle null reference
+            TexturePaint texture = new TexturePaint(ImageManager.getImage("/resources/background/background.jpg"), rect);
+
+            g2.setPaint(texture);
+            g2.fill(rect);
+            g2.draw(rect);
+        }
+
         class MyMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
             public void mouseClicked(MouseEvent e) {
 
@@ -104,7 +110,7 @@ public class MainPanel {
                 int x = e.getX();
                 int y = e.getY();
                 Point p = new Point(Rectmech.pxtoRect(x, y));
-                System.out.println("x:" + p.x + ", y:" + p.y);
+
                 // Do nothing if mouse click the area out of bound
                 if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
 
@@ -128,6 +134,7 @@ public class MainPanel {
                 int x = e.getX();
                 int y = e.getY();
                 Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
+                System.out.println("x:" + x + ", y:" + y);
 
                 if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
                 if (!p.equals(cursorXYPos)) {

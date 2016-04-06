@@ -25,8 +25,8 @@ public class GameController
 	//constants and global variables
 
 	public final static int EMPTY = 0;
-	public final static int BSIZE = 16; //board size.
-	public final static int RECTSIZE = 32;	//hex size in pixels
+	public final static int BSIZE = 18; //board size.
+	public final static int RECTSIZE = 34;	//hex size in pixels
 	public final static int BORDERS = 16;
 	public final static int SCRSIZE = RECTSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
 
