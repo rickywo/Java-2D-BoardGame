@@ -21,12 +21,12 @@ public enum Professions {
     TROLL("Troll"),
     DRAGON("Dragon");
 
-    private String imageFileName;
-    Professions(String ImageFileName) {
-        this.imageFileName = ImageFileName;
+    private String characterName;
+    Professions(String charName) {
+        this.characterName = charName;
     }
 
-    public String getImagePath() {
-        return this.imageFileName;
+    public String getCharacterName() {
+        return this.characterName;
     }
 }

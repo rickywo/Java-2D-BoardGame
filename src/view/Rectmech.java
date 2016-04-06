@@ -62,7 +62,11 @@ public class Rectmech {
 		int x = i * l;
 		int y = j * l;
 		Rectangle rect = rect(x, y);
-		TexturePaint texture = new TexturePaint(image, rect);
+		TexturePaint texture = null;
+		// defensive design: Handle null reference
+		if(image != null)
+			texture = new TexturePaint(image, rect);
+
 		g2.setPaint(texture);
 		g2.fill(rect);
 		g2.setColor(Color.GRAY);
@@ -72,7 +76,7 @@ public class Rectmech {
 	/***************************************************************************
 	 * Name: fill() Parameters: (i,j) : the x,y coordinates of the initial
 	 * point of the rectangle n : an integer number to indicate a letter to draw
-	 * in the hex g2 : the graphics context to draw on 
+	 * in the rect g2 : the graphics context to draw on
 	 *****************************************************************************/
 	public static void fill(int i, int j, int n, Graphics2D g2) {
 		int x = i * l;

@@ -7,12 +7,12 @@ import java.util.*;
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.InputStream;
 
 public class ImageManager {
 	
-	private static final String TILES = "tiles";
-	
+	private static final String TILES = "tiles/";
+	private static final String CHARACTERS = "characters/";
+	private static final String RESOURCE_PATH = "/resources/";
 	
 	//set to 1.0 for non-Retina image instances
 	public static final float REAL_DENSITY = 2.0f;
@@ -51,7 +51,13 @@ public class ImageManager {
 		int  n = rand.nextInt(38) + 1;
 		if(n <= 30) filename = 1 + filename;
 		if(n > 30) filename = n % 30 + filename;
-		return getImage("/resources/"+TILES+"/"+filename);
+		return getImage(RESOURCE_PATH+TILES+filename);
+	}
+
+	public static BufferedImage getCharSkin(String name) {
+		String filename = name + ".png";
+
+		return getImage(RESOURCE_PATH+CHARACTERS+filename);
 	}
 
 	public static ImageIcon getIcon(String name) {
@@ -101,18 +107,10 @@ public class ImageManager {
 		s1g.drawImage(raw, s1tf, null);
 		s1g.dispose();
 
-		//scale the rotated image to the correct resolution for the screen
 		Image step2 = null;
 		step2 = step1.getScaledInstance((int)Math.round(step1.getWidth()*xScale*REAL_DENSITY), (int)Math.round(step1.getHeight()*yScale*REAL_DENSITY), Image.SCALE_SMOOTH);
 
-		//copy the image onto a "compatible image"
-		//commented because it didn't seem to have any noticeable performance improvement
-		/*
-		Image step3 = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(step2.getWidth(null), step2.getHeight(null), Transparency.TRANSLUCENT);
-		Graphics2D s3g = (Graphics2D)step3.getGraphics();
-		s3g.drawImage(step2, new AffineTransform(), null);
-		s3g.dispose();
-		*/
+
 
 		return step2;
 

@@ -1,6 +1,7 @@
 package model;
 import java.util.*;
 
+import controller.GameController;
 import model.Weapon.Weapons;
 
 public class MainGame {
@@ -82,5 +83,10 @@ public class MainGame {
 		}
 		return boardWeapons;
 	}
-	
+
+	public void dispatchPieces(BoardCell[][] board){
+		// set Chief position
+		board[0][0].setEntity(entityFactory.getHumanTeam().get(0));
+		board[GameController.BSIZE -1][GameController.BSIZE -1].setEntity(entityFactory.getAlienTeam().get(0));
+	}
 }

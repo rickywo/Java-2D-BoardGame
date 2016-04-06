@@ -92,7 +92,7 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Charge");
-		this.name = "Commander";
+		this.name = Professions.COMMANDER.getCharacterName();
 		this.description = "Leader of Human Team";
 	}
 	
@@ -104,7 +104,7 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Attack");
-		this.name = "Soldier";
+		this.name = Professions.SOLDIER.getCharacterName();
 		this.description = "Base member of Human Team";
 	}
 	
@@ -140,7 +140,7 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Command");
-		this.name = "Chief";
+		this.name = Professions.CHIEF.getCharacterName();
 		this.description = "Leader of Alien Team";
 	}
 	
@@ -152,7 +152,7 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Fight");
-		this.name = "Spawn";
+		this.name = Professions.SPAWN.getCharacterName();
 		this.description = "Base member of Alien Team";
 	}
 	

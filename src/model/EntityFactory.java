@@ -1,6 +1,6 @@
 package model;
 import java.util.ArrayList;
-import model.Profession.Professions;
+import model.Professions;
 
 public class EntityFactory {
 	
