@@ -3,7 +3,7 @@ package model;
 
 public class Entity implements EntityInterface{
 
-	private static final int INIT_VALUE = 10; // initial value of all attributes
+	//private static final int INIT_VALUE = 10; // initial value of all attributes
 	//private static final String COMMANDOR = "Commandor";
 	private String name;
 	private int team; // Camp of this unit belongs to
@@ -17,6 +17,9 @@ public class Entity implements EntityInterface{
 	//private Point mPos;
 	private boolean moved;
 	private Weapon weapon;
+	private int xPos;	// x coordinates
+	private int yPos; //y coords
+	
 	
 //	public Entity() {
 //		name = "";
@@ -151,6 +154,19 @@ public class Entity implements EntityInterface{
 		this.attackName = name;
 	}
 	
+	public void setPos(int x, int y) {
+		this.xPos = x;
+		this.yPos = y;
+	}
+	
+	public int getXPos(){
+		return xPos;
+	}
+	
+	public int getYPos(){
+		return yPos;
+	}
+	
 	//remove later
 	public void printAllAttributes(){
 		System.out.println("Name: " + name);
@@ -164,6 +180,7 @@ public class Entity implements EntityInterface{
 		System.out.println("Profession: " + profession.getName());
 		System.out.println("Description: " + profession.getDescription());
 		System.out.println("Weapon: " + weapon);
+		System.out.println("Coordinates: " + xPos + ", " + yPos);
 		System.out.println();
 				
 		

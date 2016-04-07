@@ -32,7 +32,7 @@ public class GameController
 
 	public int[][] board = new int[BSIZE][BSIZE];
 	public BufferedImage [][] map = new BufferedImage[BSIZE][BSIZE];
-	public static BoardCell[][] gameBoard = new BoardCell[BSIZE][BSIZE];
+	public static BoardCell[][] gameBoard = new BoardCell[BSIZE][BSIZE]; //I've moved this to MainGame class
 
 	private static GameController game = null;
 	
@@ -69,7 +69,7 @@ public class GameController
 		mapInit = true;
 		//set up board here
 		gameManager = MainGame.singleton();
-		gameManager.dispatchPieces(gameBoard);
+		//gameManager.dispatchPieces(gameBoard); - MOVED TO MainGame class
 	}
 	
 	public boolean isMapInit() {

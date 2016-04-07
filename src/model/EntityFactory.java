@@ -1,6 +1,6 @@
 package model;
 import java.util.ArrayList;
-import model.Professions;
+import model.ProfessionNames;
 
 public class EntityFactory {
 	
@@ -23,12 +23,12 @@ public class EntityFactory {
 	private void initialiseHumanTeam(){
 		//Create leader
 		Entity leader = new Entity("Human1", 0);
-		leader.setProfession(new Profession(Professions.COMMANDER, leader));
+		leader.setProfession(new Profession(ProfessionNames.COMMANDER, leader));
 		humanTeam.add(leader);
 		//Create rest of team
 		for(int i=0; i<NUM_PIECES_PER_TEAM-1; i++){
 			Entity entity = new Entity("Human"+(i+2), 0);
-			entity.setProfession(new Profession(Professions.SOLDIER, entity));
+			entity.setProfession(new Profession(ProfessionNames.SOLDIER, entity));
 			humanTeam.add(entity);
 		}
 	}
@@ -37,32 +37,34 @@ public class EntityFactory {
 		//Create leader
 		Entity leader = null;
 		leader = new Entity("Alien1", 1);
-		leader.setProfession(new Profession(Professions.CHIEF, leader));
+		leader.setProfession(new Profession(ProfessionNames.CHIEF, leader));
 		alienTeam.add(leader);
 		//Create rest of team
 		for(int i=0; i<NUM_PIECES_PER_TEAM-1; i++){
 			Entity entity = new Entity("Alien"+(i+2), 1);
-			entity.setProfession(new Profession(Professions.SPAWN, entity));
+			entity.setProfession(new Profession(ProfessionNames.SPAWN, entity));
 			alienTeam.add(entity);
 		}
 	}
 	
 	public ArrayList<Entity> getHumanTeam(){
-		//TODO remove later
-		System.out.println("HUMAN TEAM PIECES:");
-		for(int i=0; i<humanTeam.size(); i++){
-			humanTeam.get(i).printAllAttributes();
-		}
 		return humanTeam;
 	}
 	
 	public ArrayList<Entity> getAlienTeam(){
-		//TODO remove later
+		return alienTeam;
+	}
+	
+	public void printAllPiecesAttributes(){
+		System.out.println("HUMAN TEAM PIECES:");
+		for(int i=0; i<humanTeam.size(); i++){
+			humanTeam.get(i).printAllAttributes();
+		}
+		System.out.println();
 		System.out.println("ALIEN TEAM PIECES:");
 		for(int i=0; i<alienTeam.size(); i++){
 			alienTeam.get(i).printAllAttributes();
 		}
-		return alienTeam;
 	}
 	
 }

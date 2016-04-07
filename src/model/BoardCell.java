@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 public class BoardCell {
     boolean cursorHover;
     Entity entity;
+    Weapon weapon;
     BufferedImage charImg;
     BufferedImage tileImg;
+    
     public BoardCell() {
         cursorHover = false;
         entity = null;
@@ -25,6 +27,15 @@ public class BoardCell {
 
     public Entity getEntity() {
         return entity;
+    }
+    
+    public void setWeapon(Weapon weapon){
+    	this.weapon = weapon;
+    	//add image
+    }
+    
+    public Weapon getWeapon(){
+    	return weapon;
     }
 
     public BufferedImage getCharImg() {

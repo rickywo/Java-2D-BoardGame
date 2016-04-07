@@ -2,7 +2,7 @@ package model;
 
 public class Profession {
 
-	private Professions professionName;
+	private ProfessionNames professionName;
 	private Weapon weapon;
 	private String name;
 	private String description;
@@ -15,7 +15,7 @@ public class Profession {
 //	private String attackName;
 
 	
-	public Profession(Professions professionName, Entity entity)	
+	public Profession(ProfessionNames professionName, Entity entity)	
 	{
 		this.professionName = professionName;
 		this.name = "";
@@ -92,7 +92,7 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Charge");
-		this.name = Professions.COMMANDER.getCharacterName();
+		this.name = ProfessionNames.COMMANDER.getCharacterName();
 		this.description = "Leader of Human Team";
 	}
 	
@@ -104,7 +104,7 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Attack");
-		this.name = Professions.SOLDIER.getCharacterName();
+		this.name = ProfessionNames.SOLDIER.getCharacterName();
 		this.description = "Base member of Human Team";
 	}
 	
@@ -140,7 +140,7 @@ public class Profession {
 		entity.setAgility(2);
 		entity.setDefense(15);
 		entity.setAttackName("Command");
-		this.name = Professions.CHIEF.getCharacterName();
+		this.name = ProfessionNames.CHIEF.getCharacterName();
 		this.description = "Leader of Alien Team";
 	}
 	
@@ -152,7 +152,7 @@ public class Profession {
 		entity.setAgility(1);
 		entity.setDefense(10);
 		entity.setAttackName("Fight");
-		this.name = Professions.SPAWN.getCharacterName();
+		this.name = ProfessionNames.SPAWN.getCharacterName();
 		this.description = "Base member of Alien Team";
 	}
 	

@@ -3,7 +3,7 @@ package model;
 /**
  * Created by Human v Alien Team on 2016/4/6.
  */
-public enum Professions {
+public enum ProfessionNames {
     COMMANDER("Commander"),
     SOLDIER("Soldier"),
     MEDIC("Medic"),
@@ -22,7 +22,7 @@ public enum Professions {
     DRAGON("Dragon");
 
     private String characterName;
-    Professions(String charName) {
+    ProfessionNames(String charName) {
         this.characterName = charName;
     }
 

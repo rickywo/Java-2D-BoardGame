@@ -12,6 +12,8 @@ public class Weapon {
 	//private String[] professions = new String[2];	
 	private Weapons weaponName;
 	private String name;
+	private int xPos;
+	private int yPos;
 	
 	public Weapon(Weapons weaponName) {
 		this.weaponName = weaponName;
@@ -73,6 +75,24 @@ public class Weapon {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void setPos(int x, int y){
+		this.xPos = x;
+		this.yPos = y;
+	}
+	
+	public int getXPos(){
+		return xPos;
+	}
+	
+	public int getYPos(){
+		return yPos;
+	}
+	
+	public void printWeaponInfo(){
+		System.out.println("Name: " + name);
+		System.out.println("Coords: " + xPos + ", " + yPos);
 	}
 
 }
