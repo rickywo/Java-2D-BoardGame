@@ -3,6 +3,7 @@ import java.util.*;
 
 import controller.GameController;
 import model.Weapon.Weapons;
+import resources.Consts;
 
 public class MainGame {
 
@@ -13,12 +14,12 @@ public class MainGame {
 	private static EntityFactory entityFactory = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
-	public final static int BSIZE = 18; //board size.
+	private final int BSIZE = Consts.BSIZE; //board size.
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
-	private final static int DIST = 4; 
+	private final static int DIST = 4;
 	public static BoardCell[][] gameBoard;
-	
-	
+
+
 	public MainGame() {
 		turn = 0;
 		initialSetup();
@@ -96,41 +97,46 @@ public class MainGame {
 			do {
 				x = rand.nextInt(BSIZE);
 				y = rand.nextInt(BSIZE);
-			} while (gameBoard[x][y].getEntity() != null 
+			} while (gameBoard[x][y].getEntity() != null
 					|| gameBoard[x][y].getWeapon() != null);
 			gameBoard[x][y].setWeapon(boardWeapons[i]);
 			boardWeapons[i].setPos(x,y);
 		}
 	}
-	
+
 	public Weapon[] getWeapons(){
 		return boardWeapons;
 	}
-	
+
 	public void printAllWeaponInfo(){
 		System.out.println("WEAPON INFO:");
 		for(int i=0; i<boardWeapons.length; i++){
 			boardWeapons[i].printWeaponInfo();
 		}
 	}
-	
-	
+
+
 	public BoardCell[][] getBoard(){
 		return gameBoard;
 	}
-	
-/*
-	public void dispatchPieces(BoardCell[][] board){
-		// set Chief position
-		board[0][0].setEntity(entityFactory.getHumanTeam().get(0));
-		board[GameController.BSIZE -1][GameController.BSIZE -1].setEntity(entityFactory.getAlienTeam().get(0));
+
+	public BoardCell getBoardCell(int x, int y) {
+		return gameBoard[x][y];
 	}
-*/
+
+	public void movePieceTo(int xo, int yo, int xd, int yd) {
+		gameBoard[xd][yd].setEntity(gameBoard[xo][yo].getEntity());
+		gameBoard[xo][yo].resetEntity();
+	}
+
+	private void setBoardCell(int x, int y, BoardCell cell) {
+	}
+
 	private void dispatchPieces(){
 		dispatchHumanTeam();
 		dispatchAlienTeam();
 	}
-	
+
 	private void dispatchHumanTeam(){
 		//SET HUMAN TEAM POSITIONS
 		//Set Commander position
@@ -139,7 +145,7 @@ public class MainGame {
 		int y = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
 		gameBoard[x][y].setEntity(entityFactory.getHumanTeam().get(0));
 		entityFactory.getHumanTeam().get(0).setPos(x,y);
-		
+
 		//Set all other human pieces
 		for(int i=1; i<entityFactory.getHumanTeam().size(); i++){
 			int a, b;
@@ -147,17 +153,17 @@ public class MainGame {
 			do {
 				a = rand.nextInt(DIST) + x - (DIST/2);
 				b = rand.nextInt(DIST) + y - (DIST/2);
-			} while( a >= BSIZE || b >= BSIZE || a < 0 || b < 0 
+			} while( a >= BSIZE || b >= BSIZE || a < 0 || b < 0
 					|| gameBoard[a][b].getEntity() != null);
 			//set piece to that square
 			gameBoard[a][b].setEntity(entityFactory.getHumanTeam().get(i));
 			entityFactory.getHumanTeam().get(i).setPos(a,b);
 		}
 	}
-	
+
 	private void dispatchAlienTeam(){
 		//SET ALIEN TEAM POSITIONS
-		//Set Chief position and check there is clear space of 5x5 grid 
+		//Set Chief position and check there is clear space of 5x5 grid
 		//around chief
 		Random rand = new Random();
 		int x;	//xPos of chief
@@ -185,10 +191,10 @@ public class MainGame {
 				}
 			}
 		} while(clearSquares<((DIST+1)*(DIST+1)));	//5x5 grid is empty
-		
+
 		//set Chief position
 		gameBoard[x][y].setEntity(entityFactory.getAlienTeam().get(0));
-		entityFactory.getAlienTeam().get(0).setPos(x,y);	
+		entityFactory.getAlienTeam().get(0).setPos(x,y);
 		//Set all other human pieces
 		for(int i=1; i<entityFactory.getAlienTeam().size(); i++){
 			int a, b;
@@ -196,17 +202,17 @@ public class MainGame {
 			do {
 				a = rand.nextInt(DIST) + x - (DIST/2);
 				b = rand.nextInt(DIST) + y - (DIST/2);
-			} while(a >= BSIZE || b >= BSIZE || a < 0 || b < 0 
+			} while(a >= BSIZE || b >= BSIZE || a < 0 || b < 0
 					|| gameBoard[a][b].getEntity() != null);
 			//set piece to that square
 			gameBoard[a][b].setEntity(entityFactory.getAlienTeam().get(i));
 			entityFactory.getAlienTeam().get(i).setPos(a,b);
 		}
 	}
-	
+
 	//For debugging only
 	public void printBoard(){
-		//copy board 
+		//copy board
 		String[][] consoleBoard = new String[BSIZE][BSIZE];
 		for(int i=0; i<BSIZE; i++){
 			for(int j=0; j<BSIZE; j++){
@@ -222,9 +228,9 @@ public class MainGame {
 			for(int j=0; j<BSIZE; j++){
 				System.out.print(consoleBoard[i][j]);
 			}
-		}	
+		}
 	}
 
-	
+
 
 }

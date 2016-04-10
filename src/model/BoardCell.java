@@ -28,6 +28,10 @@ public class BoardCell {
     public Entity getEntity() {
         return entity;
     }
+
+    public void resetEntity() {
+        this.entity = null;
+    }
     
     public void setWeapon(Weapon weapon){
     	this.weapon = weapon;

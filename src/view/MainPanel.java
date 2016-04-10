@@ -1,24 +1,24 @@
 package view;
 
 import java.awt.*;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.GameController;
-import model.ImageManager;
+import model.*;
+import resources.Consts;
 
 
 public class MainPanel {
 
-    public static final int MENU_OFFSET_X = 16;
-    public static final int MENU_OFFSET_Y = 10;
-    int[][] board; // Current board matrix to store pieces
+    private final BoardCell[][] board; // Current board matrix to store pieces
+    private int[][] maskMatrix; // mask matrix for game board
+    private boolean screenLock; // Lock screen for moving pieces
     private GameController game;
     private GridPanel panel;
     private JFrame frame;
@@ -27,11 +27,29 @@ public class MainPanel {
     private Point cursorXYPos;
 
 
-    public MainPanel(int[][] board, GameController game) {
+    public MainPanel(BoardCell[][] board, GameController game) {
         this.board = board;
         this.game = game;
         this.cursorXYPos = new Point(0, 0);
+        this.maskMatrix = new int[Consts.BSIZE][Consts.BSIZE];
+        initMaskMtrix();
         createAndShowGUI();
+    }
+
+    private void initMaskMtrix() {
+        for (int i = 0; i < Consts.BSIZE; i++) {
+            for (int j = 0; j < Consts.BSIZE; j++) {
+                maskMatrix[i][j] = 0;
+            }
+        }
+    }
+
+    private void setScreenLock(boolean lock) {
+        screenLock = lock;
+    }
+
+    private boolean isScreenLocked() {
+        return screenLock;
     }
 
     /***************************************************************************
@@ -44,8 +62,7 @@ public class MainPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         content = frame.getContentPane();
         content.add(panel);
-        frame.setSize(GameController.SCRSIZE, GameController.SCRSIZE);
-        frame.setSize(900, 675);
+        frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -53,14 +70,11 @@ public class MainPanel {
     }
 
     class GridPanel extends JPanel {
-        InputStream is;
-        BufferedImage image;
-
 
         public GridPanel() {
             setBackground(Color.GRAY);
 
-            MyMouseListener ml = new MyMouseListener();
+            MxMouseListener ml = new MxMouseListener();
             addMouseListener(ml);
             addMouseMotionListener(ml);
         }
@@ -72,29 +86,25 @@ public class MainPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             super.paintComponent(g2);
-            // draw the tiles and characters on the map
-            paintBackground(g2);
-            for (int i = 0; i < GameController.BSIZE; i++) {
-                for (int j = 0; j < GameController.BSIZE; j++) {
-                    // Paint the tiles
-                     Rectmech.draw(i, j, game.gameBoard[i][j].getTileImg(), g2);
-                    // Paint the characters
-                    if (game.gameBoard[i][j].getEntity() != null)
-                        Rectmech.draw(i, j, game.gameBoard[i][j].getCharImg(), g2);
-                }
-            }
-            // Repaint the grid according to if the cell is selected
-            for (int i = 0; i < GameController.BSIZE; i++) {
-                for (int j = 0; j < GameController.BSIZE; j++) {
-                    if (game.gameBoard[i][j].getEntity() != null)
-                        Rectmech.fill(i, j, board[i][j], g2);
-                }
-            }
+            renderBackground(g2);
+            renderGamePieces(g2);
+            renderMaskMatrix(g2);
 
         }
 
-        private void paintBackground(Graphics2D g2) {
-            Rectangle rect = new Rectangle(0, 0, 900, 675);
+        private void renderGamePieces(Graphics2D g) {
+            for (int i = 0; i < Consts.BSIZE; i++) {
+                for (int j = 0; j < Consts.BSIZE; j++) {
+                    if (board[i][j].getEntity() != null)
+                        Rectmech.draw(i, j, board[i][j].getCharImg(), g);
+                    else
+                        Rectmech.draw(i, j, null, g);
+                }
+            }
+        }
+
+        private void renderBackground(Graphics2D g2) {
+            Rectangle rect = new Rectangle(0, 0, Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
             // defensive design: Handle null reference
             TexturePaint texture = new TexturePaint(ImageManager.getImage("/resources/background/background.jpg"), rect);
 
@@ -103,7 +113,57 @@ public class MainPanel {
             g2.draw(rect);
         }
 
-        class MyMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
+        private void renderMaskMatrix(Graphics2D g2) {
+            Rectangle rect = new Rectangle(0, 0, Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
+            for (int i = 0; i < Consts.BSIZE; i++) {
+                for (int j = 0; j < Consts.BSIZE; j++) {
+                    if (maskMatrix[i][j] < 0)
+                        Rectmech.highlight(i, j, g2);
+                    else if(maskMatrix[i][j] > 0)
+                        Rectmech.diminish(i, j, g2);
+                }
+            }
+
+        }
+
+        private void movePiece(Point p) {
+            setScreenLock(true);
+            int steps = game.moveHandler(p);
+            setMovableMatrix(p.x, p.y, steps);
+        }
+
+        private void moveTo(Point p) {
+            setScreenLock(false);
+            game.doMove(p);
+            resetMaskMatrix();
+        }
+
+        private int dist(int x, int y, int x1, int y1) {
+            return Math.abs(x1-x) + Math.abs(y1-y);
+        }
+
+        private void setMovableMatrix(int x, int y, int steps) {
+            for (int i = 0; i < Consts.BSIZE; i++) {
+                for (int j = 0; j < Consts.BSIZE; j++) {
+                    if (dist(x, y, i, j) > steps ||
+                            board[i][j].getEntity()!=null)
+                        maskMatrix[i][j] = 1;
+                }
+            }
+            maskMatrix[x][y] = 0;
+            repaint();
+        }
+
+        private void resetMaskMatrix() {
+            for (int i = 0; i < Consts.BSIZE; i++) {
+                for (int j = 0; j < Consts.BSIZE; j++) {
+                        maskMatrix[i][j] = 0;
+                }
+            }
+            repaint();
+        }
+
+        class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
             public void mouseClicked(MouseEvent e) {
 
 
@@ -112,15 +172,18 @@ public class MainPanel {
                 Point p = new Point(Rectmech.pxtoRect(x, y));
                 System.out.println("px:" + p.x + ", py:" + p.y);
                 // Do nothing if mouse click the area out of bound
-                if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
+                if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
 
-
-                if (game.gameBoard[p.x][p.y].getEntity() != null) {
+                if (board[p.x][p.y].getEntity() != null) {
                     // Show action menu of current selected pieces
-                    showPopupMenuDemo(x + MENU_OFFSET_X
-                            , y + MENU_OFFSET_Y
-                            , game.gameBoard[p.x][p.y].getEntity().getAttackName());
+                    showPopupMenuDemo(x + Consts.MENU_OFFSET_X
+                            , y + Consts.MENU_OFFSET_Y
+                            , p
+                            , board[p.x][p.y].getEntity().getAttackName());
                 } else {
+                    if(isScreenLocked()) {
+                        moveTo(p);
+                    }
                     return;
                 }
                 repaint();
@@ -134,49 +197,49 @@ public class MainPanel {
                 int x = e.getX();
                 int y = e.getY();
                 Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
-                System.out.println("x:" + x + ", y:" + y);
-
-                if (p.x < 0 || p.y < 0 || p.x >= GameController.BSIZE || p.y >= GameController.BSIZE) return;
+                if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
+                if (isScreenLocked() && board[p.x][p.y].getEntity()!=null) return;
+                if (maskMatrix[p.x][p.y] == 1) return;
                 if (!p.equals(cursorXYPos)) {
-                    board[cursorXYPos.x][cursorXYPos.y] = 0;
+                    maskMatrix[cursorXYPos.x][cursorXYPos.y] = 0;
                     cursorXYPos = p;
                 }
-                board[p.x][p.y] = -1;
-
+                maskMatrix[p.x][p.y] = -1;
                 repaint();
             }
 
-        } //end of MyMouseListener class
+        } //end of MxMouseListener class
 
         /***************************************************************************
          * To show a popup menu for selecting action
          *****************************************************************************/
-        private void showPopupMenuDemo(int x, int y, String attackName) {
-            editMenu = new PopupMenu("Edit");
-            System.out.println("MouseClicked");
+        private void showPopupMenuDemo(int x, int y, Point point, String attackName) {
+            editMenu = new PopupMenu();
+            final Point p = point;
+            ActionListener al = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(e.getActionCommand().compareTo(Consts.MOVE) == 0) {
+                        movePiece(p);
+                    }
+                }
+            };
 
-            MenuItem moveMenuItem = new MenuItem("Move");
-            moveMenuItem.setActionCommand("Move");
+            MenuItem moveMenuItem = new MenuItem(Consts.MOVE);
+            moveMenuItem.setActionCommand(Consts.MOVE);
 
             MenuItem attackMenuItem = new MenuItem(attackName);
-            attackMenuItem.setActionCommand("Attack");
+            attackMenuItem.setActionCommand(Consts.ATTACK);
 
-            MenuItemListener menuItemListener = new MenuItemListener();
+            //MenuItemListener menuItemListener = new MenuItemListener();
 
-            moveMenuItem.addActionListener(menuItemListener);
-            attackMenuItem.addActionListener(menuItemListener);
+            moveMenuItem.addActionListener(al);
+            attackMenuItem.addActionListener(al);
 
             editMenu.add(moveMenuItem);
             editMenu.add(attackMenuItem);
             panel.add(editMenu);
             editMenu.show(panel, x, y);
-        }
-
-        class MenuItemListener implements ActionListener {
-            public void actionPerformed(ActionEvent e) {
-                 /*statusLabel.setText(e.getActionCommand()
-		            + " MenuItem clicked.");*/
-            }
         }
     } // end of DrawingPanel class
 

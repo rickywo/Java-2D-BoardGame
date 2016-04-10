@@ -72,7 +72,7 @@ public class Entity implements EntityInterface{
 
 	@Override
 	public int calculateSteps(int steps) {
-		return 0;
+		return steps;
 	}
 
 	@Override

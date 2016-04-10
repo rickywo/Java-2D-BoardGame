@@ -1,13 +1,10 @@
 package view;
 
 
+import resources.Consts;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 /* This is the mechanism to create rectangle */
 
@@ -40,8 +37,8 @@ public class Rectmech {
 	 *********************************************************/
 	public static Rectangle rect(int x, int y) {
 
-		y += 32;//BORDERS;
-		x += 236;//BORDERS;
+		x += Consts.MAP_X_OFFSET;
+		y += Consts.MAP_Y_OFFSET;
 		
 		if (l == 0) {
 			System.out.println("ERROR: size of rectangle has not been set");
@@ -64,27 +61,38 @@ public class Rectmech {
 		Rectangle rect = rect(x, y);
 		TexturePaint texture = null;
 		// defensive design: Handle null reference
-		if(image != null)
+		if(image != null) {
 			texture = new TexturePaint(image, rect);
-
-		g2.setPaint(texture);
-		g2.fill(rect);
-		g2.setColor(Color.GRAY);
+			g2.setPaint(texture);
+			g2.fill(rect);
+		}
+		g2.setColor(Color.LIGHT_GRAY);
 		g2.draw(rect);
 	}
 
 	/***************************************************************************
-	 * Name: fill() Parameters: (i,j) : the x,y coordinates of the initial
-	 * point of the rectangle n : an integer number to indicate a letter to draw
-	 * in the rect g2 : the graphics context to draw on
+	 * Name: highlight() To highlight the cell at coordinates
+	 * Parameters: (i,j) : the x,y coordinates of the initial
+	 * point of the rectangle g2 : the graphics context to draw on
 	 *****************************************************************************/
-	public static void fill(int i, int j, int n, Graphics2D g2) {
+	public static void highlight(int i, int j, Graphics2D g2) {
 		int x = i * l;
 		int y = j * l;
-		if (n < 0) {
-			g2.setColor(new Color(255,255,200,60));
-			g2.fill(rect(x, y));
-		}
+		Rectangle rect = rect(x, y);
+		g2.setColor(new Color(255,255,200,60));
+		g2.fill(rect);
+	}
+
+	/***************************************************************************
+	 * Name: diminish() To make the cell darker
+	 * Parameters: (i,j) : the x,y coordinates of the initial
+	 * point of the rectangle g2 : the graphics context to draw on
+	 *****************************************************************************/
+	public static void diminish(int i, int j, Graphics2D g2) {
+		int x = i * l;
+		int y = j * l;
+		g2.setColor(new Color(100,100,100,150));
+		g2.fill(rect(x, y));
 	}
 
 	// This function changes pixel location from a mouse click to a rectangle grid
@@ -94,11 +102,10 @@ public class Rectmech {
 	 *****************************************************************************/
 	public static Point pxtoRect(int mx, int my) {
 		Point p = new Point(-1, -1);
-		mx -= 236;//BORDERS;
-		my -= 32;//BORDERS;
+		mx -= Consts.MAP_X_OFFSET;
+		my -= Consts.MAP_Y_OFFSET;
 
-		int x = (int) (mx / l); int y = (int) (my / l); 
-
+		int x = (int) (mx / l); int y = (int) (my / l);
 		
 		p.x = x;
 		p.y = y;

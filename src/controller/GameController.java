@@ -1,12 +1,14 @@
 package controller;
 
 import model.BoardCell;
-import model.ImageManager;
-import java.awt.image.BufferedImage;
 
+import model.Entity;
 import model.MainGame;
+import resources.Consts;
 import view.Rectmech;
 import view.MainPanel;
+
+import java.awt.*;
 
 /**
  *
@@ -21,18 +23,12 @@ public class GameController
 {
 	private MainPanel main;
 	private MainGame gameManager;
-	private Boolean mapInit = false;
+	private boolean mapInit = false;
+	private boolean moveLock = false;
 	//constants and global variables
+	private BoardCell curMoveCell; // The entity is currently being moved
+	private Point curMovePoint;
 
-	public final static int EMPTY = 0;
-	public final static int BSIZE = 18; //board size.
-	public final static int RECTSIZE = 34;	//hex size in pixels
-	public final static int BORDERS = 16;
-	public final static int SCRSIZE = RECTSIZE * (BSIZE + 1) + BORDERS*3; //screen size (vertical dimension).
-
-	public int[][] board = new int[BSIZE][BSIZE];
-	public BufferedImage [][] map = new BufferedImage[BSIZE][BSIZE];
-	public static BoardCell[][] gameBoard = new BoardCell[BSIZE][BSIZE]; //I've moved this to MainGame class
 
 	private static GameController game = null;
 	
@@ -44,8 +40,9 @@ public class GameController
 	}
 	private GameController() {
 		//
-		main = new MainPanel(board, this);
+
 		initGame();
+		main = new MainPanel(gameManager.getBoard(), this);
 
 	}
 
@@ -54,18 +51,8 @@ public class GameController
 	void initGame(){
 
 
-		Rectmech.setLength(RECTSIZE);
-		Rectmech.setBorders(BORDERS);
-
-		for (int i=0;i<BSIZE;i++) {
-			for (int j=0;j<BSIZE;j++) {
-
-				map[i][j] = ImageManager.getRandomTiles();
-				//map[i][j] = ImageManager.getCharSkin("Soldier");
-				board[i][j] = EMPTY;
-				gameBoard[i][j] = new BoardCell();
-			}
-		}
+		Rectmech.setLength(Consts.RECTSIZE);
+		Rectmech.setBorders(Consts.BORDERS);
 		mapInit = true;
 		//set up board here
 		gameManager = MainGame.singleton();
@@ -75,8 +62,31 @@ public class GameController
 	public boolean isMapInit() {
 		return mapInit;
 	}
-	
-	public BufferedImage[][] getMap() {
-		return map;
+
+	/**
+	 * moveHandler(): Handle the first click on move menu
+	 * Parameters: point: the coordinate on the map
+	 */
+
+	public int moveHandler(Point point) {
+
+		moveLock = true;
+		//TODO: get how many steps can move of this piece
+		curMovePoint = point;
+		curMoveCell = gameManager.getBoardCell(point.x, point.y);
+		return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
+	}
+
+	/**
+	* doMove(): Handle the second click on the map after moveHandler is called
+	*/
+	public void doMove(Point point) {
+		System.out.println("Move to " + point.x + ", " + point.y);
+		gameManager.movePieceTo(curMovePoint.x, curMovePoint.y, point.x, point.y);
+		moveLock = false;
+	}
+
+	public boolean isMoveLocked() {
+		return moveLock;
 	}
 }
