@@ -132,6 +132,8 @@ public class MainGame {
 
 		t.setPos(xd, yd);
 		gameBoard[xo][yo].resetEntity();
+
+        checkTurn();
 	}
 
 	private void dispatchPieces(){
@@ -144,7 +146,7 @@ public class MainGame {
 		//Set Commander position
 		Random rand = new Random();
 		int x = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
-		int y = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
+        int y = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
 		gameBoard[x][y].setEntity(entityFactory.getHumanTeam().get(0));
 		entityFactory.getHumanTeam().get(0).setPos(x,y);
 
@@ -235,6 +237,11 @@ public class MainGame {
 		}
 	}
 
-
-
+    public void checkTurn() {
+        final int team = GameController.getTeamOnMove();
+        if(entityFactory.isTeamsTurnFinished(team)) {
+            entityFactory.resetTeamMoved(team);
+            GameController.switchTurn();
+        }
+    }
 }

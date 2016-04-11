@@ -10,6 +10,9 @@ public final class Consts  {
     public final static int BSIZE = 18;
     // Number of Teams
     public final static int NUM_TEAMS = 2;
+    public final static int HUMAN_TEAM_NUM = 0;
+    public final static int ALIEN_TEAM_NUM = 1;
+
     // Rectangle size RECTSIZE x RECTSIZE
     public final static int RECTSIZE = 34;
     public final static int BORDERS = 16;
@@ -29,6 +32,8 @@ public final class Consts  {
     // Static Strings
     public final static String MOVE = "Move";
     public final static String ATTACK = "Attack";
+    public final static String HUMAN = "Human";
+    public final static String ALIEN = "Alien";
 
     // Game functional settings
     public final static int INIT_STEPS = 3;

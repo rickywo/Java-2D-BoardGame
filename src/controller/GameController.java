@@ -1,9 +1,8 @@
 package controller;
 
 import model.BoardCell;
-
-import model.Entity;
 import model.MainGame;
+
 import resources.Consts;
 import view.Rectmech;
 import view.MainPanel;
@@ -25,6 +24,8 @@ public class GameController
 	private MainGame gameManager;
 	private boolean mapInit = false;
 	private boolean moveLock = false;
+    private static int teamOnMove = 0;
+
 	//constants and global variables
 	private BoardCell curMoveCell; // The entity is currently being moved
 	private Point curMovePoint;
@@ -89,4 +90,14 @@ public class GameController
 	public boolean isMoveLocked() {
 		return moveLock;
 	}
+
+    public static void switchTurn() {
+        teamOnMove ++;
+        teamOnMove %= Consts.NUM_TEAMS;
+        MainPanel.showMessageBox();
+    }
+
+    public static int getTeamOnMove() {
+        return teamOnMove;
+    }
 }

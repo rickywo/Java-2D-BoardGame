@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import controller.GameController;
 import model.*;
@@ -50,6 +49,14 @@ public class MainPanel {
 
     private boolean isScreenLocked() {
         return screenLock;
+    }
+
+    public static void showMessageBox() {
+        Runnable updateAComponent = new Runnable() {
+            public void run() { JOptionPane.showMessageDialog(null, "Team "+ GameController.getTeamOnMove() +"'s turn."); }
+        };
+        SwingUtilities.invokeLater(updateAComponent);
+
     }
 
     /***************************************************************************
@@ -177,7 +184,7 @@ public class MainPanel {
 
                 if (t != null) {
                     // Do nothing if this piece is moved
-                    if(t.isMoved()) return;
+                    if(t.isMoved()  || t.getTeam() != GameController.getTeamOnMove()) return;
                     // Show action menu of current selected pieces
                     showPopupMenuDemo(x + Consts.MENU_OFFSET_X
                             , y + Consts.MENU_OFFSET_Y
