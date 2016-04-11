@@ -8,6 +8,8 @@ public final class Consts  {
     public final static int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
     public final static int BSIZE = 18;
+    // Number of Teams
+    public final static int NUM_TEAMS = 2;
     // Rectangle size RECTSIZE x RECTSIZE
     public final static int RECTSIZE = 34;
     public final static int BORDERS = 16;
@@ -22,6 +24,7 @@ public final class Consts  {
     //
     public final static int MAP_X_OFFSET = 236;
     public final static int MAP_Y_OFFSET = 32;
+
 
     // Static Strings
     public final static String MOVE = "Move";

@@ -170,18 +170,22 @@ public class MainPanel {
                 int x = e.getX();
                 int y = e.getY();
                 Point p = new Point(Rectmech.pxtoRect(x, y));
+                Entity t = board[p.x][p.y].getEntity();
                 System.out.println("px:" + p.x + ", py:" + p.y);
                 // Do nothing if mouse click the area out of bound
                 if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
 
-                if (board[p.x][p.y].getEntity() != null) {
+                if (t != null) {
+                    // Do nothing if this piece is moved
+                    if(t.isMoved()) return;
                     // Show action menu of current selected pieces
                     showPopupMenuDemo(x + Consts.MENU_OFFSET_X
                             , y + Consts.MENU_OFFSET_Y
                             , p
                             , board[p.x][p.y].getEntity().getAttackName());
                 } else {
-                    if(isScreenLocked()) {
+                    // matrixValue == -1 means this cell is selectable
+                    if(isScreenLocked() && maskMatrix[p.x][p.y] == -1) {
                         moveTo(p);
                     }
                     return;
@@ -220,6 +224,7 @@ public class MainPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if(e.getActionCommand().compareTo(Consts.MOVE) == 0) {
+
                         movePiece(p);
                     }
                 }

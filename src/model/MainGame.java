@@ -9,6 +9,7 @@ public class MainGame {
 
 	//board has 20? weapons at start
 	private static final int NUM_WEAPONS = 20;
+	private final int numOfTeams = Consts.NUM_TEAMS;
 	private int turn;
 	private static MainGame game = null;
 	private static EntityFactory entityFactory = null;
@@ -125,11 +126,12 @@ public class MainGame {
 	}
 
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
-		gameBoard[xd][yd].setEntity(gameBoard[xo][yo].getEntity());
-		gameBoard[xo][yo].resetEntity();
-	}
+		Entity t = gameBoard[xo][yo].getEntity();
+		t.setMoved();
+		gameBoard[xd][yd].setEntity(t);
 
-	private void setBoardCell(int x, int y, BoardCell cell) {
+		t.setPos(xd, yd);
+		gameBoard[xo][yo].resetEntity();
 	}
 
 	private void dispatchPieces(){
@@ -160,6 +162,8 @@ public class MainGame {
 			entityFactory.getHumanTeam().get(i).setPos(a,b);
 		}
 	}
+
+
 
 	private void dispatchAlienTeam(){
 		//SET ALIEN TEAM POSITIONS

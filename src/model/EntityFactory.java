@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import model.ProfessionNames;
 
 public class EntityFactory {
-	
+
 	private ArrayList<Entity> humanTeam;
 	private ArrayList<Entity> alienTeam;
 	
@@ -66,5 +66,45 @@ public class EntityFactory {
 			alienTeam.get(i).printAllAttributes();
 		}
 	}
-	
+
+	public void resetAllMoved(int team) {
+		switch(team) {
+			case 0: // Human team
+				for(Entity e: humanTeam) {
+					e.unsetMoved();
+				}
+				break;
+			case 1: // Alien team
+				for(Entity e: alienTeam) {
+					e.unsetMoved();
+				}
+				break;
+			default:
+				// Do nothing
+				break;
+		}
+	}
+
+	public boolean isTeamTurnFinished(int team) {
+		switch(team) {
+			case 0: // Human team
+				for(Entity e: humanTeam) {
+					if(!e.isMoved()) {
+						return false; // If any piece has not finished moving
+					}
+				}
+				break;
+			case 1: // Alien team
+				for(Entity e: alienTeam) {
+					if(!e.isMoved()) {
+						return false; // If any piece has not finished moving
+					}
+				}
+				break;
+			default:
+				// Do nothing
+				break;
+		}
+		return true;
+	}
 }

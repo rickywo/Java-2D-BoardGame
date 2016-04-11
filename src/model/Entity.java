@@ -166,6 +166,18 @@ public class Entity implements EntityInterface{
 	public int getYPos(){
 		return yPos;
 	}
+
+	public void setMoved() {
+		moved = true;
+	}
+
+	public void unsetMoved() {
+		moved = false;
+	}
+
+	public boolean isMoved() {
+		return moved;
+	}
 	
 	//remove later
 	public void printAllAttributes(){
