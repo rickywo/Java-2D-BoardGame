@@ -102,10 +102,12 @@ public class MainPanel {
         private void renderGamePieces(Graphics2D g) {
             for (int i = 0; i < Consts.BSIZE; i++) {
                 for (int j = 0; j < Consts.BSIZE; j++) {
-                    if (board[i][j].getEntity() != null)
+                    if (board[i][j].getEntity() != null) {
                         Rectmech.draw(i, j, board[i][j].getCharImg(), g);
-                    else
+                        Rectmech.drawText(i, j, String.valueOf(board[i][j].getEntity().getMaxHP()), g );
+                    } else {
                         Rectmech.draw(i, j, null, g);
+                    }
                 }
             }
         }

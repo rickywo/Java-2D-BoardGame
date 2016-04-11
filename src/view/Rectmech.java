@@ -70,6 +70,22 @@ public class Rectmech {
 		g2.draw(rect);
 	}
 
+	/********************************************************************
+	 * Name: drawText() Parameters: (i,j) : the x,y coordinates of the initial
+	 * point of the rectangle g2: the Graphics2D object to draw on. Returns: void
+	 * Calls: rect() Purpose: This function draws a rect based on the initial
+	 * point (x,y).
+	 *********************************************************************/
+	public static void drawText(int i, int j, String s, Graphics2D g2) {
+
+		int x = i * l;
+		int y = j * l;
+		Rectangle rect = rect(x, y);
+		g2.setFont(new Font("TimesRoman", Font.BOLD, 12));
+		g2.setColor(Color.RED);
+		g2.drawString(s, (int)rect.getCenterX(), (int)rect.getMaxY());
+	}
+
 	/***************************************************************************
 	 * Name: highlight() To highlight the cell at coordinates
 	 * Parameters: (i,j) : the x,y coordinates of the initial
