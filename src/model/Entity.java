@@ -30,18 +30,8 @@ public class Entity implements EntityInterface{
 	}
 
 	@Override
-	public void resetTurn() {
-		moved = false;
-	}
-
-	@Override
 	public int calculateSteps(int steps) {
 		return steps;
-	}
-
-	@Override
-	public void moveTo(Point p) {
-		moved = true;
 	}
 
 	@Override
