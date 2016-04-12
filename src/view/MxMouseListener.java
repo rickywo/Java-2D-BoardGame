@@ -18,14 +18,17 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         this.panel = panel;
     }
 
+    /***************************************************************************
+     * To handle the click event of game board
+     * It calls showActionMenu function in GridPanel when screen is not locked
+     * for moving a piece.
+     * It calls moveTo() function in GridPanel when Move item is clicked.
+     *****************************************************************************/
     public void mouseClicked(MouseEvent e) {
-
-
         int x = e.getX();
         int y = e.getY();
         Point p = new Point(Rectmech.pxtoRect(x, y));
         Entity t = panel.board[p.x][p.y].getEntity();
-        System.out.println("px:" + p.x + ", py:" + p.y);
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
 
@@ -33,7 +36,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             // Do nothing if this piece is moved
             if(t.isMoved()  || t.getTeam() != GameController.getTeamOnMove()) return;
             // Show action menu of current selected pieces
-            panel.showPopupMenuDemo(x + Consts.MENU_OFFSET_X
+            panel.showActionMenu(x + Consts.MENU_OFFSET_X
                     , y + Consts.MENU_OFFSET_Y
                     , p
                     , panel.board[p.x][p.y].getEntity().getAttackName());
@@ -47,19 +50,22 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         panel.repaint();
     }
     /***************************************************************************
-     * To show the cell when mouse hovering it
+     * To highlight a cell when mouse is hovering over it
      *****************************************************************************/
     @Override
     public void mouseMoved(MouseEvent e) {
-
-        int x = e.getX();
-        int y = e.getY();
         Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
+        // Do nothing if cursor move over the area out of boundary
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
+        // Do nothing if cursor move over a cell has a n entity in it
         if (panel.isScreenLocked() && panel.board[p.x][p.y].getEntity()!=null) return;
+        // Do nothing if cursor move over non-selectable area
         if (panel.maskMatrix[p.x][p.y] == 1) return;
+        // highlight the cell when cursor is hovering over it.
         if (!p.equals(panel.cursorXYPos)) {
+            // Set the color of a cell, which has been hovered over, to normal
             panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = 0;
+            // Keep the coordinator in cursorXYPos
             panel.cursorXYPos = p;
         }
         panel.maskMatrix[p.x][p.y] = -1;

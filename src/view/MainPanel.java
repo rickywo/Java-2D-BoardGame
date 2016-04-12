@@ -10,8 +10,6 @@ import resources.Consts;
 
 public class MainPanel {
     private GridPanel panel;
-    private JFrame frame;
-    private Container content;
 
 
     public MainPanel(MainGame gameManager) {
@@ -24,9 +22,9 @@ public class MainPanel {
      *****************************************************************************/
 
     private void createAndShowGUI() {
-        frame = new JFrame("Human vs Alien");
+        JFrame frame = new JFrame("Human vs Alien");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        content = frame.getContentPane();
+        Container content = frame.getContentPane();
         content.add(panel);
         frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
         frame.setResizable(false);

@@ -10,91 +10,84 @@ import view.MainPanel;
 import java.awt.*;
 
 /**
- *
  * @author Human v Alien Team
- * This class is the controller to handle UI events,
- * process the axial parameters and pass them to MainGame
- *
- *
+ *         This class is the controller to handle UI events,
+ *         process the axial parameters and pass them to MainGame
  */
 
-public class GameController
-{
-	private MainGame modelManager;
-	private boolean mapInit = false;
-	private boolean moveLock = false;
-    private static int teamOnMove = 0;
+public class GameController {
 
-	//constants and global variables
-	private BoardCell curMoveCell; // The entity is currently being moved
-	private Point curMovePoint;
+    private static int teamOnMove = 0; // indicates which team is on moving
+    private MainGame modelManager;
+    private BoardCell curMoveCell; // The entity is currently being moved
 
 
-	private static GameController game = null;
-	
-	public static GameController singleton() {
-		if(game == null) {
-			game = new GameController();
-		}
-		return game;
-	}
-	private GameController() {
-		//
-
-		initGame();
-		new MainPanel(modelManager);
-
-	}
+    private static GameController game = null;
 
 
+    // Singleton pattern: to ensure this class only can be initialized
+    // for once.
+    public static GameController singleton() {
+        if (game == null) {
+            game = new GameController();
+        }
+        return game;
+    }
 
-	void initGame(){
+    private GameController() {
+        initGame();
+        new MainPanel(modelManager);
+
+    }
 
 
-		Rectmech.setLength(Consts.RECTSIZE);
-		Rectmech.setBorders(Consts.BORDERS);
-		mapInit = true;
-		//set up board here
-		modelManager = MainGame.singleton();
-		//modelManager.dispatchPieces(gameBoard); - MOVED TO MainGame class
-	}
-	
-	public boolean isMapInit() {
-		return mapInit;
-	}
+    void initGame() {
+        Rectmech.setLength(Consts.RECTSIZE);
+        Rectmech.setBorders(Consts.BORDERS);
+        modelManager = MainGame.singleton();
+    }
 
-	/**
-	 * moveHandler(): Handle the first click on move menu
-	 * Parameters: point: the coordinate on the map
-	 */
+    /**
+     * moveHandler(): Handle the first click on move menu
+     * Parameters: point: the coordinate on the map
+     * It gets a point from movePiece function in GridPanel
+     * then calls calculateSteps function of a entity to
+     * get a number of step it can move
+     */
 
-	public int moveHandler(Point point) {
+    public int moveHandler(Point point) {
 
-		moveLock = true;
-		//TODO: get how many steps can move of this piece
-		curMovePoint = point;
-		curMoveCell = modelManager.getBoardCell(point.x, point.y);
-		return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
-	}
+        //TODO: get a number of steps this entity can move
+        curMoveCell = modelManager.getBoardCell(point.x, point.y);
+        return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
+    }
 
-	/**
-	* doMove(): Handle the second click on the map after moveHandler is called
-	*/
-	public void doMove(Point point) {
-		System.out.println("Move to " + point.x + ", " + point.y);
-		modelManager.movePieceTo(curMovePoint.x, curMovePoint.y, point.x, point.y);
-		moveLock = false;
-	}
+    /**
+     * doMove(): Handle the second click on the map after moveHandler function
+     * in MainPanel is called
+     */
 
-	public boolean isMoveLocked() {
-		return moveLock;
-	}
+    public void doMove(Point point) {
+        System.out.println("Move to " + point.x + ", " + point.y);
+        int xPos = curMoveCell.getEntity().getXPos();
+        int yPos = curMoveCell.getEntity().getYPos();
+        modelManager.movePieceTo(xPos, yPos, point.x, point.y);
+    }
+
+    /**
+     * switchTurn(): switches to next team
+     * It called by function checkTurn in MainGame
+     */
 
     public static void switchTurn() {
         teamOnMove ++;
         teamOnMove %= Consts.NUM_TEAMS;
         MainPanel.showMessageBox();
     }
+
+    /**
+     * getTeamOnMove(): return team number of current turn
+     */
 
     public static int getTeamOnMove() {
         return teamOnMove;

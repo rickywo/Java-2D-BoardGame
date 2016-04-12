@@ -18,18 +18,19 @@ class GridPanel extends JPanel {
 
 
     public BoardCell[][] board;
-
-    public int[][] maskMatrix; // mask matrix for game board
-    private boolean screenLock; // Lock screen for moving pieces
     public Point cursorXYPos;
+    public int[][] maskMatrix; // mask matrix for game board
+
+
     private PopupMenu editMenu;
+    private boolean screenLock; // Lock screen for moving pieces
 
 
     public GridPanel(MainGame modelManager) {
 
         board = modelManager.getBoard();
         setBackground(Color.GRAY);
-        initMaskMtrix();
+        initMaskMatrix();
         cursorXYPos = new Point(0, 0);
         MxMouseListener ml = new MxMouseListener(this);
         addMouseListener(ml);
@@ -49,28 +50,52 @@ class GridPanel extends JPanel {
 
     }
 
+    /********************************************************************
+     * renderGamePieces: draws game pieces on screen according to
+     * the data stored in board[][]
+     *********************************************************************/
+
     private void renderGamePieces(Graphics2D g) {
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
+
                 if (board[i][j].getEntity() != null) {
+                    // If this cell has a entity in it
+                    // To draw the image of a piece
                     Rectmech.draw(i, j, board[i][j].getCharImg(), g);
+                    // To draw HP value of a piece
                     Rectmech.drawText(i, j, String.valueOf(board[i][j].getEntity().getMaxHP()), g );
                 } else {
+                    // If no entity in this cell
                     Rectmech.draw(i, j, null, g);
                 }
             }
         }
     }
 
+    /********************************************************************
+     * renderGamePieces: draws background image
+     *********************************************************************/
+
     private void renderBackground(Graphics2D g2) {
         Rectangle rect = new Rectangle(0, 0, Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
-        // defensive design: Handle null reference
-        TexturePaint texture = new TexturePaint(ImageManager.getImage("/resources/background/background.jpg"), rect);
+
+        //
+        TexturePaint texture = new TexturePaint(
+                ImageManager.getBackGroundImage(),
+                rect);
 
         g2.setPaint(texture);
         g2.fill(rect);
         g2.draw(rect);
     }
+
+    /********************************************************************
+     * renderMaskMatrix: draws the shadow on cells according to data
+     * stored in int MaskMatrix[][]
+     * highlight a cell if value of the cell less than 0
+     * diminish a cell if value of the cell greater than 0
+     *********************************************************************/
 
     private void renderMaskMatrix(Graphics2D g2) {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -92,11 +117,27 @@ class GridPanel extends JPanel {
         return screenLock;
     }
 
+    /********************************************************************
+     * movePiece: Handle the request when menu item "Move" is clicked
+     * Point p: the coordinator on the game board
+     * It calls the function: moveHandler in GameController to get the number
+     * can move of this piece as step, also lock the screen for de-reacting
+     * click event of pieces
+     *********************************************************************/
+
     private void movePiece(Point p) {
         setScreenLock(true);
         int steps = GameController.singleton().moveHandler(p);
         setMovableMatrix(p.x, p.y, steps);
     }
+
+    /********************************************************************
+     * moveTo: Handle the request when a cell in a movable area is clicked
+     * Point p: the coordinator on the game board
+     * It unlock the click event of pieces and call doMove function in
+     * GameController, finally, it reset the MaskMatrix to remove shadow
+     * on the game board
+     *********************************************************************/
 
     public void moveTo(Point p) {
         setScreenLock(false);
@@ -107,6 +148,11 @@ class GridPanel extends JPanel {
     private int dist(int x, int y, int x1, int y1) {
         return Math.abs(x1-x) + Math.abs(y1-y);
     }
+
+    /********************************************************************
+     * setMovableMatrix: It sets the cell value of non-movable area to 1
+     * int step: number of step can move of a piece
+     *********************************************************************/
 
     private void setMovableMatrix(int x, int y, int steps) {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -120,6 +166,10 @@ class GridPanel extends JPanel {
         repaint();
     }
 
+    /********************************************************************
+     * resetMaskMatrix: It resets the cell value to 0 in MaskMatrix
+     *********************************************************************/
+
     private void resetMaskMatrix() {
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
@@ -129,7 +179,11 @@ class GridPanel extends JPanel {
         repaint();
     }
 
-    private void initMaskMtrix() {
+    /********************************************************************
+     * initMaskMatrix: It resets the cell value to 0 in MaskMatrix
+     *********************************************************************/
+
+    private void initMaskMatrix() {
         this.maskMatrix = new int[Consts.BSIZE][Consts.BSIZE];
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
@@ -141,7 +195,7 @@ class GridPanel extends JPanel {
     /***************************************************************************
      * To show a popup menu for selecting action
      *****************************************************************************/
-    public void showPopupMenuDemo(int x, int y, Point point, String attackName) {
+    public void showActionMenu(int x, int y, Point point, String attackName) {
         editMenu = new PopupMenu();
         final Point p = point;
         ActionListener al = new ActionListener() {
@@ -159,8 +213,6 @@ class GridPanel extends JPanel {
 
         MenuItem attackMenuItem = new MenuItem(attackName);
         attackMenuItem.setActionCommand(Consts.ATTACK);
-
-        //MenuItemListener menuItemListener = new MenuItemListener();
 
         moveMenuItem.addActionListener(al);
         attackMenuItem.addActionListener(al);

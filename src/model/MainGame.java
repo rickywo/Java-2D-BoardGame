@@ -237,7 +237,15 @@ public class MainGame {
 		}
 	}
 
-    public void checkTurn() {
+    /***************************************************************************
+     * checkTurn(): go over all entities in a team to see if any of them has not
+     * been moved
+     *
+     * It called by function movePieceTo(). It calls switchTurn when all entities
+     * are finished its movement
+     *****************************************************************************/
+
+    private void checkTurn() {
         final int team = GameController.getTeamOnMove();
         if(entityFactory.isTeamsTurnFinished(team)) {
             entityFactory.resetTeamMoved(team);
