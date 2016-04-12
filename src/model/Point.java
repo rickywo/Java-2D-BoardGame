@@ -1,6 +1,5 @@
 package model;
 
-import controller.GameController;
 import resources.Consts;
 
 import java.lang.IndexOutOfBoundsException;

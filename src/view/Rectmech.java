@@ -61,13 +61,16 @@ public class Rectmech {
 		Rectangle rect = rect(x, y);
 		TexturePaint texture = null;
 		// defensive design: Handle null reference
+
+		g2.setColor(Color.LIGHT_GRAY);
+		g2.draw(rect);
+		g2.setColor(new Color(200,200,200,70));
+		g2.fill(rect);
 		if(image != null) {
 			texture = new TexturePaint(image, rect);
 			g2.setPaint(texture);
 			g2.fill(rect);
 		}
-		g2.setColor(Color.LIGHT_GRAY);
-		g2.draw(rect);
 	}
 
 	/********************************************************************

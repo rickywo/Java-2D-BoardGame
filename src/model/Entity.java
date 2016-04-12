@@ -19,43 +19,7 @@ public class Entity implements EntityInterface{
 	private Weapon weapon;
 	private int xPos;	// x coordinates
 	private int yPos; //y coords
-	
-	
-//	public Entity() {
-//		name = "";
-//		team = 0;
-//		profession = null; // Class code of the King
-//		strength = INIT_VALUE;
-//		agility = INIT_VALUE;
-//		maxHP = INIT_VALUE;
-//		currentHP = maxHP;
-//		defense = INIT_VALUE;
-//		//mPos = new Point(0, 0);
-//		moved = false;
-//	}
-//	
-//	public Entity(String name,int camp, Profession prof, int str, int agi, 
-//			int hp, int def, Point p) {
-//		this.name = name;
-//		this.team = camp;
-//		this.profession = prof;
-//		this.strength = str;
-//		this.agility = agi;
-//		this.maxHP = hp;
-//		this.currentHP = this.maxHP;
-//		this.defense = def;
-//		//mPos = p;
-//		this.moved = false;
-//	}
-	
-//	public Entity(String name, int team, Profession prof){
-//		this.name = name;
-//		this.team = team;
-//		this.profession = prof;	//also sets hp,str,agi,def
-//		//mPos = new Point(0, 0);
-//		moved = false;
-//		weapon = null;
-//	}
+
 	
 	public Entity(String name, int team){
 		this.name = name;

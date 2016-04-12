@@ -20,8 +20,7 @@ import java.awt.*;
 
 public class GameController
 {
-	private MainPanel main;
-	private MainGame gameManager;
+	private MainGame modelManager;
 	private boolean mapInit = false;
 	private boolean moveLock = false;
     private static int teamOnMove = 0;
@@ -43,7 +42,7 @@ public class GameController
 		//
 
 		initGame();
-		main = new MainPanel(gameManager.getBoard(), this);
+		new MainPanel(modelManager);
 
 	}
 
@@ -56,8 +55,8 @@ public class GameController
 		Rectmech.setBorders(Consts.BORDERS);
 		mapInit = true;
 		//set up board here
-		gameManager = MainGame.singleton();
-		//gameManager.dispatchPieces(gameBoard); - MOVED TO MainGame class
+		modelManager = MainGame.singleton();
+		//modelManager.dispatchPieces(gameBoard); - MOVED TO MainGame class
 	}
 	
 	public boolean isMapInit() {
@@ -74,7 +73,7 @@ public class GameController
 		moveLock = true;
 		//TODO: get how many steps can move of this piece
 		curMovePoint = point;
-		curMoveCell = gameManager.getBoardCell(point.x, point.y);
+		curMoveCell = modelManager.getBoardCell(point.x, point.y);
 		return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
 	}
 
@@ -83,7 +82,7 @@ public class GameController
 	*/
 	public void doMove(Point point) {
 		System.out.println("Move to " + point.x + ", " + point.y);
-		gameManager.movePieceTo(curMovePoint.x, curMovePoint.y, point.x, point.y);
+		modelManager.movePieceTo(curMovePoint.x, curMovePoint.y, point.x, point.y);
 		moveLock = false;
 	}
 
