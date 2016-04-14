@@ -1,4 +1,6 @@
-package model;
+package model.gameModel;
+
+import model.graphicModel.ImageManager;
 
 import java.awt.image.BufferedImage;
 

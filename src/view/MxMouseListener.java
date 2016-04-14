@@ -1,7 +1,7 @@
 package view;
 
 import controller.GameController;
-import model.Entity;
+import model.gameModel.Entity;
 import resources.Consts;
 
 import java.awt.*;
@@ -13,10 +13,12 @@ import java.awt.event.MouseEvent;
  */
 class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
 
-    private GridPanel panel;
-    public MxMouseListener(GridPanel panel) {
+    //private GridPanel panel;
+    private GridPanelRunnable panel;
+    public MxMouseListener(GridPanelRunnable panel) {
         this.panel = panel;
     }
+
 
     /***************************************************************************
      * To handle the click event of game board
@@ -24,10 +26,12 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
      * for moving a piece.
      * It calls moveTo() function in GridPanel when Move item is clicked.
      *****************************************************************************/
+    @Override
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         Point p = new Point(Rectmech.pxtoRect(x, y));
+        // System.out.println("x:" + p.x + "y:"+p.y);
         Entity t = panel.board[p.x][p.y].getEntity();
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
@@ -47,7 +51,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             }
             return;
         }
-        panel.repaint();
+        //panel.repaint();
     }
     /***************************************************************************
      * To highlight a cell when mouse is hovering over it
@@ -55,6 +59,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
     @Override
     public void mouseMoved(MouseEvent e) {
         Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
+        // System.out.println("mx:" + p.x+"y:"+p.y);
         // Do nothing if cursor move over the area out of boundary
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
         // Do nothing if cursor move over a cell has a n entity in it
@@ -69,7 +74,10 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             panel.cursorXYPos = p;
         }
         panel.maskMatrix[p.x][p.y] = -1;
-        panel.repaint();
+        //panel.repaint();
+    }
+
+    public static void update() {
     }
 
 } //end of MxMouseListener class

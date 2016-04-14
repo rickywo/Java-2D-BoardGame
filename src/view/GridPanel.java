@@ -1,15 +1,6 @@
 package view;
 
-import controller.GameController;
-import model.BoardCell;
-import model.ImageManager;
-import model.MainGame;
-import resources.Consts;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by Human v Alien Team on 2016/4/12.
@@ -17,7 +8,7 @@ import java.awt.event.ActionListener;
 class GridPanel extends JPanel {
 
 
-    public BoardCell[][] board;
+    /*public BoardCell[][] board;
     public Point cursorXYPos;
     public int[][] maskMatrix; // mask matrix for game board
 
@@ -36,10 +27,10 @@ class GridPanel extends JPanel {
         addMouseListener(ml);
         addMouseMotionListener(ml);
     }
-    /***************************************************************************
+    *//***************************************************************************
      * Name: paintComponent(Graphics g) Parameters: (g) : the graphics context
      * to draw on.
-     *****************************************************************************/
+     *****************************************************************************//*
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -50,10 +41,10 @@ class GridPanel extends JPanel {
 
     }
 
-    /********************************************************************
+    *//********************************************************************
      * renderGamePieces: draws game pieces on screen according to
      * the data stored in board[][]
-     *********************************************************************/
+     *********************************************************************//*
 
     private void renderGamePieces(Graphics2D g) {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -73,9 +64,9 @@ class GridPanel extends JPanel {
         }
     }
 
-    /********************************************************************
+    *//********************************************************************
      * renderGamePieces: draws background image
-     *********************************************************************/
+     *********************************************************************//*
 
     private void renderBackground(Graphics2D g2) {
         Rectangle rect = new Rectangle(0, 0, Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
@@ -90,12 +81,12 @@ class GridPanel extends JPanel {
         g2.draw(rect);
     }
 
-    /********************************************************************
+    *//********************************************************************
      * renderMaskMatrix: draws the shadow on cells according to data
      * stored in int MaskMatrix[][]
      * highlight a cell if value of the cell less than 0
      * diminish a cell if value of the cell greater than 0
-     *********************************************************************/
+     *********************************************************************//*
 
     private void renderMaskMatrix(Graphics2D g2) {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -117,13 +108,13 @@ class GridPanel extends JPanel {
         return screenLock;
     }
 
-    /********************************************************************
+    *//********************************************************************
      * movePiece: Handle the request when menu item "Move" is clicked
      * Point p: the coordinator on the game board
      * It calls the function: moveHandler in GameController to get the number
      * can move of this piece as step, also lock the screen for de-reacting
      * click event of pieces
-     *********************************************************************/
+     *********************************************************************//*
 
     private void movePiece(Point p) {
         setScreenLock(true);
@@ -131,13 +122,13 @@ class GridPanel extends JPanel {
         setMovableMatrix(p.x, p.y, steps);
     }
 
-    /********************************************************************
+    *//********************************************************************
      * moveTo: Handle the request when a cell in a movable area is clicked
      * Point p: the coordinator on the game board
      * It unlock the click event of pieces and call doMove function in
      * GameController, finally, it reset the MaskMatrix to remove shadow
      * on the game board
-     *********************************************************************/
+     *********************************************************************//*
 
     public void moveTo(Point p) {
         setScreenLock(false);
@@ -149,10 +140,10 @@ class GridPanel extends JPanel {
         return Math.abs(x1-x) + Math.abs(y1-y);
     }
 
-    /********************************************************************
+    *//********************************************************************
      * setMovableMatrix: It sets the cell value of non-movable area to 1
      * int step: number of step can move of a piece
-     *********************************************************************/
+     *********************************************************************//*
 
     private void setMovableMatrix(int x, int y, int steps) {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -166,9 +157,9 @@ class GridPanel extends JPanel {
         repaint();
     }
 
-    /********************************************************************
+    *//********************************************************************
      * resetMaskMatrix: It resets the cell value to 0 in MaskMatrix
-     *********************************************************************/
+     *********************************************************************//*
 
     private void resetMaskMatrix() {
         for (int i = 0; i < Consts.BSIZE; i++) {
@@ -179,9 +170,9 @@ class GridPanel extends JPanel {
         repaint();
     }
 
-    /********************************************************************
+    *//********************************************************************
      * initMaskMatrix: It resets the cell value to 0 in MaskMatrix
-     *********************************************************************/
+     *********************************************************************//*
 
     private void initMaskMatrix() {
         this.maskMatrix = new int[Consts.BSIZE][Consts.BSIZE];
@@ -192,9 +183,9 @@ class GridPanel extends JPanel {
         }
     }
 
-    /***************************************************************************
+    *//***************************************************************************
      * To show a popup menu for selecting action
-     *****************************************************************************/
+     *****************************************************************************//*
     public void showActionMenu(int x, int y, Point point, String attackName) {
         editMenu = new PopupMenu();
         final Point p = point;
@@ -221,5 +212,5 @@ class GridPanel extends JPanel {
         editMenu.add(attackMenuItem);
         add(editMenu);
         editMenu.show(this, x, y);
-    }
+    }*/
 } // end of DrawingPanel class

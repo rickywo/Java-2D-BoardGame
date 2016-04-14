@@ -1,4 +1,4 @@
-package model;
+package model.gameModel;
 
 import resources.Consts;
 
@@ -9,7 +9,7 @@ public class EntityFactory {
     private ArrayList<Entity> humanTeam;
     private ArrayList<Entity> alienTeam;
 
-    private static final int NUM_PIECES_PER_TEAM = 4;
+    private static final int NUM_PIECES_PER_TEAM = Consts.NUM_PIECES_PER_TEAM;
 
     public EntityFactory() {
         humanTeam = new ArrayList<Entity>();

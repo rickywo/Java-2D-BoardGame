@@ -1,4 +1,4 @@
-import model.MainGame;
+import model.gameModel.MainGame;
 
 public class TestModel {
 

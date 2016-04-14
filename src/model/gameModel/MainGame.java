@@ -1,14 +1,13 @@
-package model;
+package model.gameModel;
 import java.util.*;
 
 import controller.GameController;
-import model.Weapon.Weapons;
 import resources.Consts;
 
 public class MainGame {
 
 	//board has 20? weapons at start
-	private static final int NUM_WEAPONS = 20;
+	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
 	private final int numOfTeams = Consts.NUM_TEAMS;
 	private int turn;
 	private static MainGame game = null;
@@ -17,7 +16,7 @@ public class MainGame {
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
 	private final int BSIZE = Consts.BSIZE; //board size.
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
-	private final static int DIST = 4;
+	private final static int DIST = Consts.DIST;
 	public static BoardCell[][] gameBoard;
 
 
@@ -66,22 +65,22 @@ public class MainGame {
 			Weapon weapon = null;
 			switch(num) {
 				case 1: 
-					weapon = new Weapon(Weapons.CANNON);
+					weapon = new Weapon(Weapon.Weapons.CANNON);
 					break;
 				case 2: 
-					weapon = new Weapon(Weapons.GUN);
+					weapon = new Weapon(Weapon.Weapons.GUN);
 					break;	
 				case 3: 
-					weapon = new Weapon(Weapons.MAGICALHANDS);
+					weapon = new Weapon(Weapon.Weapons.MAGICALHANDS);
 					break;
 				case 4: 
-					weapon = new Weapon(Weapons.SHIELD);
+					weapon = new Weapon(Weapon.Weapons.SHIELD);
 					break;
 				case 5: 
-					weapon = new Weapon(Weapons.COMBATKIT);
+					weapon = new Weapon(Weapon.Weapons.COMBATKIT);
 					break;
 				case 6: 
-					weapon = new Weapon(Weapons.FLAG);
+					weapon = new Weapon(Weapon.Weapons.FLAG);
 					break;
 			}
 			boardWeapons[i] = weapon;

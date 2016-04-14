@@ -1,6 +1,6 @@
-package model;
+package model.gameModel;
 
-//import model.Profession.Professions;
+//import model.gameModel.Profession.Professions;
 
 public class Weapon {
 

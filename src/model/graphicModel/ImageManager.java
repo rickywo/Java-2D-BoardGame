@@ -1,4 +1,4 @@
-package model;
+package model.graphicModel;
 
 import java.awt.Image;
 import java.awt.image.*;
@@ -12,7 +12,7 @@ public class ImageManager {
 	
 	private static final String TILES = "tiles/";
     private static final String BACKGROUND = "background/";
-    private static final String BGIMAGE = "background.jpg";
+    private static final String BGIMAGE = "background.png";
 	private static final String CHARACTERS = "characters/";
 	private static final String RESOURCE_PATH = "/resources/";
 	
@@ -46,8 +46,8 @@ public class ImageManager {
 
 	}
 
-	public static BufferedImage getBackGroundImage() {
-        return getImage(RESOURCE_PATH+BACKGROUND+BGIMAGE);
+	public static BufferedImage getBackGroundImage(String filename) {
+        return getImage(RESOURCE_PATH+BACKGROUND+filename);
     }
 	
 	public static BufferedImage getRandomTiles() {

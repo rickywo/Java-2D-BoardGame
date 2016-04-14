@@ -4,16 +4,16 @@ import java.awt.*;
 import javax.swing.*;
 
 import controller.GameController;
-import model.*;
+import model.gameModel.MainGame;
 import resources.Consts;
 
 
 public class MainPanel {
-    private GridPanel panel;
+    private GridPanelRunnable gameview;
 
 
     public MainPanel(MainGame gameManager) {
-        panel = new GridPanel(gameManager);
+        gameview = new GridPanelRunnable(gameManager);
         createAndShowGUI();
     }
 
@@ -23,13 +23,17 @@ public class MainPanel {
 
     private void createAndShowGUI() {
         JFrame frame = new JFrame("Human vs Alien");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         Container content = frame.getContentPane();
-        content.add(panel);
+        content.add(gameview);
         frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
-        frame.setResizable(false);
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.pack();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameview.start();
 
     }
 

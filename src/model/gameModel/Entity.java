@@ -1,4 +1,4 @@
-package model;
+package model.gameModel;
 
 
 public class Entity implements EntityInterface{

@@ -1,7 +1,7 @@
 package controller;
 
-import model.BoardCell;
-import model.MainGame;
+import model.gameModel.BoardCell;
+import model.gameModel.MainGame;
 
 import resources.Consts;
 import view.Rectmech;

@@ -5,38 +5,43 @@ package resources;
  */
 public final class Consts  {
 
-    public final static int EMPTY = 0;
+    private static final int BOARD_HIGHT = 612;
+    private static final int BOARD_WIDTH = 612;
+    public static final int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
-    public final static int BSIZE = 18;
+    public static final int BSIZE = 18;
     // Number of Teams
-    public final static int NUM_TEAMS = 2;
-    public final static int HUMAN_TEAM_NUM = 0;
-    public final static int ALIEN_TEAM_NUM = 1;
+    public static final int NUM_TEAMS = 2;
+    public static final int HUMAN_TEAM_NUM = 0;
+    public static final int ALIEN_TEAM_NUM = 1;
 
     // Rectangle size RECTSIZE x RECTSIZE
-    public final static int RECTSIZE = 34;
-    public final static int BORDERS = 16;
+    public static final int RECTSIZE = BOARD_WIDTH / BSIZE;
+    public static final int BORDERS = 16;
     // Screen width
-    public final static int SCR_WIDTH = 900;
+    public static final int SCR_WIDTH = 849;
     // Screen height
-    public final static int SCR_HEIGHT = 675;
+    public static final int SCR_HEIGHT = 669;
     // Popup Menu offset vertical
-    public final static int MENU_OFFSET_X = 16;
+    public static final int MENU_OFFSET_X = 16;
     // Popup menu offset horizontal
-    public final static int MENU_OFFSET_Y = 10;
+    public static final int MENU_OFFSET_Y = 10;
     //
-    public final static int MAP_X_OFFSET = 236;
-    public final static int MAP_Y_OFFSET = 32;
+    public static final int MAP_X_OFFSET = 207;
+    public static final int MAP_Y_OFFSET = 29;
 
 
     // Static Strings
-    public final static String MOVE = "Move";
-    public final static String ATTACK = "Attack";
-    public final static String HUMAN = "Human";
-    public final static String ALIEN = "Alien";
+    public static final String MOVE = "Move";
+    public static final String ATTACK = "Attack";
+    public static final String HUMAN = "Human";
+    public static final String ALIEN = "Alien";
 
     // Game functional settings
-    public final static int INIT_STEPS = 3;
+    public final static int DIST = 4;
+    public static final int NUM_PIECES_PER_TEAM = 4;
+    public static final int NUM_WEAPONS = 20;
+    public static final int INIT_STEPS = 3;
 
     /**
      The caller references the constants using <tt>Consts.EMPTY_STRING</tt>,
