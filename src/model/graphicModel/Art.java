@@ -1,6 +1,5 @@
 package model.graphicModel;
 
-import resources.Consts;
 
 import java.awt.image.BufferedImage;
 
@@ -16,7 +15,7 @@ public class Art {
     }
 
     private static Bitmap[][] cut(String string, int w, int h, int sx, int sy) {
-        BufferedImage image = ImageManager.getBackGroundImage("backgroud.png");
+        BufferedImage image = ImageManager.getImage(string);
         int xTiles = (image.getWidth() - sx) / w;
         int yTiles = (image.getHeight() - sy) / h;
 
