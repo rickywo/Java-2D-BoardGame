@@ -33,6 +33,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         Point p = new Point(Rectmech.pxtoRect(x, y));
         // System.out.println("x:" + p.x + "y:"+p.y);
         Entity t = panel.board[p.x][p.y].getEntity();
+
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
 
@@ -59,7 +60,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
     @Override
     public void mouseMoved(MouseEvent e) {
         Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
-        // System.out.println("mx:" + p.x+"y:"+p.y);
+        System.out.println("mx:" + e.getX()+"y:"+e.getY());
         // Do nothing if cursor move over the area out of boundary
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
         // Do nothing if cursor move over a cell has a n entity in it
@@ -72,6 +73,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = 0;
             // Keep the coordinator in cursorXYPos
             panel.cursorXYPos = p;
+            DashBoard.parseCharInfo(panel.board[p.x][p.y].getEntity().toString());
         }
         panel.maskMatrix[p.x][p.y] = -1;
         //panel.repaint();

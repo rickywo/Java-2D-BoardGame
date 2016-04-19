@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 public class Art {
 
     //public static final Bitmap[][] sprites = cut();
+    public static final Bitmap[][] BLOCKFONT = cut("/resources/fonts/Block Font.png", 18, 32);
+    public static final Bitmap[][] FONT8X8 = cut("/resources/fonts/font8x8.png", 8, 8);
+    public static final Bitmap[][] FONT16X16 = cut("/resources/fonts/font16x16.png", 16, 16);
     public static final Bitmap background = getBackGround();
     private static Bitmap[][] cut(String string, int w, int h) {
         return cut(string, w, h, 0, 0);

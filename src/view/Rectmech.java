@@ -2,8 +2,8 @@ package view;
 
 
 import resources.Consts;
-
 import java.awt.*;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 /* This is the mechanism to create rectangle */
@@ -84,7 +84,7 @@ public class Rectmech {
 		int x = i * l;
 		int y = j * l;
 		Rectangle rect = rect(x, y);
-		g2.setFont(new Font("TimesRoman", Font.BOLD, 12));
+		g2.setFont(new Font("TimesRoman",Font.BOLD, 12));
 		g2.setColor(Color.RED);
 		g2.drawString(s, (int)rect.getCenterX(), (int)rect.getMaxY());
 	}

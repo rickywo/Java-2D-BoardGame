@@ -46,6 +46,10 @@ public class ImageManager {
 
 	}
 
+    public static BufferedImage getImageWithSpecSize(String name, int nw, int nh) {
+        return resize(getImage(name), nw, nh);
+    }
+
 	public static BufferedImage getBackGroundImage(String filename) {
         return getImage(RESOURCE_PATH+BACKGROUND+filename);
     }
@@ -122,6 +126,12 @@ public class ImageManager {
 
 	}
 
+	public static BufferedImage resize(BufferedImage img, int newW, int newH) {
+		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+		return dimg;
+	}
+
 	public static float getDefaultScale(String name) {
 
 		if (defaultScales == null) {
@@ -139,5 +149,17 @@ public class ImageManager {
 		}
 
 	}
+
+    public static BufferedImage resizeImage(BufferedImage before, double scale) {
+        int w = before.getWidth();
+        int h = before.getHeight();
+        BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        AffineTransform at = new AffineTransform();
+        at.scale(scale, scale);
+        AffineTransformOp scaleOp =
+                new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        after = scaleOp.filter(before, after);
+        return after;
+    }
 
 }

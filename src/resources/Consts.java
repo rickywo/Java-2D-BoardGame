@@ -29,6 +29,10 @@ public final class Consts  {
     //
     public static final int MAP_X_OFFSET = 207;
     public static final int MAP_Y_OFFSET = 29;
+    //
+    public static final int DASHBOARD_X_OFFSET = 28;
+    public static final int DASHBOARD_Y_OFFSET = 186;
+
 
 
     // Static Strings
@@ -36,6 +40,7 @@ public final class Consts  {
     public static final String ATTACK = "Attack";
     public static final String HUMAN = "Human";
     public static final String ALIEN = "Alien";
+    public static final String[] TEAM_NAME = new String[] {HUMAN, ALIEN};
 
     // Game functional settings
     public final static int DIST = 4;

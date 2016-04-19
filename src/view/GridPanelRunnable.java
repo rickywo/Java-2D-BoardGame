@@ -1,10 +1,10 @@
 package view;
 
-import com.sun.tools.classfile.ConstantPool;
 import controller.GameController;
 import model.gameModel.BoardCell;
 import model.graphicModel.Art;
-import model.graphicModel.BoardMap;
+import model.graphicModel.Bitmap;
+import model.graphicModel.GameScreen;
 import model.graphicModel.ImageManager;
 import model.gameModel.MainGame;
 import resources.Consts;
@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Human v Alien Team on 2016/4/12.
@@ -28,7 +29,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private PopupMenu editMenu;
     private boolean screenLock; // Lock screen for moving pieces
     MxMouseListener ml;
-    private BoardMap boardMap;
+    private GameScreen screen;
 
 
     public GridPanelRunnable(MainGame modelManager) {
@@ -40,7 +41,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         ml = new MxMouseListener(this);
         addMouseListener(ml);
         addMouseMotionListener(ml);
-        boardMap = new BoardMap(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
+        screen = new GameScreen(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
 
     }
 
@@ -103,14 +104,20 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         Graphics g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D) g;
         //boardMap.color(333333);
-        boardMap.render(Art.background, 0, 0);
+        screen.render(Art.background, 0, 0);
         ////////////////////////////////////////////////
-
+        DashBoard.render(screen);
+        //renderTiles();
+        renderGamePieces();
+        Verbose.render(screen);
+        //DashBoard.tick();
         //g2d.setColor(Color.BLACK);
         //g2d.fillRect(0, 0, WIDTH, HEIGHT);
-        g.drawImage(boardMap.image, 0,0, Consts.SCR_WIDTH,Consts.SCR_HEIGHT,null);
+
+        g.drawImage(screen.image, 0,0, Consts.SCR_WIDTH,Consts.SCR_HEIGHT,null);
         // stateManager.render(g2d);
         paint(g2d);
+
         ////////////////////////////////////////////////
         g.dispose();
         bs.show();
@@ -129,9 +136,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *****************************************************************************/
     public void paint(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //super.paintComponent(g2);
-        //renderBackground(g2);
-        renderGamePieces(g2);
         renderMaskMatrix(g2);
 
     }
@@ -141,39 +145,47 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      * the data stored in board[][]
      *********************************************************************/
 
-    private void renderGamePieces(Graphics2D g) {
+    private void renderGamePieces() {
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
 
                 if (board[i][j].getEntity() != null) {
                     // If this cell has a entity in it
                     // To draw the image of a piece
-                    Rectmech.draw(i, j, board[i][j].getCharImg(), g);
-                    // To draw HP value of a piece
-                    Rectmech.drawText(i, j, String.valueOf(board[i][j].getEntity().getMaxHP()), g );
-                } else {
-                    // If no entity in this cell
-                    Rectmech.draw(i, j, null, g);
+                    BufferedImage charImge = board[i][j].getCharImg();
+                    BufferedImage image = ImageManager.resizeImage(charImge, (double) Consts.RECTSIZE / (double) charImge.getWidth());
+                    int w = image.getWidth();
+                    int h = image.getHeight();
+                    Bitmap result = new Bitmap(w, h);
+                    image.getRGB(0, 0, w, h, result.pixels, 0, w);
+
+                    screen.render(result, i*Consts.RECTSIZE + Consts.MAP_X_OFFSET, j*Consts.RECTSIZE+Consts.MAP_Y_OFFSET);
                 }
             }
         }
     }
 
     /********************************************************************
-     * renderGamePieces: draws background image
+     * renderTiles: draws tile image
      *********************************************************************/
 
-    private void renderBackground(Graphics2D g2) {
-        Rectangle rect = new Rectangle(0, 0, Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
+    private void renderTiles() {
+        for (int i = 0; i < Consts.BSIZE; i++) {
+            for (int j = 0; j < Consts.BSIZE; j++) {
 
-        //
-        TexturePaint texture = new TexturePaint(
-                ImageManager.getBackGroundImage("background.png"),
-                rect);
+                // If this cell has a entity in it
+                // To draw the image of a piece
+                BufferedImage tileImge = board[i][j].getTileImg();
+                BufferedImage image = ImageManager.resizeImage(tileImge, (double) Consts.RECTSIZE / (double) tileImge.getWidth());
+                int w = image.getWidth();
+                int h = image.getHeight();
+                Bitmap result = new Bitmap(w, h);
+                image.getRGB(0, 0, w, h, result.pixels, 0, w);
 
-        g2.setPaint(texture);
-        g2.fill(rect);
-        g2.draw(rect);
+                screen.render(result, i * Consts.RECTSIZE + Consts.MAP_X_OFFSET, j * Consts.RECTSIZE + Consts.MAP_Y_OFFSET);
+
+            }
+        }
     }
 
     /********************************************************************

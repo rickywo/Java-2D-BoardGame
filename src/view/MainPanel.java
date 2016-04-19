@@ -38,10 +38,7 @@ public class MainPanel {
     }
 
     public static void showMessageBox() {
-        Runnable updateAComponent = new Runnable() {
-            public void run() { JOptionPane.showMessageDialog(null, "Team "+ GameController.getTeamOnMove() +"'s turn."); }
-        };
-        SwingUtilities.invokeLater(updateAComponent);
+        Verbose.verbose(Consts.TEAM_NAME[GameController.getTeamOnMove()] +"'s turn.");
 
     }
 }

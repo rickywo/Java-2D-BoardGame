@@ -151,7 +151,15 @@ public class Entity implements EntityInterface{
 				
 		
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return name + ";" +
+                profession.getName() + ";" +
+                maxHP + ";" +
+                currentHP + ";" +
+                strength +  ";" +
+                agility + ";" +
+                defense;
+	}
 }
