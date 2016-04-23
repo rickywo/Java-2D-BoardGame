@@ -4,6 +4,7 @@ package model.gameModel;
  * Created by Human v Alien Team on 2016/4/6.
  */
 public enum ProfessionNames {
+
     COMMANDER("Commander"),
     SOLDIER("Soldier"),
     MEDIC("Medic"),

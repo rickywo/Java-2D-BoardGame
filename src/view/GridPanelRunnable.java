@@ -64,7 +64,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
             lastTime = now;
 
             if (unprocessed >= 1.0) {
-                tick();
                 //MxMouseListener.update();
                 unprocessed--;
                 tps++;
@@ -89,9 +88,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                 tps = 0;
             }
         }
-    }
-    private void tick() {
-
     }
 
     private void render() {
@@ -125,6 +121,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     public void start() {
         running = true;
         new Thread(this).start();
+        MainPanel.showMessageBox("Game Start", 5000);
     }
     public void stop() {
         if (!running) return;
@@ -153,7 +150,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                     // If this cell has a entity in it
                     // To draw the image of a piece
                     BufferedImage charImge = board[i][j].getCharImg();
-                    BufferedImage image = ImageManager.resizeImage(charImge, (double) Consts.RECTSIZE / (double) charImge.getWidth());
+                    BufferedImage image = ImageManager.resizeImage(charImge, 0.9 * ((double) Consts.RECTSIZE / (double) charImge.getWidth()));
                     int w = image.getWidth();
                     int h = image.getHeight();
                     Bitmap result = new Bitmap(w, h);
@@ -161,29 +158,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
                     screen.render(result, i*Consts.RECTSIZE + Consts.MAP_X_OFFSET, j*Consts.RECTSIZE+Consts.MAP_Y_OFFSET);
                 }
-            }
-        }
-    }
-
-    /********************************************************************
-     * renderTiles: draws tile image
-     *********************************************************************/
-
-    private void renderTiles() {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
-
-                // If this cell has a entity in it
-                // To draw the image of a piece
-                BufferedImage tileImge = board[i][j].getTileImg();
-                BufferedImage image = ImageManager.resizeImage(tileImge, (double) Consts.RECTSIZE / (double) tileImge.getWidth());
-                int w = image.getWidth();
-                int h = image.getHeight();
-                Bitmap result = new Bitmap(w, h);
-                image.getRGB(0, 0, w, h, result.pixels, 0, w);
-
-                screen.render(result, i * Consts.RECTSIZE + Consts.MAP_X_OFFSET, j * Consts.RECTSIZE + Consts.MAP_Y_OFFSET);
-
             }
         }
     }

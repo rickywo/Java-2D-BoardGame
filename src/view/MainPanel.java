@@ -3,7 +3,6 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import controller.GameController;
 import model.gameModel.MainGame;
 import resources.Consts;
 
@@ -31,14 +30,14 @@ public class MainPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.pack();
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameview.start();
 
     }
 
-    public static void showMessageBox() {
-        Verbose.verbose(Consts.TEAM_NAME[GameController.getTeamOnMove()] +"'s turn.");
+    public static void showMessageBox(String message, long timeLimit) {
+        Verbose.verbose(message, timeLimit);
 
     }
 }

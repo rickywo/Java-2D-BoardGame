@@ -125,7 +125,6 @@ public class Rectmech {
 		my -= Consts.MAP_Y_OFFSET;
 
 		int x = (int) (mx / l); int y = (int) (my / l);
-		
 		p.x = x;
 		p.y = y;
 		return p;

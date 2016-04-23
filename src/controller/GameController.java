@@ -68,7 +68,6 @@ public class GameController {
      */
 
     public void doMove(Point point) {
-        System.out.println("Move to " + point.x + ", " + point.y);
         int xPos = curMoveCell.getEntity().getXPos();
         int yPos = curMoveCell.getEntity().getYPos();
         modelManager.movePieceTo(xPos, yPos, point.x, point.y);
@@ -82,7 +81,7 @@ public class GameController {
     public static void switchTurn() {
         teamOnMove ++;
         teamOnMove %= Consts.NUM_TEAMS;
-        MainPanel.showMessageBox();
+        MainPanel.showMessageBox(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
     }
 
     /**

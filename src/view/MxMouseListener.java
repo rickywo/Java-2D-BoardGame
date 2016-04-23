@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
  */
 class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
 
-    //private GridPanel panel;
     private GridPanelRunnable panel;
     public MxMouseListener(GridPanelRunnable panel) {
         this.panel = panel;
@@ -22,9 +21,9 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
 
     /***************************************************************************
      * To handle the click event of game board
-     * It calls showActionMenu function in GridPanel when screen is not locked
+     * It calls showActionMenu function in GridPanelRunnable when screen is not locked
      * for moving a piece.
-     * It calls moveTo() function in GridPanel when Move item is clicked.
+     * It calls moveTo() function in GridPanelRunnable when Move item is clicked.
      *****************************************************************************/
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -60,11 +59,16 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
     @Override
     public void mouseMoved(MouseEvent e) {
         Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
-        System.out.println("mx:" + e.getX()+"y:"+e.getY());
+        Entity entity;
+        try {
+            entity = panel.board[p.x][p.y].getEntity();
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            return;
+        }
         // Do nothing if cursor move over the area out of boundary
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
         // Do nothing if cursor move over a cell has a n entity in it
-        if (panel.isScreenLocked() && panel.board[p.x][p.y].getEntity()!=null) return;
+        if (panel.isScreenLocked() && entity != null) return;
         // Do nothing if cursor move over non-selectable area
         if (panel.maskMatrix[p.x][p.y] == 1) return;
         // highlight the cell when cursor is hovering over it.
@@ -73,7 +77,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = 0;
             // Keep the coordinator in cursorXYPos
             panel.cursorXYPos = p;
-            DashBoard.parseCharInfo(panel.board[p.x][p.y].getEntity().toString());
+            if(entity != null) DashBoard.parseCharInfo(entity.toString());
         }
         panel.maskMatrix[p.x][p.y] = -1;
         //panel.repaint();
