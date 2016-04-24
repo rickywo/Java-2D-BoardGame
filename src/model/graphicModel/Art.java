@@ -32,6 +32,7 @@ public class Art {
 
     //public static final Bitmap[][] sprites = cut();
     public static final Bitmap[][] BLOCKFONT = cut("/resources/fonts/Block Font.png", 18, 32);
+    public static final Bitmap[][] KRENFONT = cut("/resources/fonts/Kren_12x12.png", 12, 12);
     public static final Bitmap[][] FONT8X8 = cut("/resources/fonts/font8x8.png", 8, 8);
     public static final Bitmap[][] FONT16X16 = cut("/resources/fonts/font16x16.png", 16, 16);
     public static final Bitmap[] CHARACTERS = getCharImages();
@@ -53,6 +54,8 @@ public class Art {
 
             }
         }
+        System.out.println("Filename: "+ string);
+        System.out.println("xTiles: "+ xTiles + "yTiles: " + yTiles);
         return result;
     }
 

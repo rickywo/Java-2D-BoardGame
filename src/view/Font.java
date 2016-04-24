@@ -21,6 +21,7 @@ public class Font {
     }
 
     public static void draw_blockfont(GameScreen screen, String string, int x, int y) {
+        final int CHARY_OFFSET = 32;
         string = string.toUpperCase();
         int length = string.length();
 
@@ -29,6 +30,20 @@ public class Font {
             if(c < 0) continue;
             screen.render(Art.BLOCKFONT[c % 32][c / 32], x, y);
             x += 18;
+            //y += 32;
+        }
+    }
+
+    public static void draw_krenfont(GameScreen screen, String string, int x, int y) {
+        string = string.toUpperCase();
+        int length = string.length();
+
+        for(int i = 0; i < length; i ++) {
+            int c = BLOCKFONT_LETTERS.indexOf(string.charAt(i));
+            if(c < 0) continue;
+            // System.out.println("x axial: " + (c%16) + " y axial: " + (c/16)  );
+            screen.render(Art.KRENFONT[c % 16][(c / 16) + 2], x, y);
+            x += 10;
             //y += 32;
         }
     }

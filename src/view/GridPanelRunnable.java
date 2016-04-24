@@ -99,7 +99,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
         Graphics g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D) g;
-        //boardMap.color(333333);
+        // Render Game Background
         screen.render(Art.background, 0, 0);
         ////////////////////////////////////////////////
         DashBoard.render(screen);
@@ -133,6 +133,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *****************************************************************************/
     public void paint(Graphics2D g2) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         renderMaskMatrix(g2);
 
     }
@@ -156,11 +157,31 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                     Bitmap result = new Bitmap(w, h);
                     image.getRGB(0, 0, w, h, result.pixels, 0, w);
 
-                    screen.render(result, i*Consts.RECTSIZE + Consts.MAP_X_OFFSET, j*Consts.RECTSIZE+Consts.MAP_Y_OFFSET);
+                    screen.render(result, i*Consts.RECTSIZE + Consts.MAP_X_OFFSET, j*Consts.RECTSIZE+Consts.MAP_Y_OFFSET+2);
                 }
             }
         }
     }
+/*
+
+    private void renderGamePieces(Graphics2D g) {
+        for (int i = 0; i < Consts.BSIZE; i++) {
+            for (int j = 0; j < Consts.BSIZE; j++) {
+
+                if (board[i][j].getEntity() != null) {
+                    // If this cell has a entity in it
+                    // To draw the image of a piece
+                    Rectmech.draw(i, j, board[i][j].getCharImg(), g);
+                    // To draw HP value of a piece
+                    Rectmech.drawText(i, j, String.valueOf(board[i][j].getEntity().getMaxHP()), g );
+                } else {
+                    // If no entity in this cell
+                    Rectmech.draw(i, j, null, g);
+                }
+            }
+        }
+    }
+*/
 
     /********************************************************************
      * renderMaskMatrix: draws the shadow on cells according to data
