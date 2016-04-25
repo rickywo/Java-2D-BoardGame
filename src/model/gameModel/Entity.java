@@ -1,32 +1,36 @@
 package model.gameModel;
 
+public abstract class Entity implements EntityInterface, Cloneable{
 
-public class Entity implements EntityInterface{
-
-	//private static final int INIT_VALUE = 10; // initial value of all attributes
-	//private static final String COMMANDOR = "Commandor";
 	private String name;
 	private int team; // Camp of this unit belongs to
-	private Profession profession; // Professional class
+	private String professionName;
+	private String description;
 	private int strength; // An attribute (strength) for causing damage
 	private int agility; // An attribute (agility) for moving on the grid map
 	private int currentHP; // HP
 	private int maxHP; //max HP
 	private int defense; // Defence
 	private String attackName; //name of primary attack
-	//private Point mPos;
 	private boolean moved;
 	private Weapon weapon;
 	private int xPos;	// x coordinates
 	private int yPos; //y coords
 
 	
-	public Entity(String name, int team){
+	public Entity(String name){
 		this.name = name;
-		this.team = team;
-		//mPos = new Point(0, 0);
 		moved = false;
 		weapon = null;
+	}
+	
+	@Override
+	public Object clone(){
+		try{
+			return super.clone();
+		} catch(Exception e){
+			return null;
+		}
 	}
 
 	@Override
@@ -51,13 +55,29 @@ public class Entity implements EntityInterface{
 	public void setTeam(int team) {
 		this.team = team;
 	}
-
-	public Profession getProfession() {
-		return profession;
+	
+	public String getName(){
+		return name;
 	}
-
-	public void setProfession(Profession prof) {
-		this.profession = prof;
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getProfessionName(){
+		return professionName;
+	}
+	
+	public void setProfessionName(String name){
+		this.professionName = name;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String descrip){
+		this.description = descrip;
 	}
 
 	public int getStrength() {
@@ -84,7 +104,7 @@ public class Entity implements EntityInterface{
 		this.maxHP = hp;
 	}
 	
-	public int currentHP() {
+	public int getCurrentHP() {
 		return currentHP;
 	}
 
@@ -143,19 +163,17 @@ public class Entity implements EntityInterface{
 		System.out.println("Agility: " + agility);
 		System.out.println("Defense: " + defense);
 		System.out.println("Attack Name: " + attackName);
-		System.out.println("Profession: " + profession.getName());
-		System.out.println("Description: " + profession.getDescription());
+		System.out.println("Profession: " + professionName);
+		System.out.println("Description: " + description);
 		System.out.println("Weapon: " + weapon);
 		System.out.println("Coordinates: " + xPos + ", " + yPos);
 		System.out.println();
-				
-		
 	}
 
 	@Override
 	public String toString() {
 		return name + ";" +
-                profession.getName() + ";" +
+                professionName + ";" +
                 maxHP + ";" +
                 currentHP + ";" +
                 strength +  ";" +

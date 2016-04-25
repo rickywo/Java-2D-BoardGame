@@ -1,10 +1,10 @@
 package model.gameModel;
 
 import resources.Consts;
-
 import java.util.ArrayList;
+import model.gameModel.jobs.*;
 
-public class EntityFactory {
+public class EntityFactory implements EntityFactoryInterface {
 
     private ArrayList<Entity> humanTeam;
     private ArrayList<Entity> alienTeam;
@@ -16,43 +16,50 @@ public class EntityFactory {
         alienTeam = new ArrayList<Entity>();
     }
 
+    @Override
     public void initialisePieces() {
         //assuming 10 pieces per team
         initialiseHumanTeam();
         initialiseAlienTeam();
     }
 
-    private void initialiseHumanTeam() {
+    @Override
+    public void initialiseHumanTeam() {
         //Create leader
-        Entity leader = new Entity("Human1", 0);
-        leader.setProfession(new Profession(ProfessionNames.COMMANDER, leader));
-        humanTeam.add(leader);
+        Entity commander = new Commander("Human1");
+        humanTeam.add(commander);
         //Create rest of team
-        for (int i = 0; i < NUM_PIECES_PER_TEAM - 1; i++) {
-            Entity entity = new Entity(Consts.HUMAN + (i + 2), Consts.HUMAN_TEAM_NUM);
-            entity.setProfession(new Profession(ProfessionNames.SOLDIER, entity));
-            humanTeam.add(entity);
+        //Create soldier prototype
+        Entity soldier = new Soldier("Human2");
+        humanTeam.add(soldier);
+        for(int i=3; i<NUM_PIECES_PER_TEAM+1; i++){
+        	Entity soldierCopy = (Entity)soldier.clone();
+        	soldierCopy.setName("Human"+ i);
+        	humanTeam.add(soldierCopy);
+        }
+    }
+    
+    @Override
+    public void initialiseAlienTeam() {
+        //Create leader
+        Entity chief = new Chief("Alien1");
+        alienTeam.add(chief);
+        //Create rest of team
+        Entity spawn = new Spawn("Alien2");
+        alienTeam.add(spawn);
+        for(int i=3; i<NUM_PIECES_PER_TEAM+1; i++){
+        	Entity spawnCopy = (Entity)spawn.clone();
+        	spawnCopy.setName("Alien"+ i);
+        	alienTeam.add(spawnCopy);
         }
     }
 
-    private void initialiseAlienTeam() {
-        //Create leader
-        Entity leader = null;
-        leader = new Entity("Alien1", 1);
-        leader.setProfession(new Profession(ProfessionNames.CHIEF, leader));
-        alienTeam.add(leader);
-        //Create rest of team
-        for (int i = 0; i < NUM_PIECES_PER_TEAM - 1; i++) {
-            Entity entity = new Entity(Consts.ALIEN + (i + 2), Consts.ALIEN_TEAM_NUM);
-            entity.setProfession(new Profession(ProfessionNames.SPAWN, entity));
-            alienTeam.add(entity);
-        }
-    }
-
+    @Override
     public ArrayList<Entity> getHumanTeam() {
         return humanTeam;
     }
 
+    @Override
     public ArrayList<Entity> getAlienTeam() {
         return alienTeam;
     }
@@ -69,6 +76,7 @@ public class EntityFactory {
         }
     }
 
+    @Override
     public void resetTeamMoved(int team) {
         switch (team) {
             case 0: // Human team
@@ -87,6 +95,7 @@ public class EntityFactory {
         }
     }
 
+    @Override
     public void setTeamMoved(int team) {
         switch (team) {
             case 0: // Human team
@@ -105,6 +114,7 @@ public class EntityFactory {
         }
     }
 
+    @Override
     public boolean isTeamsTurnFinished(int team) {
         switch (team) {
             case 0: // Human team

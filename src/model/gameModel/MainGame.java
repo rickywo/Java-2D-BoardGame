@@ -164,8 +164,6 @@ public class MainGame {
 		}
 	}
 
-
-
 	private void dispatchAlienTeam(){
 		//SET ALIEN TEAM POSITIONS
 		//Set Chief position and check there is clear space of 5x5 grid

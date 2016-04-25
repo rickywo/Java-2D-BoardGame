@@ -12,10 +12,18 @@ public interface EntityInterface {
 	int getTeam();
 
 	void setTeam(int team);
-
-	Profession getProfession();
-
-	void setProfession(Profession prof);
+	
+	String getName();
+	
+	void setName(String name);
+	
+	String getProfessionName();
+	
+	void setProfessionName(String name);
+	
+	String getDescription();
+	
+	void setDescription(String descrip);
 
 	int getStrength();
 
@@ -29,7 +37,7 @@ public interface EntityInterface {
 
 	void setMaxHP(int hp);
 
-	int currentHP();
+	int getCurrentHP();
 
 	void setCurrentHP(int hp);
 
