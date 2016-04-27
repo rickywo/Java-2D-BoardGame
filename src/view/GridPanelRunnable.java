@@ -1,12 +1,12 @@
 package view;
 
 import controller.GameController;
-import model.gameModel.BoardCell;
+import model.gameModel.*;
+import model.gameModel.Point;
 import model.graphicModel.Art;
 import model.graphicModel.Bitmap;
 import model.graphicModel.GameScreen;
 import model.graphicModel.ImageManager;
-import model.gameModel.MainGame;
 import resources.Consts;
 
 import java.awt.*;
@@ -22,7 +22,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
 
     public BoardCell[][] board;
-    public Point cursorXYPos;
+    public model.gameModel.Point cursorXYPos;
     public int[][] maskMatrix; // mask matrix for game board
 
     private boolean running;
@@ -91,6 +91,10 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     }
 
     private void render() {
+        // TODO: if game state == PLAYING, render current game state
+        // if game state == STORY, render game story
+        // if game state == MENU, render menu
+
         BufferStrategy bs = getBufferStrategy();
         if (bs == null) {
             createBufferStrategy(3);
@@ -103,15 +107,10 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         screen.render(Art.background, 0, 0);
         ////////////////////////////////////////////////
         DashBoard.render(screen);
-        //renderTiles();
         renderGamePieces();
         Verbose.render(screen);
-        //DashBoard.tick();
-        //g2d.setColor(Color.BLACK);
-        //g2d.fillRect(0, 0, WIDTH, HEIGHT);
 
         g.drawImage(screen.image, 0,0, Consts.SCR_WIDTH,Consts.SCR_HEIGHT,null);
-        // stateManager.render(g2d);
         paint(g2d);
 
         ////////////////////////////////////////////////
@@ -162,26 +161,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
             }
         }
     }
-/*
-
-    private void renderGamePieces(Graphics2D g) {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
-
-                if (board[i][j].getEntity() != null) {
-                    // If this cell has a entity in it
-                    // To draw the image of a piece
-                    Rectmech.draw(i, j, board[i][j].getCharImg(), g);
-                    // To draw HP value of a piece
-                    Rectmech.drawText(i, j, String.valueOf(board[i][j].getEntity().getMaxHP()), g );
-                } else {
-                    // If no entity in this cell
-                    Rectmech.draw(i, j, null, g);
-                }
-            }
-        }
-    }
-*/
 
     /********************************************************************
      * renderMaskMatrix: draws the shadow on cells according to data
@@ -221,7 +200,13 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private void movePiece(Point p) {
         setScreenLock(true);
         int steps = GameController.singleton().moveHandler(p);
-        setMovableMatrix(p.x, p.y, steps);
+        setSelectableMatrix(p.x, p.y, steps, false);
+    }
+
+    private void beforeAttack(Point p) {
+        setScreenLock(true);
+        int range = GameController.singleton().attackHandler(p);
+        setSelectableMatrix(p.x, p.y, range, true);
     }
 
     /********************************************************************
@@ -238,6 +223,12 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         resetMaskMatrix();
     }
 
+    public void attack(Point p) {
+        setScreenLock(false);
+        GameController.singleton().doAttack(p);
+        resetMaskMatrix();
+    }
+
     private int dist(int x, int y, int x1, int y1) {
         return Math.abs(x1-x) + Math.abs(y1-y);
     }
@@ -247,12 +238,26 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      * int step: number of step can move of a piece
      *********************************************************************/
 
-    private void setMovableMatrix(int x, int y, int steps) {
+    private void setSelectableMatrix(int x, int y, int range, boolean isEntitySelectable) {
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
-                if (dist(x, y, i, j) > steps ||
-                        board[i][j].getEntity()!=null)
+                if (dist(x, y, i, j) > range) {
                     maskMatrix[i][j] = 1;
+                } else {
+
+                }
+                if (isEntitySelectable) {
+                    if(board[i][j].getEntity() == null) {
+                        maskMatrix[i][j] = 1;
+                        System.out.println("Attack range: " +range);
+                    }
+                } else {
+                    if(board[i][j].getEntity() != null) {
+                        maskMatrix[i][j] = 1;
+                    }
+
+                }
+
             }
         }
         maskMatrix[x][y] = 0;
@@ -295,9 +300,12 @@ class GridPanelRunnable extends Canvas implements  Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(e.getActionCommand().compareTo(Consts.MOVE) == 0) {
-
                     movePiece(p);
                 }
+                if(e.getActionCommand().compareTo(Consts.ATTACK) == 0) {
+                    beforeAttack(p);
+                }
+
             }
         };
 

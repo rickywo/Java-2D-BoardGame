@@ -5,8 +5,8 @@ package resources;
  */
 public final class Consts  {
 
-    private static final int BOARD_HIGHT = 612;
-    private static final int BOARD_WIDTH = 612;
+    public static final int BOARD_HIGHT = 612;
+    public static final int BOARD_WIDTH = 612;
     public static final int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
     public static final int BSIZE = 18;
@@ -43,11 +43,15 @@ public final class Consts  {
     public static final String[] TEAM_NAME = new String[] {HUMAN, ALIEN};
 
     // Game functional settings
-    public final static int DIST = 4;
+    public static final int DIST = 4;
     public static final int NUM_PIECES_PER_TEAM = 4;
     public static final int NUM_WEAPONS = 20;
     public static final int INIT_STEPS = 3;
 
+    // Game variables
+    public static final int MENU_DISPLAY = 0;
+    public static final int STORY_TELLING = 1;
+    public static final int GAME_PLAYING = 2;
     /**
      The caller references the constants using <tt>Consts.EMPTY_STRING</tt>,
      and so on. Thus, the caller should be prevented from constructing objects of

@@ -27,13 +27,6 @@ public class DashBoard {
         Font.draw_krenfont(screen, "--------------", Consts.DASHBOARD_X_OFFSET, Consts.DASHBOARD_Y_OFFSET + 6 * Y);
     }
     public static void tick() {
-        /*long curTime = System.currentTimeMillis();
-
-        if(curTime - ft > fi && curTime - ft < limit) {
-            Y ++;
-            ft += fi;
-            System.out.println("ft: " + (curTime - ft));
-        }*/
     }
 
     public static void parseCharInfo(String characterInfoStr) {

@@ -1,10 +1,10 @@
 package view;
 
 import controller.GameController;
-import model.gameModel.Entity;
+import model.gameModel.*;
 import resources.Consts;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -29,26 +29,34 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        Point p = new Point(Rectmech.pxtoRect(x, y));
+        model.gameModel.Point p = new model.gameModel.Point(Rectmech.pxtoRect(x, y));
         // System.out.println("x:" + p.x + "y:"+p.y);
         Entity t = panel.board[p.x][p.y].getEntity();
 
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
 
-        if (t != null) {
-            // Do nothing if this piece is moved
-            if(t.isMoved()  || t.getTeam() != GameController.getTeamOnMove()) return;
+        if (panel.isScreenLocked() && panel.maskMatrix[p.x][p.y] != 1) {
+            // TODO: To call moveTo(Point p) in GridPanelRunnable if no entity in clicked cell
+
+            if (t != null) {
+                // Do nothing if this piece is moved
+                panel.attack(p);
+                return;
+            } else {
+                // matrixValue == -1 means this cell is selectable
+                panel.moveTo(p);
+                return;
+            }
+        } else if(!panel.isScreenLocked() && t != null) {
+                // Do nothing if this piece is moved
+            if (t.isMoved() || t.getTeam() != GameController.getTeamOnMove()) return;
             // Show action menu of current selected pieces
             panel.showActionMenu(x + Consts.MENU_OFFSET_X
                     , y + Consts.MENU_OFFSET_Y
                     , p
                     , panel.board[p.x][p.y].getEntity().getAttackName());
-        } else {
-            // matrixValue == -1 means this cell is selectable
-            if(panel.isScreenLocked() && panel.maskMatrix[p.x][p.y] == -1) {
-                panel.moveTo(p);
-            }
+
             return;
         }
         //panel.repaint();
@@ -58,9 +66,11 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
      *****************************************************************************/
     @Override
     public void mouseMoved(MouseEvent e) {
-        Point p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
+        Point p;
+        p = new Point(Rectmech.pxtoRect(e.getX(), e.getY()));
         Entity entity;
         try {
+
             entity = panel.board[p.x][p.y].getEntity();
         } catch (ArrayIndexOutOfBoundsException exception) {
             return;
@@ -76,11 +86,10 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             // Set the color of a cell, which has been hovered over, to normal
             panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = 0;
             // Keep the coordinator in cursorXYPos
-            panel.cursorXYPos = p;
+            panel.cursorXYPos = new model.gameModel.Point(p);
             if(entity != null) DashBoard.parseCharInfo(entity.toString());
         }
         panel.maskMatrix[p.x][p.y] = -1;
-        //panel.repaint();
     }
 
     public static void update() {

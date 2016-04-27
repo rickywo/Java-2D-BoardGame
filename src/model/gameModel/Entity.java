@@ -12,6 +12,7 @@ public abstract class Entity implements EntityInterface, Cloneable{
 	private int maxHP; //max HP
 	private int defense; // Defence
 	private String attackName; //name of primary attack
+    private int attackRange; // Range of attack
 	private boolean moved;
 	private Weapon weapon;
 	private int xPos;	// x coordinates
@@ -123,10 +124,20 @@ public abstract class Entity implements EntityInterface, Cloneable{
 	public String getAttackName(){
 		return attackName;
 	}
-	
-	public void setAttackName(String name){
+
+    public void setAttackName(String name){
 		this.attackName = name;
 	}
+
+    @Override
+    public void setAttackRange(int range) {
+        this.attackRange = range;
+    }
+
+    @Override
+    public int getAttackRange() {
+        return this.attackRange;
+    }
 	
 	public void setPos(int x, int y) {
 		this.xPos = x;

@@ -135,6 +135,11 @@ public class MainGame {
         checkTurn();
 	}
 
+	public void combat(Entity attacker, Point recipient) {
+		// TODO: to call attack function of attack and apply attacking to those recipients
+
+	}
+
 	private void dispatchPieces(){
 		dispatchHumanTeam();
 		dispatchAlienTeam();

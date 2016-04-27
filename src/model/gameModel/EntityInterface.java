@@ -49,6 +49,10 @@ public interface EntityInterface {
 
 	void setAttackName(String name);
 
+	void setAttackRange(int range);
+
+	int getAttackRange();
+
 	void setPos(int x, int y);
 
 	int getXPos();

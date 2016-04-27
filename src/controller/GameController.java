@@ -1,13 +1,12 @@
 package controller;
 
-import model.gameModel.BoardCell;
-import model.gameModel.MainGame;
+import model.gameModel.*;
 
+import model.gameModel.Point;
 import resources.Consts;
 import view.Rectmech;
 import view.MainPanel;
 
-import java.awt.*;
 
 /**
  * @author Human v Alien Team
@@ -17,11 +16,11 @@ import java.awt.*;
 
 public class GameController {
 
-    private static int teamOnMove = 0; // indicates which team is on moving
+    private static int game_state;
     private MainGame modelManager;
     private BoardCell curMoveCell; // The entity is currently being moved
 
-
+    private static int teamOnMove = 0; // indicates which team is on moving
     private static GameController game = null;
 
 
@@ -62,6 +61,11 @@ public class GameController {
         return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
     }
 
+    public int attackHandler(Point point) {
+        curMoveCell = modelManager.getBoardCell(point.x, point.y);
+        return curMoveCell.getEntity().getAttackRange();
+    }
+
     /**
      * doMove(): Handle the second click on the map after moveHandler function
      * in MainPanel is called
@@ -71,6 +75,10 @@ public class GameController {
         int xPos = curMoveCell.getEntity().getXPos();
         int yPos = curMoveCell.getEntity().getYPos();
         modelManager.movePieceTo(xPos, yPos, point.x, point.y);
+    }
+
+    public void doAttack(Point point) {
+        modelManager.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
     }
 
     /**
@@ -90,5 +98,14 @@ public class GameController {
 
     public static int getTeamOnMove() {
         return teamOnMove;
+    }
+
+
+    public static void setGameState(int state) {
+        game_state = state;
+    }
+
+    public static int getGameState() {
+        return game_state;
     }
 }
