@@ -17,7 +17,7 @@ import view.MainPanel;
 public class GameController {
 
     private static int game_state;
-    private MainGame modelManager;
+    private GameBoard gameBoard;
     private BoardCell curMoveCell; // The entity is currently being moved
 
     private static int teamOnMove = 0; // indicates which team is on moving
@@ -43,7 +43,7 @@ public class GameController {
     void initGame() {
         Rectmech.setLength(Consts.RECTSIZE);
         Rectmech.setBorders(Consts.BORDERS);
-        modelManager = MainGame.singleton(this);
+        gameBoard = GameBoard.singleton(this);
     }
 
     /**
@@ -57,12 +57,12 @@ public class GameController {
     public int moveHandler(Point point) {
 
         //TODO: get a number of steps this entity can move
-        curMoveCell = modelManager.getBoardCell(point.x, point.y);
+        curMoveCell = gameBoard.getBoardCell(point.x, point.y);
         return curMoveCell.getEntity().calculateSteps(Consts.INIT_STEPS);
     }
 
     public int attackHandler(Point point) {
-        curMoveCell = modelManager.getBoardCell(point.x, point.y);
+        curMoveCell = gameBoard.getBoardCell(point.x, point.y);
         return curMoveCell.getEntity().getAttackRange();
     }
 
@@ -74,15 +74,15 @@ public class GameController {
     public void doMove(Point point) {
         int xPos = curMoveCell.getEntity().getXPos();
         int yPos = curMoveCell.getEntity().getYPos();
-        modelManager.movePieceTo(xPos, yPos, point.x, point.y);
+        gameBoard.movePieceTo(xPos, yPos, point.x, point.y);
     }
 
     public void doAttack(Point point) {
-        modelManager.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+        gameBoard.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
     }
 
     public BoardCell getBoardCell(int x, int y) {
-        return modelManager.getBoardCell(x, y);
+        return gameBoard.getBoardCell(x, y);
     }
 
     /**

@@ -10,7 +10,7 @@ public enum ProfessionNames {
     MEDIC("Medic"),
     AREAATTACKER("AreaAttacker"),
     WARRIOR("Warrior"),
-    PROTECTOR("Protector"),
+    DEFENDER("Defender"),
     COMBATENGINEER("CombatEngineer"),
     CHEERLEADER("CheerLeader"),
     CHIEF("Chief"),

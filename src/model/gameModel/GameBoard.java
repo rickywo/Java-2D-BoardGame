@@ -4,14 +4,15 @@ import java.util.*;
 import controller.GameController;
 import resources.Consts;
 
-public class MainGame {
+public class GameBoard {
 
+	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
 	//board has 20? weapons at start
 	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
 	private final int numOfTeams = Consts.NUM_TEAMS;
 	private int turn;
-	private static MainGame game = null;
-	private static EntityFactory entityFactory = null;
+	private static GameBoard game = null;
+	private static TeamManager teamManager = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
 	private final int BSIZE = Consts.BSIZE; //board size.
@@ -21,15 +22,15 @@ public class MainGame {
 	public static BoardCell[][] gameBoard;
 
 
-	public MainGame(GameController controller) {
+	public GameBoard(GameController controller) {
 		turn = 0;
 		this.controller = controller;
 		initialSetup();
 	}
 	
-	public static MainGame singleton(GameController controller) {
+	public static GameBoard singleton(GameController controller) {
 		if(game == null) {
-			game = new MainGame(controller);
+			game = new GameBoard(controller);
 		}
 		return game;
 	}
@@ -40,7 +41,7 @@ public class MainGame {
 		generateWeapons();
 		dispatchPieces();
 		dispatchWeapons();
-		entityFactory.printAllPiecesAttributes(); //remove later
+        teamManager.printAllPiecesAttributes(); //remove later
 		printAllWeaponInfo(); //remove later
 		printBoard(); //remove later
 	}
@@ -55,8 +56,7 @@ public class MainGame {
 	}
 	
 	private void generatePieces(){
-		entityFactory = new EntityFactory();
-		entityFactory.initialisePieces();
+        teamManager = new TeamManager();
 	}
 	
 	private void generateWeapons(){
@@ -153,11 +153,12 @@ public class MainGame {
 		Random rand = new Random();
 		int x = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
         int y = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
-		gameBoard[x][y].setEntity(entityFactory.getHumanTeam().get(0));
-		entityFactory.getHumanTeam().get(0).setPos(x,y);
+		Team team = teamManager.getTeam(0);
+		gameBoard[x][y].setEntity(team.get(0));
+		team.get(0).setPos(x,y);
 
 		//Set all other human pieces
-		for(int i=1; i<entityFactory.getHumanTeam().size(); i++){
+		for(int i=1; i<team.size(); i++){
 			int a, b;
 			//find an available square around leader (within 5x5 grid)
 			do {
@@ -166,8 +167,8 @@ public class MainGame {
 			} while( a >= BSIZE || b >= BSIZE || a < 0 || b < 0
 					|| gameBoard[a][b].getEntity() != null);
 			//set piece to that square
-			gameBoard[a][b].setEntity(entityFactory.getHumanTeam().get(i));
-			entityFactory.getHumanTeam().get(i).setPos(a,b);
+			gameBoard[a][b].setEntity(team.get(i));
+			team.get(i).setPos(a,b);
 		}
 	}
 
@@ -202,11 +203,12 @@ public class MainGame {
 			}
 		} while(clearSquares<((DIST+1)*(DIST+1)));	//5x5 grid is empty
 
+		Team team = teamManager.getTeam(1);
 		//set Chief position
-		gameBoard[x][y].setEntity(entityFactory.getAlienTeam().get(0));
-		entityFactory.getAlienTeam().get(0).setPos(x,y);
+		gameBoard[x][y].setEntity(team.get(0));
+		team.get(0).setPos(x,y);
 		//Set all other human pieces
-		for(int i=1; i<entityFactory.getAlienTeam().size(); i++){
+		for(int i=1; i<team.size(); i++){
 			int a, b;
 			//find an available square around leader (within 5x5 grid)
 			do {
@@ -215,8 +217,8 @@ public class MainGame {
 			} while(a >= BSIZE || b >= BSIZE || a < 0 || b < 0
 					|| gameBoard[a][b].getEntity() != null);
 			//set piece to that square
-			gameBoard[a][b].setEntity(entityFactory.getAlienTeam().get(i));
-			entityFactory.getAlienTeam().get(i).setPos(a,b);
+			gameBoard[a][b].setEntity(team.get(i));
+			team.get(i).setPos(a,b);
 		}
 	}
 
@@ -251,8 +253,8 @@ public class MainGame {
 
     private void checkTurn() {
         final int team = controller.getTeamOnMove();
-        if(entityFactory.isTeamsTurnFinished(team)) {
-            entityFactory.resetTeamMoved(team);
+        if(teamManager.isTeamsTurnFinished(team)) {
+            teamManager.resetTeamMoved(team);
             controller.switchTurn();
         }
     }
