@@ -35,7 +35,7 @@ public class GameController {
 
     private GameController() {
         initGame();
-        new MainPanel(modelManager);
+        new MainPanel(this);
 
     }
 
@@ -43,7 +43,7 @@ public class GameController {
     void initGame() {
         Rectmech.setLength(Consts.RECTSIZE);
         Rectmech.setBorders(Consts.BORDERS);
-        modelManager = MainGame.singleton();
+        modelManager = MainGame.singleton(this);
     }
 
     /**
@@ -81,12 +81,16 @@ public class GameController {
         modelManager.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
     }
 
+    public BoardCell getBoardCell(int x, int y) {
+        return modelManager.getBoardCell(x, y);
+    }
+
     /**
      * switchTurn(): switches to next team
      * It called by function checkTurn in MainGame
      */
 
-    public static void switchTurn() {
+    public void switchTurn() {
         teamOnMove ++;
         teamOnMove %= Consts.NUM_TEAMS;
         MainPanel.showMessageBox(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
@@ -96,7 +100,7 @@ public class GameController {
      * getTeamOnMove(): return team number of current turn
      */
 
-    public static int getTeamOnMove() {
+    public int getTeamOnMove() {
         return teamOnMove;
     }
 

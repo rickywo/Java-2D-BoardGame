@@ -3,7 +3,7 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import model.gameModel.MainGame;
+import controller.GameController;
 import resources.Consts;
 
 
@@ -11,8 +11,8 @@ public class MainPanel {
     private GridPanelRunnable gameview;
 
 
-    public MainPanel(MainGame gameManager) {
-        gameview = new GridPanelRunnable(gameManager);
+    public MainPanel(GameController gameController) {
+        gameview = new GridPanelRunnable(gameController);
         createAndShowGUI();
     }
 

@@ -36,17 +36,17 @@ public abstract class Entity implements EntityInterface, Cloneable{
 
 	@Override
 	public int calculateSteps(int steps) {
-		return steps;
+		return steps * agility;
 	}
 
 	@Override
 	public int attack() {
-		return 0;
+		return strength;
 	}
 
 	@Override
 	public void beAttacked(int damage) {
-		
+		setCurrentHP(damage - this.defense);
 	}
 
 	public int getTeam() {

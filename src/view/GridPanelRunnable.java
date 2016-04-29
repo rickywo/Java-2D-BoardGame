@@ -21,10 +21,11 @@ import java.awt.image.BufferedImage;
 class GridPanelRunnable extends Canvas implements  Runnable {
 
 
-    public BoardCell[][] board;
+    //public BoardCell[][] board;
     public model.gameModel.Point cursorXYPos;
     public int[][] maskMatrix; // mask matrix for game board
 
+    private GameController gameController;
     private boolean running;
     private PopupMenu editMenu;
     private boolean screenLock; // Lock screen for moving pieces
@@ -32,13 +33,14 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private GameScreen screen;
 
 
-    public GridPanelRunnable(MainGame modelManager) {
+    public GridPanelRunnable(GameController gameController) {
 
-        board = modelManager.getBoard();
+        //board = modelManager.getBoard();
+        this.gameController = gameController;
         setBackground(Color.GRAY);
         initMaskMatrix();
         cursorXYPos = new Point(0, 0);
-        ml = new MxMouseListener(this);
+        ml = new MxMouseListener(this, this.gameController);
         addMouseListener(ml);
         addMouseMotionListener(ml);
         screen = new GameScreen(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
@@ -145,11 +147,11 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private void renderGamePieces() {
         for (int i = 0; i < Consts.BSIZE; i++) {
             for (int j = 0; j < Consts.BSIZE; j++) {
-
-                if (board[i][j].getEntity() != null) {
+                BoardCell cell = gameController.getBoardCell(i, j);
+                if (cell.getEntity() != null) {
                     // If this cell has a entity in it
                     // To draw the image of a piece
-                    BufferedImage charImge = board[i][j].getCharImg();
+                    BufferedImage charImge = cell.getCharImg();
                     BufferedImage image = ImageManager.resizeImage(charImge, 0.9 * ((double) Consts.RECTSIZE / (double) charImge.getWidth()));
                     int w = image.getWidth();
                     int h = image.getHeight();
@@ -246,13 +248,14 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                 } else {
 
                 }
+                BoardCell cell = gameController.getBoardCell(i, j);
                 if (isEntitySelectable) {
-                    if(board[i][j].getEntity() == null) {
+                    if(cell.getEntity() == null) {
                         maskMatrix[i][j] = 1;
                         System.out.println("Attack range: " +range);
                     }
                 } else {
-                    if(board[i][j].getEntity() != null) {
+                    if(cell.getEntity() != null) {
                         maskMatrix[i][j] = 1;
                     }
 

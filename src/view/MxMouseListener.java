@@ -14,8 +14,10 @@ import java.awt.event.MouseEvent;
 class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
 
     private GridPanelRunnable panel;
-    public MxMouseListener(GridPanelRunnable panel) {
+    private GameController gameController;
+    public MxMouseListener(GridPanelRunnable panel, GameController controller) {
         this.panel = panel;
+        this.gameController = controller;
     }
 
 
@@ -31,7 +33,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         int y = e.getY();
         model.gameModel.Point p = new model.gameModel.Point(Rectmech.pxtoRect(x, y));
         // System.out.println("x:" + p.x + "y:"+p.y);
-        Entity t = panel.board[p.x][p.y].getEntity();
+        Entity t = gameController.getBoardCell(p.x, p.y).getEntity();
 
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
@@ -50,12 +52,12 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             }
         } else if(!panel.isScreenLocked() && t != null) {
                 // Do nothing if this piece is moved
-            if (t.isMoved() || t.getTeam() != GameController.getTeamOnMove()) return;
+            if (t.isMoved() || t.getTeam() != gameController.getTeamOnMove()) return;
             // Show action menu of current selected pieces
             panel.showActionMenu(x + Consts.MENU_OFFSET_X
                     , y + Consts.MENU_OFFSET_Y
                     , p
-                    , panel.board[p.x][p.y].getEntity().getAttackName());
+                    , t.getAttackName());
 
             return;
         }
@@ -71,7 +73,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         Entity entity;
         try {
 
-            entity = panel.board[p.x][p.y].getEntity();
+            entity = gameController.getBoardCell(p.x, p.y).getEntity();
         } catch (ArrayIndexOutOfBoundsException exception) {
             return;
         }

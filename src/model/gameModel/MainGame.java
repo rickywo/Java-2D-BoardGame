@@ -17,17 +17,19 @@ public class MainGame {
 	private final int BSIZE = Consts.BSIZE; //board size.
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
 	private final static int DIST = Consts.DIST;
+	private GameController controller;
 	public static BoardCell[][] gameBoard;
 
 
-	public MainGame() {
+	public MainGame(GameController controller) {
 		turn = 0;
+		this.controller = controller;
 		initialSetup();
 	}
 	
-	public static MainGame singleton() {
+	public static MainGame singleton(GameController controller) {
 		if(game == null) {
-			game = new MainGame();
+			game = new MainGame(controller);
 		}
 		return game;
 	}
@@ -248,10 +250,10 @@ public class MainGame {
      *****************************************************************************/
 
     private void checkTurn() {
-        final int team = GameController.getTeamOnMove();
+        final int team = controller.getTeamOnMove();
         if(entityFactory.isTeamsTurnFinished(team)) {
             entityFactory.resetTeamMoved(team);
-            GameController.switchTurn();
+            controller.switchTurn();
         }
     }
 }
