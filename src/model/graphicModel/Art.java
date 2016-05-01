@@ -1,7 +1,7 @@
 package model.graphicModel;
 
 
-import model.gameModel.ProfessionNames;
+import model.gameModel.ProfessionTypes;
 import resources.Consts;
 
 import java.awt.*;
@@ -72,7 +72,7 @@ public class Art {
     private static Bitmap[] getCharImages() {
         int i = 0;
         Bitmap[] result = new Bitmap[16];
-        for(ProfessionNames p: ProfessionNames.values()) {
+        for(ProfessionTypes p: ProfessionTypes.values()) {
             BufferedImage charImge = ImageManager.getCharSkin(p.getCharacterName());
             BufferedImage image = ImageManager.resizeImage(charImge, (double) Consts.RECTSIZE / (double) charImge.getWidth());
 

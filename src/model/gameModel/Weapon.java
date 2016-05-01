@@ -72,6 +72,10 @@ public class Weapon {
 	public Weapon getWeapon(){
 		return this;
 	}
+
+	public Weapons getType() {
+		return weaponName;
+	}
 	
 	public String getName(){
 		return name;

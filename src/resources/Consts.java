@@ -45,7 +45,7 @@ public final class Consts  {
     // Game functional settings
     public static final int DIST = 4;
     public static final int NUM_PIECES_PER_TEAM = 4;
-    public static final int NUM_WEAPONS = 20;
+    public static final int NUM_WEAPONS = 100;
     public static final int INIT_STEPS = 1;
 
     // Game variables

@@ -1,7 +1,5 @@
 package model.gameModel;
 
-import model.gameModel.jobs.Follower;
-import model.gameModel.jobs.Leader;
 import resources.Consts;
 
 import java.util.ArrayList;
@@ -22,41 +20,38 @@ public class Team implements TeamInterface {
         turnFlag = true;
         members = new ArrayList<Entity>();
         initialise();
+        for (int i = 0; i < members.size(); i++) {
+            get(i).printAllAttributes();
+        }
     }
 
     @Override
     public void initialise() {
 
         EntityFlyweightFactory fwFactory = GameBoard.fwFactory;
-        Leader leader = null;
-        Follower follower = null;
+        Entity entity;
 
         switch (type) {
             case Human:
                 race = Consts.HUMAN;
-                leader = (Leader) fwFactory.createEntity(ProfessionNames.COMMANDER);
-                leader.setName(race + "1");
-                follower = (Follower) fwFactory.createEntity(ProfessionNames.SOLDIER);
-                follower.setName(race + "2");
+                for(int i=1; i<NUM_PIECES_PER_TEAM+1; i++){
+                    entity = fwFactory.createEntity(ProfessionTypes.SOLDIER);
+                    entity.setName(race + i);
+                    if(i == 1) entity = fwFactory.createProfessionalEntity(ProfessionTypes.COMMANDER, entity);
+                    members.add(entity);
+                }
                 break;
             case Alien:
                 race = Consts.ALIEN;
-                leader = (Leader) fwFactory.createEntity(ProfessionNames.CHIEF);
-                leader.setName(race + "1");
-                follower = (Follower) fwFactory.createEntity(ProfessionNames.SPAWN);
-                follower.setName(race + "2");
+                for(int i=1; i<NUM_PIECES_PER_TEAM+1; i++){
+                    entity = fwFactory.createEntity(ProfessionTypes.SPAWN);
+                    entity.setName(race + i);
+                    if(i == 1) entity = fwFactory.createProfessionalEntity(ProfessionTypes.CHIEF, entity);
+                    members.add(entity);
+                }
                 break;
             default:
                 break;
-        }
-        //Create rest of team
-        //Create soldier prototype
-        members.add(leader);
-        members.add(follower);
-        for(int i=3; i<NUM_PIECES_PER_TEAM+1; i++){
-            Entity followerCopy = (Entity)follower.clone();
-            followerCopy.setName(race+ i);
-            members.add(followerCopy);
         }
     }
 

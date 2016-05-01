@@ -1,6 +1,8 @@
 package model.gameModel.jobs;
 
-public class Soldier extends Follower {
+import model.gameModel.Entity;
+
+public class Soldier extends Entity {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 50;
 	private final static int STRENGTH = 10;

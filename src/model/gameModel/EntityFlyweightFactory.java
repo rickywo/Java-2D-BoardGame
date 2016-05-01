@@ -20,84 +20,97 @@ public class EntityFlyweightFactory {
      *
      */
 
-    private final Map<ProfessionNames, Entity> entities;
+    private final Map<ProfessionTypes, Entity> entities;
+    // Leave ProfessionTypes here for future extension
 
     public EntityFlyweightFactory() {
-        entities = new EnumMap<ProfessionNames, Entity>(ProfessionNames.class);
+        entities = new EnumMap<ProfessionTypes, Entity>(ProfessionTypes.class);
     }
 
-    Entity createEntity(ProfessionNames type) {
-        Entity entity = entities.get(type);
-        if (entity == null) {
+    Entity createEntity(ProfessionTypes type) {
+        Entity prototype = entities.get(type);
+        if (prototype == null) {
             switch (type) {
-                case COMMANDER:
-                    entity = new Commander(ProfessionNames.COMMANDER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
                 case SOLDIER:
-                    entity = new Soldier(ProfessionNames.SOLDIER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case MEDIC:
-                    entity = new Medic(ProfessionNames.MEDIC.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case AREAATTACKER:
-                    entity = new AreaAttacker(ProfessionNames.AREAATTACKER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case WARRIOR:
-                    entity = new Warrior(ProfessionNames.WARRIOR.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case DEFENDER:
-                    entity = new Defender(ProfessionNames.DEFENDER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case COMBATENGINEER:
-                    entity = new CombatEngineer(ProfessionNames.COMBATENGINEER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case CHEERLEADER:
-                    entity = new Cheerleader(ProfessionNames.CHEERLEADER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case CHIEF:
-                    entity = new Chief(ProfessionNames.CHIEF.getCharacterName());
-                    entities.put(type, entity);
+                    prototype = new Soldier(ProfessionTypes.SOLDIER.getCharacterName());
+                    entities.put(type, prototype);
                     break;
                 case SPAWN:
-                    entity = new Spawn(ProfessionNames.SPAWN.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case LADYLISA:
-                    entity = new LadyLisa(ProfessionNames.LADYLISA.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case WITCH:
-                    entity = new Witch(ProfessionNames.WITCH.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case GOBLIN:
-                    entity = new Goblin(ProfessionNames.GOBLIN.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case SNIPER:
-                    entity = new Sniper(ProfessionNames.SNIPER.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case TROLL:
-                    entity = new Troll(ProfessionNames.TROLL.getCharacterName());
-                    entities.put(type, entity);
-                    break;
-                case DRAGON:
-                    entity = new Dragon(ProfessionNames.DRAGON.getCharacterName());
-                    entities.put(type, entity);
+                    prototype = new Spawn(ProfessionTypes.SPAWN.getCharacterName());
+                    entities.put(type, prototype);
                     break;
                 default:
                     break;
             }
         }
-        return entity;
+        return (Entity) prototype.clone();
+    }
+
+    Entity createProfessionalEntity(ProfessionTypes type, Entity soldier) {
+        Entity prototype = entities.get(type);
+        if (prototype == null) {
+            switch (type) {
+                case COMMANDER:
+                    prototype = new Commander(ProfessionTypes.COMMANDER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case MEDIC:
+                    prototype = new Medic(ProfessionTypes.MEDIC.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case AREAATTACKER:
+                    prototype = new AreaAttacker(ProfessionTypes.AREAATTACKER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case WARRIOR:
+                    prototype = new Warrior(ProfessionTypes.WARRIOR.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case DEFENDER:
+                    prototype = new Defender(ProfessionTypes.DEFENDER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case COMBATENGINEER:
+                    prototype = new CombatEngineer(ProfessionTypes.COMBATENGINEER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case CHEERLEADER:
+                    prototype = new Cheerleader(ProfessionTypes.CHEERLEADER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case CHIEF:
+                    prototype = new Chief(ProfessionTypes.CHIEF.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+
+                case LADYLISA:
+                    prototype = new LadyLisa(ProfessionTypes.LADYLISA.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case WITCH:
+                    prototype = new Witch(ProfessionTypes.WITCH.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case GOBLIN:
+                    prototype = new Goblin(ProfessionTypes.GOBLIN.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case SNIPER:
+                    prototype = new Sniper(ProfessionTypes.SNIPER.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case TROLL:
+                    prototype = new Troll(ProfessionTypes.TROLL.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                case DRAGON:
+                    prototype = new Dragon(ProfessionTypes.DRAGON.getCharacterName(), soldier);
+                    entities.put(type, prototype);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return (Entity) prototype.clone();
     }
 }

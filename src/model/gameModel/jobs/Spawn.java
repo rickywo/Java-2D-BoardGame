@@ -1,6 +1,8 @@
 package model.gameModel.jobs;
 
-public class Spawn extends Follower {
+import model.gameModel.Entity;
+
+public class Spawn extends Entity {
 	private final static int TEAM = 1;
 	private final static int MAX_HP = 50;
 	private final static int STRENGTH = 10;

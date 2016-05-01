@@ -36,8 +36,22 @@ public class MainPanel {
 
     }
 
-    public static void showMessageBox(String message, long timeLimit) {
+    public static void showVerbose(String message, long timeLimit) {
         Verbose.verbose(message, timeLimit);
 
+    }
+
+    public static boolean showConfirmDialog() {
+        int result = JOptionPane.showConfirmDialog(null,
+                "Pickup Weapon",
+                "Message",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                return true;
+            default:
+                return false;
+        }
     }
 }

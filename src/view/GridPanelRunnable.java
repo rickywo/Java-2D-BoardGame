@@ -122,7 +122,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     public void start() {
         running = true;
         new Thread(this).start();
-        MainPanel.showMessageBox("Game Start", 5000);
+        MainPanel.showVerbose("Game Start", 5000);
     }
     public void stop() {
         if (!running) return;

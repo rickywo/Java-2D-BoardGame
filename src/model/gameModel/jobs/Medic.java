@@ -1,6 +1,9 @@
 package model.gameModel.jobs;
 
-public class Medic extends Soldier {
+import model.gameModel.Entity;
+import model.gameModel.skills.ProfessionDecorator;
+
+public class Medic extends ProfessionDecorator {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 150;
 	private final static int STRENGTH = 40;
@@ -10,12 +13,14 @@ public class Medic extends Soldier {
 	private final static String DESCRIPTION = 
 			"White magic healer";
 	
-	public Medic(String name) {
-		super(name);
+	public Medic(String name, Entity entity) {
+		super(name, entity);
+		super.setName(entity.getName());
 		super.setTeam(TEAM);
 		super.setProfessionName(this.getClass().getSimpleName());
+		super.setCurrentHP(MAX_HP);
+		super.setPos(entity.getXPos(), entity.getYPos());
 		super.setMaxHP(MAX_HP);
-		super.setCurrentHP(super.getCurrentHP());
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);

@@ -39,7 +39,7 @@ public class TeamManager {
     }
 
     public boolean isTeamsTurnFinished(int i) {
-        teams[i].isTeamsTurnFinished();
-        return true;
+
+        return teams[i].isTeamsTurnFinished();
     }
 }

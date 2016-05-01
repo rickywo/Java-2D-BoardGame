@@ -1,6 +1,9 @@
 package model.gameModel.jobs;
 
-public class LadyLisa extends Spawn {
+import model.gameModel.Entity;
+import model.gameModel.skills.ProfessionDecorator;
+
+public class LadyLisa extends ProfessionDecorator {
 	private final static int TEAM = 1;
 	private final static int MAX_HP = 150;
 	private final static int STRENGTH = 30;
@@ -10,12 +13,14 @@ public class LadyLisa extends Spawn {
 	private final static String DESCRIPTION = 
 			"A Madusa with special ability to make enemies retreat";
 	
-	public LadyLisa(String name) {
-		super(name);
+	public LadyLisa(String name, Entity entity) {
+		super(name, entity);
+		super.setName(entity.getName());
 		super.setTeam(TEAM);
 		super.setProfessionName(this.getClass().getSimpleName());
+		super.setCurrentHP(MAX_HP);
+		super.setPos(entity.getXPos(), entity.getYPos());
 		super.setMaxHP(MAX_HP);
-		super.setCurrentHP(super.getCurrentHP());
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);

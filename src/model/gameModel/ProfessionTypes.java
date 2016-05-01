@@ -3,7 +3,7 @@ package model.gameModel;
 /**
  * Created by Human v Alien Team on 2016/4/6.
  */
-public enum ProfessionNames {
+public enum ProfessionTypes {
 
     COMMANDER("Commander"),
     SOLDIER("Soldier"),
@@ -23,7 +23,7 @@ public enum ProfessionNames {
     DRAGON("Dragon");
 
     private String characterName;
-    ProfessionNames(String charName) {
+    ProfessionTypes(String charName) {
         this.characterName = charName;
     }
 

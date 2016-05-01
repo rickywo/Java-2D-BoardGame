@@ -1,6 +1,9 @@
 package model.gameModel;
 
-public abstract class Entity implements EntityInterface, Cloneable{
+import model.gameModel.skills.Command;
+import model.gameModel.skills.EntityActionInterface;
+
+public class Entity implements EntityInterface, EntityActionInterface, Cloneable {
 
 	private String name;
 	private int team; // Camp of this unit belongs to
@@ -24,7 +27,7 @@ public abstract class Entity implements EntityInterface, Cloneable{
 		moved = false;
 		weapon = null;
 	}
-	
+
 	@Override
 	public Object clone(){
 		try{
@@ -37,11 +40,6 @@ public abstract class Entity implements EntityInterface, Cloneable{
 	@Override
 	public int calculateSteps(int steps) {
 		return steps * agility;
-	}
-
-	@Override
-	public int attack() {
-		return strength;
 	}
 
 	@Override
@@ -182,13 +180,38 @@ public abstract class Entity implements EntityInterface, Cloneable{
 	}
 
 	@Override
+	public void attack(Entity target) {
+
+	}
+
+	@Override
+	public void moveTo(Entity target, int x, int y) {
+
+	}
+
+	@Override
+	public void invokeSkill(Command command, Entity target) {
+
+	}
+
+	@Override
+	public void undoLastInvoke() {
+
+	}
+
+	@Override
+	public void redoLastInvoke() {
+
+	}
+
+	@Override
 	public String toString() {
 		return name + ";" +
-                professionName + ";" +
-                maxHP + ";" +
-                currentHP + ";" +
-                strength +  ";" +
-                agility + ";" +
-                defense;
+				professionName + ";" +
+				maxHP + ";" +
+				currentHP + ";" +
+				strength +  ";" +
+				agility + ";" +
+				defense;
 	}
 }

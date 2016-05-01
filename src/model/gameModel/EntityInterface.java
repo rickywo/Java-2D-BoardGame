@@ -5,8 +5,6 @@ public interface EntityInterface {
 	
 	int calculateSteps(int steps);
 
-	int attack();
-
 	void beAttacked(int damage);
 
 	int getTeam();

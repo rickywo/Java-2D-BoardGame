@@ -4,6 +4,7 @@ import model.gameModel.*;
 
 import model.gameModel.Point;
 import resources.Consts;
+import sun.applet.Main;
 import view.Rectmech;
 import view.MainPanel;
 
@@ -93,7 +94,11 @@ public class GameController {
     public void switchTurn() {
         teamOnMove ++;
         teamOnMove %= Consts.NUM_TEAMS;
-        MainPanel.showMessageBox(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
+        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
+    }
+
+    public boolean foundWeapon () {
+        return MainPanel.showConfirmDialog();
     }
 
     /**
