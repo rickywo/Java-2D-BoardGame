@@ -26,6 +26,13 @@ public abstract class ProfessionDecorator extends Entity {
         command.execute(target);
         undoStack.offerLast(command);
     }
+    
+    public void invokeSkill(Command command, Entity[] targets) {
+    	for(Entity target : targets){
+    		command.execute(target);
+    	}
+    	undoStack.offerLast(command);
+    }
 
     public void attack(Entity target) {
 
@@ -67,6 +74,47 @@ public abstract class ProfessionDecorator extends Entity {
     public void beAttacked(int damage) {
         setCurrentHP(getCurrentHP() - (damage - calculateDefenceFactor()));
     }
+    
+	@Override
+	public void beAttacked(int hpDamage, int strengthDamage, int defenseDamage) {
+		setCurrentHP(getCurrentHP() - (hpDamage - calculateDefenceFactor()));
+		setStrength(getStrength() - strengthDamage);
+		if(getStrength() < 0){
+			setStrength(0);
+		}
+		setDefense(getDefense() - defenseDamage);
+		if(getStrength() < 0){
+			setStrength(0);
+		}
+	}
+    
+	@Override
+	public void beHealed(int amount) {
+		setCurrentHP(getCurrentHP() + amount);
+		if(getCurrentHP() > getMaxHP()) {
+			setCurrentHP(getMaxHP());
+		}
+	}
+	
+	@Override
+	public void beDefended(int amount) {
+		setDefense(getDefense() + amount);
+	}
+	
+	@Override
+	public void beCheered(int strengthAmt, int defenseAmt, int agilityAmt) {
+		setStrength(getStrength() + strengthAmt);
+		setDefense(getDefense() + defenseAmt);
+		setAgility(getAgility() + agilityAmt);
+	}
+	
+	@Override
+	public void beDefenseAttacked(int damage) {
+		setDefense(getDefense() - damage);
+		if(getDefense() < 0){
+			setDefense(0);
+		}
+	}
 
     public int getTeam() {
         return entity.getTeam();

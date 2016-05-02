@@ -11,6 +11,7 @@ public interface EntityActionInterface {
     void attack(Entity target);
     void moveTo(Entity target, int x, int y);
     void invokeSkill(Command command, Entity target);
+    void invokeSkill(Command command, Entity[] targets);
     void undoLastInvoke();
     void redoLastInvoke();
 

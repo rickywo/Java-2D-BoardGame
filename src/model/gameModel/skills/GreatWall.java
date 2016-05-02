@@ -1,28 +1,24 @@
 package model.gameModel.skills;
-
 import model.gameModel.Entity;
 
-/**
- * Created by blahblah Team on 2016/4/30.
- */
-public class Attack extends Command {
-
-    private int oldHP;
-    private int damage;
+public class GreatWall extends Command {
+    private int oldDefense;
+	private int amount;
     private Entity target;
 
-    public Attack(int damage) {
-        this.damage = damage;
+    public GreatWall(int amount) {
+        this.amount = amount;
     }
 
     @Override
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-        oldHP = target.getCurrentHP();
-
-        System.out.println("Damage:" + damage);
-        target.beAttacked(damage);
-        this.target = target;
+    	this.target = target;
+    	oldDefense = target.getDefense();
+        System.out.println("Defense Increase:" + amount);
+        target.beDefended(amount);
+        System.out.println("Defense rose from " + oldDefense + " to " + 
+        		target.getDefense());
     }
 
     @Override
@@ -41,11 +37,10 @@ public class Attack extends Command {
 
     @Override
     public String toString() {
-        return "Attack " + target.getName();
+        return "Great Wall " + target.getName();
     }
 
 	@Override
 	public void execute(Entity[] targets) {
-		
 	}
 }

@@ -2,27 +2,21 @@ package model.gameModel.skills;
 
 import model.gameModel.Entity;
 
-/**
- * Created by blahblah Team on 2016/4/30.
- */
-public class Attack extends Command {
-
-    private int oldHP;
+public class AllIn extends Command {
+	
     private int damage;
     private Entity target;
 
-    public Attack(int damage) {
+    public AllIn(int damage) {
         this.damage = damage;
     }
 
     @Override
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-        oldHP = target.getCurrentHP();
-
-        System.out.println("Damage:" + damage);
+    	this.target = target;
+    	System.out.println("Damage:" + damage);
         target.beAttacked(damage);
-        this.target = target;
     }
 
     @Override
@@ -41,11 +35,12 @@ public class Attack extends Command {
 
     @Override
     public String toString() {
-        return "Attack " + target.getName();
+        return "All In " + target.getName();
     }
 
 	@Override
 	public void execute(Entity[] targets) {
+		
 		
 	}
 }

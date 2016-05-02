@@ -44,4 +44,8 @@ public class Move extends Command {
     public String toString() {
         return "Move to x:" + destX + " y:" + destY;
     }
+
+	@Override
+	public void execute(Entity[] targets) {
+	}
 }

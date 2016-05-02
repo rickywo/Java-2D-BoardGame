@@ -6,6 +6,16 @@ public interface EntityInterface {
 	int calculateSteps(int steps);
 
 	void beAttacked(int damage);
+	
+	void beAttacked(int hpDamage, int strengthDamage, int defenseDamage);
+	
+	void beHealed (int amount);
+	
+	void beDefended (int amount);
+	
+	void beCheered(int strengthAmt, int defenseAmt, int agilityAmt);
+	
+	void beDefenseAttacked(int damage);
 
 	int getTeam();
 

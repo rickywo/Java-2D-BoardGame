@@ -2,27 +2,23 @@ package model.gameModel.skills;
 
 import model.gameModel.Entity;
 
-/**
- * Created by blahblah Team on 2016/4/30.
- */
-public class Attack extends Command {
-
+public class UltimateDestruct extends Command {
     private int oldHP;
     private int damage;
     private Entity target;
 
-    public Attack(int damage) {
+    public UltimateDestruct(int damage) {
         this.damage = damage;
     }
 
     @Override
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-        oldHP = target.getCurrentHP();
+    	this.target = target;
+    	oldHP = target.getCurrentHP();
 
         System.out.println("Damage:" + damage);
         target.beAttacked(damage);
-        this.target = target;
     }
 
     @Override
@@ -41,11 +37,10 @@ public class Attack extends Command {
 
     @Override
     public String toString() {
-        return "Attack " + target.getName();
+        return "Ultimate Destruct " + target.getName();
     }
 
 	@Override
 	public void execute(Entity[] targets) {
-		
 	}
 }
