@@ -38,6 +38,7 @@ public final class Consts  {
     // Static Strings
     public static final String MOVE = "Move";
     public static final String ATTACK = "Attack";
+    public static final String INVOKE = "Invoke";
     public static final String HUMAN = "Human";
     public static final String ALIEN = "Alien";
     public static final String[] TEAM_NAME = new String[] {HUMAN, ALIEN};

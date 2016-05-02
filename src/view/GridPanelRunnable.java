@@ -296,7 +296,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     /***************************************************************************
      * To show a popup menu for selecting action
      *****************************************************************************/
-    public void showActionMenu(int x, int y, Point point, String attackName) {
+    public void showActionMenu(int x, int y, Point point, final String attackName) {
         editMenu = new PopupMenu();
         final Point p = point;
         ActionListener al = new ActionListener() {
@@ -306,7 +306,11 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                     movePiece(p);
                 }
                 if(e.getActionCommand().compareTo(Consts.ATTACK) == 0) {
+                    System.out.println(Consts.ATTACK);
                     beforeAttack(p);
+                }
+                if(e.getActionCommand().compareTo(Consts.INVOKE) == 0) {
+                    System.out.println(attackName);
                 }
 
             }
@@ -315,14 +319,24 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         MenuItem moveMenuItem = new MenuItem(Consts.MOVE);
         moveMenuItem.setActionCommand(Consts.MOVE);
 
-        MenuItem attackMenuItem = new MenuItem(attackName);
+        MenuItem attackMenuItem = new MenuItem(Consts.ATTACK);
         attackMenuItem.setActionCommand(Consts.ATTACK);
+
+        MenuItem invokeMenuItem = null;
+        if(attackName.compareTo(Consts.ATTACK) != 0) {
+            invokeMenuItem = new MenuItem(attackName);
+            invokeMenuItem.setActionCommand(Consts.INVOKE);
+        }
+
 
         moveMenuItem.addActionListener(al);
         attackMenuItem.addActionListener(al);
 
         editMenu.add(moveMenuItem);
         editMenu.add(attackMenuItem);
+        if(invokeMenuItem != null) {
+            editMenu.add(invokeMenuItem);
+        }
         add(editMenu);
         editMenu.show(this, x, y);
     }
