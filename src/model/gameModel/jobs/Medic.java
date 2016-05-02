@@ -9,6 +9,7 @@ public class Medic extends ProfessionDecorator {
 	private final static int STRENGTH = 40;
 	private final static int DEFENSE = 10;
 	private final static int AGILITY = 2;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Heal";
 	private final static String DESCRIPTION = 
 			"White magic healer";
@@ -24,6 +25,7 @@ public class Medic extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

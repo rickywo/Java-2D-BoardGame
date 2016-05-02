@@ -10,6 +10,7 @@ public class Commander extends ProfessionDecorator {
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 3;
 	private final static int ATTACK_RANGE = 0;
+	private final static boolean UPGRADABLE = false;
 	private final static String ATTACK_NAME = "Charge";
 	private final static String DESCRIPTION = "Leader of Human Team";
 	
@@ -25,6 +26,7 @@ public class Commander extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setAttackRange(ATTACK_RANGE);
 		super.setDescription(DESCRIPTION);

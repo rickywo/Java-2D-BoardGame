@@ -9,6 +9,7 @@ public class Troll extends ProfessionDecorator {
 	private final static int STRENGTH = 100;
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 1;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Ultimate Destruct";
 	private final static String DESCRIPTION = 
 			"Very destructive but incredibly slow";
@@ -24,6 +25,7 @@ public class Troll extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

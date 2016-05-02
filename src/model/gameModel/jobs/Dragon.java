@@ -9,6 +9,7 @@ public class Dragon extends ProfessionDecorator {
 	private final static int STRENGTH = 40;
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 3;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Higher Power";
 	private final static String DESCRIPTION = 
 			"Quickly surrounds enemies with lightning quick speed";
@@ -24,6 +25,7 @@ public class Dragon extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

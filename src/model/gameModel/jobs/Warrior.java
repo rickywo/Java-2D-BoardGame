@@ -9,6 +9,7 @@ public class Warrior extends ProfessionDecorator {
 	private final static int STRENGTH = 80;
 	private final static int DEFENSE = 20;
 	private final static int AGILITY = 1;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "All In";
 	private final static String DESCRIPTION = 
 			"Close combat specialist, slow but strong";
@@ -24,6 +25,7 @@ public class Warrior extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	

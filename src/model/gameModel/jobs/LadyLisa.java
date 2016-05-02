@@ -9,6 +9,7 @@ public class LadyLisa extends ProfessionDecorator {
 	private final static int STRENGTH = 30;
 	private final static int DEFENSE = 50;
 	private final static int AGILITY = 2;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Eyes of Stone";
 	private final static String DESCRIPTION = 
 			"A Madusa with special ability to make enemies retreat";
@@ -24,6 +25,7 @@ public class LadyLisa extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

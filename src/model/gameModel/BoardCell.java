@@ -31,7 +31,7 @@ public class BoardCell {
         return entity;
     }
 
-    public void resetEntity() {
+    public void clearEntity() {
         this.entity = null;
     }
     
@@ -42,6 +42,10 @@ public class BoardCell {
     
     public Weapon getWeapon(){
     	return weapon;
+    }
+
+    public void clearWeapon() {
+        this.weapon = null;
     }
 
     public BufferedImage getCharImg() {

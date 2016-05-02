@@ -13,8 +13,7 @@ public abstract class ProfessionDecorator extends Entity {
 
     private Entity entity;
 
-    private Deque<Command> undoStack = new LinkedList<Command>();
-    private Deque<Command> redoStack = new LinkedList<Command>();
+
 
 
     public ProfessionDecorator(String name, Entity entity) {
@@ -23,13 +22,16 @@ public abstract class ProfessionDecorator extends Entity {
     }
 
     public void invokeSkill(Command command, Entity target) {
-        System.out.println(this + " invoke " + command + " at " + target);
+        //System.out.println(this + " invoke " + command + " at " + target);
         command.execute(target);
         undoStack.offerLast(command);
     }
 
     public void attack(Entity target) {
-        invokeSkill(new Attack(), target);
+
+        int damage = calculateDamage();
+        invokeSkill(new Attack(damage), target);
+        setMoved();
     }
 
     /**
@@ -63,7 +65,7 @@ public abstract class ProfessionDecorator extends Entity {
 
     @Override
     public void beAttacked(int damage) {
-        setCurrentHP(damage - entity.getDefense());
+        setCurrentHP(getCurrentHP() - (damage - calculateDefenceFactor()));
     }
 
     public int getTeam() {

@@ -9,6 +9,7 @@ public class AreaAttacker extends ProfessionDecorator {
 	private final static int STRENGTH =50;
 	private final static int DEFENSE = 10;
 	private final static int AGILITY = 2;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Area Blast";
 	private final static String DESCRIPTION = 
 			"Attacks enemies within a wide radius";
@@ -24,6 +25,7 @@ public class AreaAttacker extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

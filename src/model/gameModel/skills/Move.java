@@ -1,27 +1,28 @@
 package model.gameModel.skills;
 
 import model.gameModel.Entity;
+import model.gameModel.Point;
 
 /**
- * Created by blahblah Team on 2016/4/30.
+ * Created by blahblah Team on 2016/5/2.
  */
-public class Attack extends Command {
+public class Move extends Command {
 
-    private int oldHP;
-    private int damage;
+    private int originX, originY;
+    private int destX, destY;
     private Entity target;
 
-    public Attack(int damage) {
-        this.damage = damage;
+    public Move(int x, int y) {
+        destX = x;
+        destY = y;
     }
 
     @Override
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-        oldHP = target.getCurrentHP();
-
-        System.out.println("Damage:" + damage);
-        target.beAttacked(damage);
+        originX = target.getXPos();
+        originY = target.getYPos();
+        target.setPos(destX, destY);
         this.target = target;
     }
 
@@ -41,6 +42,6 @@ public class Attack extends Command {
 
     @Override
     public String toString() {
-        return "Attack " + target.getName();
+        return "Move to x:" + destX + " y:" + destY;
     }
 }

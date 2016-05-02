@@ -2,6 +2,7 @@ package model.gameModel;
 import java.util.*;
 
 import controller.GameController;
+import model.gameModel.skills.Attack;
 import resources.Consts;
 
 public class GameBoard {
@@ -127,19 +128,37 @@ public class GameBoard {
 	}
 
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
-		Entity t = gameBoard[xo][yo].getEntity();
-		t.setMoved();
-		gameBoard[xd][yd].setEntity(t);
+		Entity t = getBoardCell(xo, yo).getEntity();
+		//t.setMoved();
 
-		t.setPos(xd, yd);
-		gameBoard[xo][yo].resetEntity();
 
-		checkWeapon(xd, yd);
+		t.moveTo(t, xd, yd);
+		getBoardCell(xd, yd).setEntity(t);
+		getBoardCell(xo, yo).clearEntity();
+		System.out.println("x: " + t.getXPos() + " y:" + t.getYPos());
+		if(t.isUpgradable()) checkWeapon(xd, yd);
         checkTurn();
 	}
 
 	public void combat(Entity attacker, Point recipient) {
 		// TODO: to call attack function of attack and apply attacking to those recipients
+		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
+		System.out.println("Before invoke");
+		if(t == null) return;
+		attacker.attack(t);
+		//attacker.invokeSkill(new Attack(attacker.getStrength()), t);
+		System.out.println("hp:" + t.getCurrentHP());
+		if(t.getCurrentHP() <= 0) {
+			destroyEntity(recipient.x, recipient.y);
+		}
+		System.out.println("After");
+	}
+
+	private void destroyEntity(int x, int y) {
+		int i = controller.getTeamOnMove();
+		BoardCell cell = getBoardCell(x, y);
+		teamManager.getTeam(i).remove(cell.getEntity());
+		cell.clearEntity();
 
 	}
 
@@ -155,7 +174,7 @@ public class GameBoard {
 		int x = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
         int y = rand.nextInt(BSIZE-DIST-1) + (DIST/2);
 		Team team = teamManager.getTeam(0);
-		gameBoard[x][y].setEntity(team.get(0));
+		getBoardCell(x, y).setEntity(team.get(0));
 		team.get(0).setPos(x,y);
 
 		//Set all other human pieces
@@ -166,9 +185,9 @@ public class GameBoard {
 				a = rand.nextInt(DIST) + x - (DIST/2);
 				b = rand.nextInt(DIST) + y - (DIST/2);
 			} while( a >= BSIZE || b >= BSIZE || a < 0 || b < 0
-					|| gameBoard[a][b].getEntity() != null);
+					|| getBoardCell(a, b).getEntity() != null);
 			//set piece to that square
-			gameBoard[a][b].setEntity(team.get(i));
+			getBoardCell(a, b).setEntity(team.get(i));
 			team.get(i).setPos(a,b);
 		}
 	}
@@ -196,7 +215,7 @@ public class GameBoard {
 					} //valid square for checking if has entity already
 					else {
 						//square is not occupied
-						if(gameBoard[k][l].getEntity() == null){
+						if(getBoardCell(k, l).getEntity() == null){
 							clearSquares++;
 						}
 					}
@@ -206,7 +225,7 @@ public class GameBoard {
 
 		Team team = teamManager.getTeam(1);
 		//set Chief position
-		gameBoard[x][y].setEntity(team.get(0));
+		getBoardCell(x, y).setEntity(team.get(0));
 		team.get(0).setPos(x,y);
 		//Set all other human pieces
 		for(int i=1; i<team.size(); i++){
@@ -216,11 +235,15 @@ public class GameBoard {
 				a = rand.nextInt(DIST) + x - (DIST/2);
 				b = rand.nextInt(DIST) + y - (DIST/2);
 			} while(a >= BSIZE || b >= BSIZE || a < 0 || b < 0
-					|| gameBoard[a][b].getEntity() != null);
+					|| getBoardCell(a, b).getEntity() != null);
 			//set piece to that square
-			gameBoard[a][b].setEntity(team.get(i));
+			getBoardCell(a, b).setEntity(team.get(i));
 			team.get(i).setPos(a,b);
 		}
+	}
+
+	public  void updateBoard() {
+
 	}
 
 	//For debugging only
@@ -229,9 +252,9 @@ public class GameBoard {
 		String[][] consoleBoard = new String[BSIZE][BSIZE];
 		for(int i=0; i<BSIZE; i++){
 			for(int j=0; j<BSIZE; j++){
-				if(gameBoard[i][j].getEntity() != null){
+				if(getBoardCell(i, j).getEntity() != null){
 					consoleBoard[i][j] = " E ";
-				} else if(gameBoard[i][j].getWeapon() != null){
+				} else if(getBoardCell(i, j).getWeapon() != null){
 					consoleBoard[i][j] = " W ";
 				} else { consoleBoard[i][j] = " . "; }
 			}
@@ -255,63 +278,21 @@ public class GameBoard {
     private void checkTurn() {
         final int team = controller.getTeamOnMove();
         if(teamManager.isTeamsTurnFinished(team)) {
+			System.out.println("Team on move: " + team);
             teamManager.resetTeamMoved(team);
             controller.switchTurn();
         }
     }
 
 	private void checkWeapon(int x, int y) {
-		Weapon weapon = gameBoard[x][y].getWeapon();
+		Weapon weapon = getBoardCell(x, y).getWeapon();
 
 		if(weapon!=null) {
 			Entity target = gameBoard[x][y].getEntity();
-			if(controller.foundWeapon()) {
-				gameBoard[x][y].setEntity(changeProfession(target, weapon.getType()));
+			if(controller.foundWeapon(weapon.getName())) {
+				getBoardCell(x, y).setEntity(ProfessionManager.changeProfession(target, weapon.getType()));
+				getBoardCell(x, y).clearWeapon();
 			}
 		}
-	}
-
-	private Entity changeProfession(Entity target, Weapon.Weapons weapon) {
-		EntityFlyweightFactory fwFactory = GameBoard.fwFactory;
-		ProfessionTypes type = null;
-		switch(weapon) {
-			case CANNON:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.AREAATTACKER;
-				else
-					type = ProfessionTypes.SNIPER;
-				break;
-			case GUN:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.WARRIOR;
-				else
-					type = ProfessionTypes.TROLL;
-				break;
-			case MAGICALHANDS:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.MEDIC;
-				else
-					type = ProfessionTypes.WITCH;
-				break;
-			case SHIELD:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.DEFENDER;
-				else
-					type = ProfessionTypes.LADYLISA;
-				break;
-			case COMBATKIT:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.COMBATENGINEER;
-				else
-					type = ProfessionTypes.DRAGON;
-				break;
-			case FLAG:
-				if(target.getTeam() == Consts.HUMAN_TEAM_NUM)
-					type = ProfessionTypes.CHEERLEADER;
-				else
-					type = ProfessionTypes.GOBLIN;
-				break;
-		}
-		return fwFactory.createProfessionalEntity(type, target);
 	}
 }

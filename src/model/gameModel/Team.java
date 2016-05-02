@@ -13,11 +13,9 @@ public class Team implements TeamInterface {
     private ArrayList<Entity> members;
     private String race = null;;
     private TeamTypes type;
-    private boolean turnFlag;
 
     public Team(TeamTypes type) {
         this.type = type;
-        turnFlag = true;
         members = new ArrayList<Entity>();
         initialise();
         for (int i = 0; i < members.size(); i++) {
@@ -67,6 +65,10 @@ public class Team implements TeamInterface {
         return members.get(i);
     }
 
+    public void remove(Entity e) {
+        members.remove(e);
+    }
+
     @Override
     public ArrayList<Entity> getMembers() {
         return members;
@@ -74,16 +76,24 @@ public class Team implements TeamInterface {
 
     @Override
     public void resetTeamMoved() {
-        turnFlag = true;
+        for(Entity e: members) {
+            e.unsetMoved();
+        }
     }
 
     @Override
     public void setTeamMoved() {
-        turnFlag = false;
+        for(Entity e: members) {
+            e.setMoved();
+        }
     }
 
     @Override
     public boolean isTeamsTurnFinished() {
-        return turnFlag;
+        boolean finished = true;
+        for(Entity e: members) {
+            if(!e.isMoved()) finished = false;
+        }
+        return finished;
     }
 }

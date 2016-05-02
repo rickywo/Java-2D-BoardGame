@@ -41,9 +41,9 @@ public class MainPanel {
 
     }
 
-    public static boolean showConfirmDialog() {
+    public static boolean showConfirmDialog(String weaponName) {
         int result = JOptionPane.showConfirmDialog(null,
-                "Pickup Weapon",
+                "Pickup " + weaponName,
                 "Message",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);

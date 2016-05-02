@@ -97,8 +97,8 @@ public class GameController {
         MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
     }
 
-    public boolean foundWeapon () {
-        return MainPanel.showConfirmDialog();
+    public boolean foundWeapon (String weaponName) {
+        return MainPanel.showConfirmDialog(weaponName);
     }
 
     /**

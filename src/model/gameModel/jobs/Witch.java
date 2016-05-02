@@ -9,6 +9,7 @@ public class Witch extends ProfessionDecorator {
 	private final static int STRENGTH = 40;
 	private final static int DEFENSE = 10;
 	private final static int AGILITY = 2;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Twin Spell";
 	private final static String DESCRIPTION = "Simulateously heals team and "
 			+ "weakens enemy's defense";
@@ -24,6 +25,7 @@ public class Witch extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

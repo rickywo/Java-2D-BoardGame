@@ -9,6 +9,7 @@ public class Soldier extends Entity {
 	private final static int DEFENSE = 10;
 	private final static int AGILITY = 2;
 	private final static int ATTACK_RANGE = 1;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Attack";
 	private final static String DESCRIPTION = "Base member of Human Team";
 	
@@ -21,6 +22,7 @@ public class Soldier extends Entity {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setAttackRange(ATTACK_RANGE);
 		super.setDescription(DESCRIPTION);

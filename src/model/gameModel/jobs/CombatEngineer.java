@@ -9,6 +9,7 @@ public class CombatEngineer extends ProfessionDecorator {
 	private final static int STRENGTH = 40;
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 3;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Minefield";
 	private final static String DESCRIPTION = "The brains of the team, "
 			+ "employing sneaky tricks to sabotage enemies";
@@ -25,6 +26,7 @@ public class CombatEngineer extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}

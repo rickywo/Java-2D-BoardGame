@@ -1,7 +1,12 @@
 package model.gameModel;
 
+import model.gameModel.skills.Attack;
 import model.gameModel.skills.Command;
 import model.gameModel.skills.EntityActionInterface;
+import model.gameModel.skills.Move;
+
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class Entity implements EntityInterface, EntityActionInterface, Cloneable {
 
@@ -15,11 +20,15 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 	private int maxHP; //max HP
 	private int defense; // Defence
 	private String attackName; //name of primary attack
+	private boolean upgradable;
     private int attackRange; // Range of attack
 	private boolean moved;
 	private Weapon weapon;
 	private int xPos;	// x coordinates
 	private int yPos; //y coords
+
+	protected Deque<Command> undoStack = new LinkedList<Command>();
+	protected Deque<Command> redoStack = new LinkedList<Command>();
 
 	
 	public Entity(String name){
@@ -44,7 +53,7 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 
 	@Override
 	public void beAttacked(int damage) {
-		setCurrentHP(damage - this.defense);
+		setCurrentHP(getCurrentHP() - (damage - calculateDefenceFactor()));
 	}
 
 	public int getTeam() {
@@ -136,6 +145,14 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
     public int getAttackRange() {
         return this.attackRange;
     }
+
+	public boolean isUpgradable() {
+		return upgradable;
+	}
+
+	public void setUpgradable(boolean upgradable) {
+		this.upgradable = upgradable;
+	}
 	
 	public void setPos(int x, int y) {
 		this.xPos = x;
@@ -156,6 +173,16 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 
 	public void unsetMoved() {
 		moved = false;
+	}
+
+	protected int calculateDamage() {
+		int damage = getStrength();
+		return damage;
+	}
+
+	protected int calculateDefenceFactor() {
+		int factor = (getDefense() / 5);
+		return factor;
 	}
 
 	public boolean isMoved() {
@@ -181,12 +208,19 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 
 	@Override
 	public void attack(Entity target) {
-
+		int damage = calculateDamage();
+		Command attack = new Attack(damage);
+		attack.execute(target);
+		setMoved();
+		undoStack.offerLast(attack);
 	}
 
 	@Override
 	public void moveTo(Entity target, int x, int y) {
-
+		Command move = new Move(x, y);
+		move.execute(target);
+		setMoved();
+		undoStack.offerLast(move);
 	}
 
 	@Override
@@ -194,14 +228,30 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 
 	}
 
+	/**
+	 * Undo
+	 */
 	@Override
 	public void undoLastInvoke() {
-
+		if (!undoStack.isEmpty()) {
+			Command previousInvoke = undoStack.pollLast();
+			redoStack.offerLast(previousInvoke);
+			System.out.println(this + " undoes " + previousInvoke);
+			previousInvoke.undo();
+		}
 	}
 
+	/**
+	 * Redo
+	 */
 	@Override
 	public void redoLastInvoke() {
-
+		if (!redoStack.isEmpty()) {
+			Command previousInvoke = redoStack.pollLast();
+			undoStack.offerLast(previousInvoke);
+			System.out.println(this + " redoes " + previousInvoke);
+			previousInvoke.redo();
+		}
 	}
 
 	@Override
@@ -214,4 +264,5 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 				agility + ";" +
 				defense;
 	}
+
 }

@@ -9,6 +9,7 @@ public class Goblin extends ProfessionDecorator {
 	private final static int STRENGTH = 35;
 	private final static int DEFENSE = 10;
 	private final static int AGILITY = 2;
+	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Double Shot";
 	private final static String DESCRIPTION = 
 			"Attacks closest two enemies at once";
@@ -24,6 +25,7 @@ public class Goblin extends ProfessionDecorator {
 		super.setStrength(STRENGTH);
 		super.setAgility(AGILITY);
 		super.setDefense(DEFENSE);
+		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}
