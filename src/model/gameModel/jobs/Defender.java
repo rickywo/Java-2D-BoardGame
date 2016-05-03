@@ -29,4 +29,9 @@ public class Defender extends ProfessionDecorator {
 		super.setDescription(DESCRIPTION);
 	}
 
+	@Override
+	public void invoke(Entity target) {
+
+	}
+
 }

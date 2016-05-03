@@ -3,6 +3,7 @@ import java.util.*;
 
 import controller.GameController;
 import model.gameModel.skills.Attack;
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
 public class GameBoard {
@@ -129,29 +130,31 @@ public class GameBoard {
 
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
 		Entity t = getBoardCell(xo, yo).getEntity();
-		//t.setMoved();
-
-
 		t.moveTo(t, xd, yd);
 		getBoardCell(xd, yd).setEntity(t);
 		getBoardCell(xo, yo).clearEntity();
-		System.out.println("x: " + t.getXPos() + " y:" + t.getYPos());
 		if(t.isUpgradable()) checkWeapon(xd, yd);
         checkTurn();
 	}
 
 	public void combat(Entity attacker, Point recipient) {
-		// TODO: to call attack function of attack and apply attacking to those recipients
+		// TODO: to call attack function of attacker and apply attacking to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
-		System.out.println("Before invoke");
 		if(t == null) return;
 		attacker.attack(t);
-		//attacker.invokeSkill(new Attack(attacker.getStrength()), t);
-		System.out.println("hp:" + t.getCurrentHP());
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
-		System.out.println("After");
+	}
+
+	public void invoke(ProfessionDecorator attacker, Point recipient) {
+		// TODO: to call invoke function of attacker and apply skill attack to those recipients
+		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
+		if(t == null) return;
+		attacker.invoke(t);
+		if(t.getCurrentHP() <= 0) {
+			destroyEntity(recipient.x, recipient.y);
+		}
 	}
 
 	private void destroyEntity(int x, int y) {

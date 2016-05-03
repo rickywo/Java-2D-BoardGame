@@ -9,7 +9,7 @@ public final class Consts  {
     public static final int BOARD_WIDTH = 612;
     public static final int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
-    public static final int BSIZE = 18;
+    public static final int BSIZE = 12;
     // Number of Teams
     public static final int NUM_TEAMS = 2;
     public static final int HUMAN_TEAM_NUM = 0;
@@ -46,13 +46,16 @@ public final class Consts  {
     // Game functional settings
     public static final int DIST = 4;
     public static final int NUM_PIECES_PER_TEAM = 4;
-    public static final int NUM_WEAPONS = 100;
+    public static final int NUM_WEAPONS = 80;
     public static final int INIT_STEPS = 1;
 
     // Game variables
     public static final int MENU_DISPLAY = 0;
     public static final int STORY_TELLING = 1;
     public static final int GAME_PLAYING = 2;
+
+    public static final int ATTACK_MODE = 0;
+    public static final int INVOKE_MODE = 1;
     /**
      The caller references the constants using <tt>Consts.EMPTY_STRING</tt>,
      and so on. Thus, the caller should be prevented from constructing objects of

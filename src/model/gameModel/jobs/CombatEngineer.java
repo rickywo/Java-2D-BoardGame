@@ -30,4 +30,9 @@ public class CombatEngineer extends ProfessionDecorator {
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}
+
+	@Override
+	public void invoke(Entity target) {
+
+	}
 }

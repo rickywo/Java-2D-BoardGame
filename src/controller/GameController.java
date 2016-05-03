@@ -3,6 +3,7 @@ package controller;
 import model.gameModel.*;
 
 import model.gameModel.Point;
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 import sun.applet.Main;
 import view.Rectmech;
@@ -87,6 +88,11 @@ public class GameController {
     public void doAttack(Point point) {
         gameBoard.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
     }
+
+    public void invoke(Point point) {
+        gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+    }
+
 
     public BoardCell getBoardCell(int x, int y) {
         return gameBoard.getBoardCell(x, y);

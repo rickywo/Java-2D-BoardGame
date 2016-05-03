@@ -43,7 +43,16 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
 
             if (t != null) {
                 // Do nothing if this piece is moved
-                panel.attack(p);
+                switch (panel.getAttackMode()) {
+                    case Consts.INVOKE_MODE:
+                        panel.invoke(p);
+                        break;
+                    case Consts.ATTACK_MODE:
+                    default:
+                        panel.attack(p);
+                        break;
+                }
+
                 return;
             } else {
                 // matrixValue == -1 means this cell is selectable

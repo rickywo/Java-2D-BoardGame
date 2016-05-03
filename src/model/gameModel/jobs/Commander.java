@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import model.gameModel.skills.Attack;
 import model.gameModel.skills.ProfessionDecorator;
 
 public class Commander extends ProfessionDecorator {
@@ -9,7 +10,7 @@ public class Commander extends ProfessionDecorator {
 	private final static int STRENGTH = 30;
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 3;
-	private final static int ATTACK_RANGE = 0;
+	private final static int ATTACK_RANGE = 10;
 	private final static boolean UPGRADABLE = false;
 	private final static String ATTACK_NAME = "Charge";
 	private final static String DESCRIPTION = "Leader of Human Team";
@@ -30,6 +31,10 @@ public class Commander extends ProfessionDecorator {
 		super.setAttackName(ATTACK_NAME);
 		super.setAttackRange(ATTACK_RANGE);
 		super.setDescription(DESCRIPTION);
+	}
+
+	public void invoke(Entity target) {
+		invokeSkill(new Attack(40),target);
 	}
 
 }

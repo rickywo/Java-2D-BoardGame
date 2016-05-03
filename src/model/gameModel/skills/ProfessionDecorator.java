@@ -21,6 +21,8 @@ public abstract class ProfessionDecorator extends Entity {
         this.entity = entity;
     }
 
+    public abstract void invoke(Entity target);
+
     public void invokeSkill(Command command, Entity target) {
         //System.out.println(this + " invoke " + command + " at " + target);
         command.execute(target);

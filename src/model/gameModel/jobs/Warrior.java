@@ -31,4 +31,9 @@ public class Warrior extends ProfessionDecorator {
 	
 	}
 
+	@Override
+	public void invoke(Entity target) {
+
+	}
+
 }

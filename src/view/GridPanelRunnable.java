@@ -33,6 +33,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private GameScreen screen;
     private int showAttackSec = 70;
     private Point cellBeingAttack;
+    private int attackMode = Consts.ATTACK_MODE;
 
 
     public GridPanelRunnable(GameController gameController) {
@@ -128,14 +129,20 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         g.dispose();
         bs.show();
     }
+
     public void start() {
         running = true;
         new Thread(this).start();
         MainPanel.showVerbose("Game Start", 5000);
     }
+
     public void stop() {
         if (!running) return;
         running = false;
+    }
+
+    public int getAttackMode() {
+        return attackMode;
     }
     /***************************************************************************
      * Name: paintComponent(Graphics g) Parameters: (g) : the graphics context
@@ -222,6 +229,14 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         setScreenLock(true);
         int range = GameController.singleton().attackHandler(p);
         setSelectableMatrix(p.x, p.y, range, true);
+        attackMode = Consts.ATTACK_MODE;
+    }
+
+    private void beforeInvoke(Point p) {
+        setScreenLock(true);
+        int range = GameController.singleton().invokeHandler(p);
+        setSelectableMatrix(p.x, p.y, range, true);
+        attackMode = Consts.INVOKE_MODE;
     }
 
     /********************************************************************
@@ -241,6 +256,15 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     public void attack(Point p) {
         setScreenLock(false);
         GameController.singleton().doAttack(p);
+        resetMaskMatrix();
+        cellBeingAttack = p;
+        System.out.println("Attack cell x: " + p.x + " y:" + p.y);
+        showAttackSec = 70;
+    }
+
+    public void invoke(Point p) {
+        setScreenLock(false);
+        GameController.singleton().invoke(p);
         resetMaskMatrix();
         cellBeingAttack = p;
         System.out.println("Attack cell x: " + p.x + " y:" + p.y);
@@ -318,6 +342,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getActionCommand());
                 if(e.getActionCommand().compareTo(Consts.MOVE) == 0) {
                     movePiece(p);
                 }
@@ -327,6 +352,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                 }
                 if(e.getActionCommand().compareTo(Consts.INVOKE) == 0) {
                     System.out.println(attackName);
+                    beforeInvoke(p);
                 }
 
             }
@@ -338,19 +364,17 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         MenuItem attackMenuItem = new MenuItem(Consts.ATTACK);
         attackMenuItem.setActionCommand(Consts.ATTACK);
 
-        MenuItem invokeMenuItem = null;
-        if(attackName.compareTo(Consts.ATTACK) != 0) {
-            invokeMenuItem = new MenuItem(attackName);
-            invokeMenuItem.setActionCommand(Consts.INVOKE);
-        }
+        MenuItem invokeMenuItem = new MenuItem(attackName);
+        invokeMenuItem.setActionCommand(Consts.INVOKE);
+
 
 
         moveMenuItem.addActionListener(al);
         attackMenuItem.addActionListener(al);
-
+        invokeMenuItem.addActionListener(al);
         editMenu.add(moveMenuItem);
         editMenu.add(attackMenuItem);
-        if(invokeMenuItem != null) {
+        if(attackName.compareTo(Consts.ATTACK) != 0) {
             editMenu.add(invokeMenuItem);
         }
         add(editMenu);

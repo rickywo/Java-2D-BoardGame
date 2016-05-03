@@ -29,4 +29,9 @@ public class Witch extends ProfessionDecorator {
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
 	}
+
+	@Override
+	public void invoke(Entity target) {
+
+	}
 }

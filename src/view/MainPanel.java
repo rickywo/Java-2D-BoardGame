@@ -26,7 +26,8 @@ public class MainPanel {
 
     private void createAndShowGUI() {
         JFrame frame = new JFrame("Human vs Alien");
-
+        JMenuBar menuBar = new SystemMenu(frame);
+        frame.setJMenuBar(menuBar);
         Container content = frame.getContentPane();
         content.add(gameview);
         frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
