@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import resources.Consts;
 
 public class Spawn extends Entity {
 	private final static int TEAM = 1;
@@ -10,7 +11,7 @@ public class Spawn extends Entity {
 	private final static int AGILITY = 2;
 	private final static int ATTACK_RANGE = 1;
 	private final static boolean UPGRADABLE = true;
-	private final static String ATTACK_NAME = "Fight";
+	private final static String ATTACK_NAME = Consts.ATTACK;
 	private final static String DESCRIPTION = "Base member of Alien Team";
 	
 	public Spawn(String name) {

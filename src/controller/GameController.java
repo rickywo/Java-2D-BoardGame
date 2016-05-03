@@ -64,6 +64,12 @@ public class GameController {
 
     public int attackHandler(Point point) {
         curMoveCell = gameBoard.getBoardCell(point.x, point.y);
+        // return curMoveCell.getEntity().getAttackRange();
+        return 1;
+    }
+
+    public int invokeHandler(Point point) {
+        curMoveCell = gameBoard.getBoardCell(point.x, point.y);
         return curMoveCell.getEntity().getAttackRange();
     }
 

@@ -14,6 +14,7 @@ public class ImageManager {
     private static final String BACKGROUND = "background/";
     private static final String BGIMAGE = "background.png";
 	private static final String CHARACTERS = "characters/";
+	private static final String WEAPONS = "weapons/";
 	private static final String RESOURCE_PATH = "/resources/";
 	
 	//set to 1.0 for non-Retina image instances
@@ -68,6 +69,12 @@ public class ImageManager {
 		String filename = name + ".png";
 
 		return getImage(RESOURCE_PATH+CHARACTERS+filename);
+	}
+
+	public static BufferedImage getAttackEffect(String name) {
+		String filename = name + ".png";
+
+		return getImage(RESOURCE_PATH+WEAPONS+filename);
 	}
 
 	public static ImageIcon getIcon(String name) {

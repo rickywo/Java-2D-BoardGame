@@ -9,7 +9,7 @@ public class Chief extends ProfessionDecorator {
 	private final static int STRENGTH = 30;
 	private final static int DEFENSE = 15;
 	private final static int AGILITY = 3;
-	private final static int ATTACK_RANGE = 0;
+	private final static int ATTACK_RANGE = 1;
 	private final static boolean UPGRADABLE = false;
 	private final static String ATTACK_NAME = "Command";
 	private final static String DESCRIPTION = "Leader of Alien Team";

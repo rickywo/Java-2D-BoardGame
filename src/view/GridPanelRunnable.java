@@ -31,6 +31,8 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private boolean screenLock; // Lock screen for moving pieces
     MxMouseListener ml;
     private GameScreen screen;
+    private int showAttackSec = 70;
+    private Point cellBeingAttack;
 
 
     public GridPanelRunnable(GameController gameController) {
@@ -66,6 +68,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
             lastTime = now;
 
             if (unprocessed >= 1.0) {
+                tick();
                 //MxMouseListener.update();
                 unprocessed--;
                 tps++;
@@ -92,6 +95,10 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         }
     }
 
+    private void tick() {
+        showAttackSec -- ;
+    }
+
     private void render() {
         // TODO: if game state == PLAYING, render current game state
         // if game state == STORY, render game story
@@ -114,7 +121,9 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
         g.drawImage(screen.image, 0,0, Consts.SCR_WIDTH,Consts.SCR_HEIGHT,null);
         paint(g2d);
-
+        if(showAttackSec > 0 && cellBeingAttack != null) {
+            renderAttackEffect(g2d);
+        }
         ////////////////////////////////////////////////
         g.dispose();
         bs.show();
@@ -137,6 +146,10 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
         renderMaskMatrix(g2);
 
+    }
+
+    private void renderAttackEffect(Graphics2D g2d) {
+        MainPanel.showAttackIcon(g2d, cellBeingAttack.x, cellBeingAttack.y, showAttackSec / 20);
     }
 
     /********************************************************************
@@ -229,6 +242,9 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         setScreenLock(false);
         GameController.singleton().doAttack(p);
         resetMaskMatrix();
+        cellBeingAttack = p;
+        System.out.println("Attack cell x: " + p.x + " y:" + p.y);
+        showAttackSec = 70;
     }
 
     private int dist(int x, int y, int x1, int y1) {

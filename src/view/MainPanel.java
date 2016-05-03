@@ -1,9 +1,13 @@
 package view;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import javax.swing.*;
 
 import controller.GameController;
+import model.graphicModel.Art;
+import model.graphicModel.ImageManager;
 import resources.Consts;
 
 
@@ -53,5 +57,25 @@ public class MainPanel {
             default:
                 return false;
         }
+    }
+
+    public static void showAttackIcon(final Graphics2D g2, int x, int y, int i) {
+        System.out.println("Mainpanel Attack cell x: " + x + " y:" + y);
+        BufferedImage image = null;
+        switch(i) {
+            case 0:
+                image = ImageManager.getAttackEffect("sword3");
+                break;
+            case 1:
+                image = ImageManager.getAttackEffect("sword2");
+                break;
+            case 3:
+                image = ImageManager.getAttackEffect("sword1");
+                break;
+            default:
+                break;
+        }
+        Rectmech.draw(x,y, image, g2);
+
     }
 }
