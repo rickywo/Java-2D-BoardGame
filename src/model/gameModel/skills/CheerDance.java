@@ -42,8 +42,4 @@ public class CheerDance extends Command {
     public String toString() {
         return "Cheer " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
 }

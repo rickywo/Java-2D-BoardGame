@@ -36,8 +36,4 @@ public class LongLaser extends Command {
     public String toString() {
         return "Long Laser " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
 }

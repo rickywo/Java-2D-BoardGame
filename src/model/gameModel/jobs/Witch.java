@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -11,8 +11,9 @@ public class Witch extends ProfessionDecorator {
 	private final static int AGILITY = 2;
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Twin Spell";
-	private final static String DESCRIPTION = "Simulateously heals team and "
-			+ "weakens enemy's defense";
+	private final static String DESCRIPTION = "Restores HP to max and raises "
+			+ "strength and defense";
+	private final static int AMOUNT = 15;
 	
 	public Witch(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +33,6 @@ public class Witch extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new TwinSpell(AMOUNT), target);
 	}
 }

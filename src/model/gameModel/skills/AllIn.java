@@ -37,10 +37,4 @@ public class AllIn extends Command {
     public String toString() {
         return "All In " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-		
-		
-	}
 }

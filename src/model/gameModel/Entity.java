@@ -56,18 +56,6 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 		setCurrentHP(getCurrentHP() - (damage - calculateDefenceFactor()));
 	}
 	
-	@Override
-	public void beAttacked(int hpDamage, int strengthDamage, int defenseDamage) {
-		setCurrentHP(getCurrentHP() - (hpDamage - calculateDefenceFactor()));
-		setStrength(getStrength() - strengthDamage);
-		if(getStrength() < 0){
-			setStrength(0);
-		}
-		setDefense(getDefense() - defenseDamage);
-		if(getStrength() < 0){
-			setStrength(0);
-		}
-	}
 	
 	@Override
 	public void beHealed(int amount) {
@@ -94,6 +82,22 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 		setDefense(getDefense() - damage);
 		if(getDefense() < 0){
 			setDefense(0);
+		}
+	}
+	
+	@Override
+	public void beAgilityAttacked(int damage){
+		setAgility(getAgility() - damage);
+		if(getAgility() < 0){
+			setAgility(0);
+		}
+	}
+	
+	@Override
+	public void beStrengthAttacked(int damage){
+		setStrength(getStrength() - damage);
+		if(getStrength() < 0){
+			setAgility(0);
 		}
 	}
 
@@ -267,11 +271,6 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 	@Override
 	public void invokeSkill(Command command, Entity target) {
 
-	}
-	
-	@Override
-	public void invokeSkill(Command command, Entity[] targets){
-		
 	}
 
 	/**

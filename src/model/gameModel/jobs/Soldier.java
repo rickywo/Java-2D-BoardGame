@@ -1,5 +1,4 @@
 package model.gameModel.jobs;
-
 import model.gameModel.Entity;
 import resources.Consts;
 

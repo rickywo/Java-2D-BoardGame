@@ -14,6 +14,7 @@ public class Commander extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = false;
 	private final static String ATTACK_NAME = "Charge";
 	private final static String DESCRIPTION = "Leader of Human Team";
+	private final static int DAMAGE = 40;
 	
 	public Commander(String name, Entity entity) {
 		super(name, entity);
@@ -34,7 +35,7 @@ public class Commander extends ProfessionDecorator {
 	}
 
 	public void invoke(Entity target) {
-		invokeSkill(new Attack(40),target);
+		invokeSkill(new Attack(DAMAGE),target);
 	}
 
 }

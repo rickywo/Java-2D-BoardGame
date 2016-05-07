@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -13,6 +13,7 @@ public class Medic extends ProfessionDecorator {
 	private final static String ATTACK_NAME = "Heal";
 	private final static String DESCRIPTION = 
 			"White magic healer";
+	private final static int AMOUNT = 50;
 	
 	public Medic(String name, Entity entity) {
 		super(name, entity);
@@ -32,7 +33,7 @@ public class Medic extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new Heal(50), target);
 	}
 
 }

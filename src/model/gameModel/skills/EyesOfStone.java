@@ -2,49 +2,41 @@ package model.gameModel.skills;
 
 import model.gameModel.Entity;
 
-//TODO - makes enemies retreat
 public class EyesOfStone extends Command {
-    private int steps;
-    private Entity[] targets;
 
-    public EyesOfStone(int steps) {
-        this.steps = steps;
+    private Entity target;
+    private int remainder;
+
+    public EyesOfStone(int remainder) {
+    	this.remainder = remainder;
     }
 
     @Override
-    public void execute(Entity[] targets) {
+    public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-    	this.targets = targets;
-        System.out.println("Enemies retreat by " + steps + " steps");
-        //target.beAttacked(damage);
-        
+    	this.target = target;
+        System.out.println("Damage: " + (target.getCurrentHP() - remainder));
+        target.setCurrentHP(remainder);
     }
 
     @Override
     public void undo() {
-        if (targets != null) {
+        if (target != null) {
             //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
-        if (targets != null) {
+        if (target != null) {
             //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 
     @Override
     public String toString() {
-    	String string = "";
-        for(Entity target : targets) {
-        	string.concat(target.getName() + " ");
-        }
-    	return "Eyes of Stone " + string;
+    	return "Eyes of Stone " + target.getName();
     }
 
-	@Override
-	public void execute(Entity target) {
-	}
 }
 

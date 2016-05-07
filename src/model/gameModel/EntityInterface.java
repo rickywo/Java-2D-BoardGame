@@ -7,8 +7,6 @@ public interface EntityInterface {
 
 	void beAttacked(int damage);
 	
-	void beAttacked(int hpDamage, int strengthDamage, int defenseDamage);
-	
 	void beHealed (int amount);
 	
 	void beDefended (int amount);
@@ -16,6 +14,10 @@ public interface EntityInterface {
 	void beCheered(int strengthAmt, int defenseAmt, int agilityAmt);
 	
 	void beDefenseAttacked(int damage);
+	
+	void beAgilityAttacked(int damage);
+	
+	void beStrengthAttacked(int damage);
 
 	int getTeam();
 

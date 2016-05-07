@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -13,6 +13,7 @@ public class Sniper extends ProfessionDecorator {
 	private final static String ATTACK_NAME = "Long Laser";
 	private final static String DESCRIPTION = "Specialises in pin pointed "
 			+ "long range attacks";
+	private final static int DAMAGE = 30;
 	
 	public Sniper(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +33,6 @@ public class Sniper extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new LongLaser(DAMAGE), target);
 	}
 }

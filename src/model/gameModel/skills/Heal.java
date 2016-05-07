@@ -39,9 +39,4 @@ public class Heal extends Command {
     public String toString() {
         return "Heal " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
-
 }
