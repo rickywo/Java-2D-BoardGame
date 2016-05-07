@@ -71,6 +71,11 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 	}
 	
 	@Override
+	public void beStrengthened(int amount){
+		setStrength(getStrength() + amount);
+	}
+	
+	@Override
 	public void beCheered(int strengthAmt, int defenseAmt, int agilityAmt) {
 		setStrength(getStrength() + strengthAmt);
 		setDefense(getDefense() + defenseAmt);

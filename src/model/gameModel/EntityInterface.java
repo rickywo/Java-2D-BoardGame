@@ -11,6 +11,8 @@ public interface EntityInterface {
 	
 	void beDefended (int amount);
 	
+	void beStrengthened(int amount);
+	
 	void beCheered(int strengthAmt, int defenseAmt, int agilityAmt);
 	
 	void beDefenseAttacked(int damage);

@@ -16,10 +16,10 @@ public class TwinSpell extends Command {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
         System.out.println("Restoring HP to maximum, raising strength "
-        		+ "and defense to: " + amount);
+        		+ "and defense by: " + amount);
         target.setCurrentHP(target.getMaxHP());
-        target.setDefense(amount);
-        target.setStrength(amount);
+        target.beDefended(amount);
+        target.beStrengthened(amount);
     }
 	
     @Override

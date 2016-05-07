@@ -88,6 +88,11 @@ public abstract class ProfessionDecorator extends Entity {
 	}
 	
 	@Override
+	public void beStrengthened(int amount){
+		setStrength(getStrength() + amount);
+	}
+	
+	@Override
 	public void beCheered(int strengthAmt, int defenseAmt, int agilityAmt) {
 		setStrength(getStrength() + strengthAmt);
 		setDefense(getDefense() + defenseAmt);
