@@ -2,47 +2,46 @@ package model.gameModel.skills;
 
 import model.gameModel.Entity;
 
-//TODO - surrounds enemies with lightning quick speed
 public class HigherPower extends Command {
 	
-    private Entity[] targets;
-
-    public HigherPower() {
+    private Entity target;
+    private int strengthDamage;
+    private int defenseDamage;
+    
+    public HigherPower(int strengthDamage, int defenseDamage) {
+    	this.strengthDamage = strengthDamage;
+    	this.defenseDamage = defenseDamage;
     }
 
-    @Override
-    public void execute(Entity[] targets) {
+	@Override
+	public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-    	this.targets = targets;
-        System.out.println("Surrounding enemies");
-//        target.beAttacked(damage);
-        
-    }
-
+    	this.target = target;
+        System.out.println("Strength Damage: " + strengthDamage);
+        System.out.println("Defense Damage: " + defenseDamage);
+        target.beStrengthAttacked(strengthDamage);
+        target.beDefenseAttacked(defenseDamage);
+  
+	}
+    
     @Override
     public void undo() {
-        if (targets != null) {
+        if (target != null) {
             //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
-        if (targets != null) {
+        if (target != null) {
             //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 
     @Override
     public String toString() {
-	  String string = "";
-      for(Entity target : targets) {
-      	string.concat(target.getName() + " ");
-      }
-    	return "Higher Power " + string;
+    	return "Higher Power " + target.getName();
     }
 
-	@Override
-	public void execute(Entity target) {
-	}
+
 }

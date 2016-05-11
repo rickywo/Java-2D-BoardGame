@@ -13,9 +13,6 @@ public abstract class ProfessionDecorator extends Entity {
 
     private Entity entity;
 
-
-
-
     public ProfessionDecorator(String name, Entity entity) {
         super(name);
         this.entity = entity;
@@ -78,19 +75,6 @@ public abstract class ProfessionDecorator extends Entity {
     }
     
 	@Override
-	public void beAttacked(int hpDamage, int strengthDamage, int defenseDamage) {
-		setCurrentHP(getCurrentHP() - (hpDamage - calculateDefenceFactor()));
-		setStrength(getStrength() - strengthDamage);
-		if(getStrength() < 0){
-			setStrength(0);
-		}
-		setDefense(getDefense() - defenseDamage);
-		if(getStrength() < 0){
-			setStrength(0);
-		}
-	}
-    
-	@Override
 	public void beHealed(int amount) {
 		setCurrentHP(getCurrentHP() + amount);
 		if(getCurrentHP() > getMaxHP()) {
@@ -101,6 +85,11 @@ public abstract class ProfessionDecorator extends Entity {
 	@Override
 	public void beDefended(int amount) {
 		setDefense(getDefense() + amount);
+	}
+	
+	@Override
+	public void beStrengthened(int amount){
+		setStrength(getStrength() + amount);
 	}
 	
 	@Override
@@ -115,6 +104,22 @@ public abstract class ProfessionDecorator extends Entity {
 		setDefense(getDefense() - damage);
 		if(getDefense() < 0){
 			setDefense(0);
+		}
+	}
+	
+	@Override
+	public void beAgilityAttacked(int damage){
+		setAgility(getAgility() - damage);
+		if(getAgility() < 0){
+			setAgility(0);
+		}
+	}
+	
+	@Override
+	public void beStrengthAttacked(int damage){
+		setStrength(getStrength() - damage);
+		if(getStrength() < 0){
+			setAgility(0);
 		}
 	}
 

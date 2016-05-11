@@ -43,9 +43,4 @@ public class Attack extends Command {
     public String toString() {
         return "Attack " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-		
-	}
 }

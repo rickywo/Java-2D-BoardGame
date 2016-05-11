@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -12,7 +12,7 @@ public class Dragon extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Higher Power";
 	private final static String DESCRIPTION = 
-			"Quickly surrounds enemies with lightning quick speed";
+			"Sets strength and defense to zero";
 	
 	public Dragon(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +32,7 @@ public class Dragon extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new HigherPower(target.getStrength(), 
+				target.getDefense()), target);
 	}
 }

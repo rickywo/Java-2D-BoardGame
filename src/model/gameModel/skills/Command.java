@@ -8,8 +8,6 @@ import model.gameModel.Entity;
 public abstract class Command {
 
     public abstract void execute(Entity target);
-    
-    public abstract void execute(Entity[] targets);
 
     public abstract void undo();
 

@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import model.gameModel.skills.AreaBlast;
 import model.gameModel.skills.ProfessionDecorator;
 
 public class AreaAttacker extends ProfessionDecorator {
@@ -12,7 +13,8 @@ public class AreaAttacker extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Area Blast";
 	private final static String DESCRIPTION = 
-			"Attacks enemies within a wide radius";
+			"Attacks HP, strength and defense";
+	private final static int DAMAGE = 10;
 	
 	public AreaAttacker(String name, Entity entity) {
 		super(name, entity);
@@ -32,7 +34,7 @@ public class AreaAttacker extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new AreaBlast(DAMAGE),target);
 	}
 
 }

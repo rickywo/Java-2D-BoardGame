@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -13,6 +13,7 @@ public class Warrior extends ProfessionDecorator {
 	private final static String ATTACK_NAME = "All In";
 	private final static String DESCRIPTION = 
 			"Close combat specialist, slow but strong";
+	private final static int DAMAGE = 100;
 	
 	public Warrior(String name, Entity entity) {
 		super(name, entity);
@@ -28,12 +29,11 @@ public class Warrior extends ProfessionDecorator {
 		super.setUpgradable(UPGRADABLE);
 		super.setAttackName(ATTACK_NAME);
 		super.setDescription(DESCRIPTION);
-	
 	}
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new AllIn(DAMAGE), target);
 	}
 
 }

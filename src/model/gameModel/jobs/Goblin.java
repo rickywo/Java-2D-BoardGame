@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -12,7 +12,8 @@ public class Goblin extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Double Shot";
 	private final static String DESCRIPTION = 
-			"Attacks closest two enemies at once";
+			"Sets defense to zero and attacks HP";
+	private final static int DAMAGE = 40;
 	
 	public Goblin(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +33,6 @@ public class Goblin extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new DoubleShot(target.getDefense(), DAMAGE), target);
 	}
 }

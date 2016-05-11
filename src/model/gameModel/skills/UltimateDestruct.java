@@ -39,8 +39,4 @@ public class UltimateDestruct extends Command {
     public String toString() {
         return "Ultimate Destruct " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
 }

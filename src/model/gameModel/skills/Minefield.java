@@ -22,7 +22,9 @@ public class Minefield extends Command {
         System.out.println("HP Damage:" + hpDamage);
         System.out.println("Strength Damage:" + strengthDamage);
         System.out.println("Defense Damage:" + defenseDamage);
-        target.beAttacked(hpDamage, strengthDamage, defenseDamage);
+        target.beAttacked(hpDamage);
+        target.beStrengthAttacked(strengthDamage);
+        target.beDefenseAttacked(defenseDamage);
     }
 
     @Override
@@ -43,8 +45,4 @@ public class Minefield extends Command {
     public String toString() {
         return "Minefield " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
 }

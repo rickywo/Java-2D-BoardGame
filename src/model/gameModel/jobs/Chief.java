@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -13,6 +13,7 @@ public class Chief extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = false;
 	private final static String ATTACK_NAME = "Command";
 	private final static String DESCRIPTION = "Leader of Alien Team";
+	private final static int DAMAGE = 40;
 	
 	public Chief(String name, Entity entity) {
 		super(name, entity);
@@ -33,6 +34,6 @@ public class Chief extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new Attack(DAMAGE), target);
 	}
 }

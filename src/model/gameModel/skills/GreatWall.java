@@ -39,8 +39,4 @@ public class GreatWall extends Command {
     public String toString() {
         return "Great Wall " + target.getName();
     }
-
-	@Override
-	public void execute(Entity[] targets) {
-	}
 }

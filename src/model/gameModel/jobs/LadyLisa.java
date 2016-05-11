@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -12,7 +12,8 @@ public class LadyLisa extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Eyes of Stone";
 	private final static String DESCRIPTION = 
-			"A Madusa with special ability to make enemies retreat";
+			"Drains enemy HP until 1 HP";
+	private final static int REMAINDER = 1;
 	
 	public LadyLisa(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +33,6 @@ public class LadyLisa extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new EyesOfStone(REMAINDER), target);
 	}
 }

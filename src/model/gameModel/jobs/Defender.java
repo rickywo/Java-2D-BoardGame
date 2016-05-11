@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -12,6 +12,7 @@ public class Defender extends ProfessionDecorator {
 	private final static boolean UPGRADABLE = true;
 	private final static String ATTACK_NAME = "Great Wall";
 	private final static String DESCRIPTION = "Honorable shield of the team";
+	private final static int AMOUNT = 50;
 	
 	public Defender(String name, Entity entity) {
 		super(name, entity);
@@ -31,7 +32,7 @@ public class Defender extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new GreatWall(AMOUNT), target);
 	}
 
 }

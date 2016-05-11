@@ -1,5 +1,5 @@
 package model.gameModel.jobs;
-
+import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -13,6 +13,7 @@ public class Troll extends ProfessionDecorator {
 	private final static String ATTACK_NAME = "Ultimate Destruct";
 	private final static String DESCRIPTION = 
 			"Very destructive but incredibly slow";
+	private final static int DAMAGE = 125;
 	
 	public Troll(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +33,6 @@ public class Troll extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new UltimateDestruct(DAMAGE), target);
 	}
 }

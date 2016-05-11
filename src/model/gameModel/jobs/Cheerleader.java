@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import model.gameModel.skills.CheerDance;
 import model.gameModel.skills.ProfessionDecorator;
 
 public class Cheerleader extends ProfessionDecorator {
@@ -13,6 +14,9 @@ public class Cheerleader extends ProfessionDecorator {
 	private final static String ATTACK_NAME = "Cheer Dance";
 	private final static String DESCRIPTION = 
 			"Boosts the team's morale and stats";
+	private final static int STRENGTH_AMOUNT = 10;
+	private final static int DEFENSE_AMOUNT = 10;
+	private final static int AGILITY_AMOUNT = 1;
 	
 	public Cheerleader(String name, Entity entity) {
 		super(name, entity);
@@ -32,6 +36,7 @@ public class Cheerleader extends ProfessionDecorator {
 
 	@Override
 	public void invoke(Entity target) {
-
+		invokeSkill(new CheerDance(STRENGTH_AMOUNT, DEFENSE_AMOUNT, 
+				AGILITY_AMOUNT),target);
 	}
 }
