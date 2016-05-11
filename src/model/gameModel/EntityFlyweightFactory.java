@@ -3,6 +3,8 @@ package model.gameModel;
 
 import model.gameModel.jobs.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.Map;
 /**
@@ -11,7 +13,7 @@ import java.util.Map;
 public class EntityFlyweightFactory {
 
     
-
+    private static final String JOB_CLASS_URL_PREFIX = "model.gameModel.jobs.";
     /**
      *
      * EntityFlyweightFactory. It minimizes memory use by sharing object
@@ -49,67 +51,25 @@ public class EntityFlyweightFactory {
     Entity createProfessionalEntity(ProfessionTypes type, Entity soldier) {
         Entity prototype = entities.get(type);
         if (prototype == null) {
-            switch (type) {
-                case COMMANDER:
-                    prototype = new Commander(ProfessionTypes.COMMANDER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case MEDIC:
-                    prototype = new Medic(ProfessionTypes.MEDIC.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case AREAATTACKER:
-                    prototype = new AreaAttacker(ProfessionTypes.AREAATTACKER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case WARRIOR:
-                    prototype = new Warrior(ProfessionTypes.WARRIOR.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case DEFENDER:
-                    prototype = new Defender(ProfessionTypes.DEFENDER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case COMBATENGINEER:
-                    prototype = new CombatEngineer(ProfessionTypes.COMBATENGINEER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case CHEERLEADER:
-                    prototype = new Cheerleader(ProfessionTypes.CHEERLEADER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case CHIEF:
-                    prototype = new Chief(ProfessionTypes.CHIEF.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-
-                case LADYLISA:
-                    prototype = new LadyLisa(ProfessionTypes.LADYLISA.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case WITCH:
-                    prototype = new Witch(ProfessionTypes.WITCH.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case GOBLIN:
-                    prototype = new Goblin(ProfessionTypes.GOBLIN.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case SNIPER:
-                    prototype = new Sniper(ProfessionTypes.SNIPER.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case TROLL:
-                    prototype = new Troll(ProfessionTypes.TROLL.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                case DRAGON:
-                    prototype = new Dragon(ProfessionTypes.DRAGON.getCharacterName(), soldier);
-                    entities.put(type, prototype);
-                    break;
-                default:
-                    break;
+            try {
+                ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                Class<Entity> _tempClass = (Class<Entity>) classLoader.loadClass(JOB_CLASS_URL_PREFIX + type.getCharacterName());
+                Constructor<Entity> e = _tempClass.getDeclaredConstructor(String.class, Entity.class);
+                prototype = e.newInstance(type.getCharacterName(), soldier);
+                entities.put(type, prototype);
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
+
+
         }
         return (Entity) prototype.clone();
     }

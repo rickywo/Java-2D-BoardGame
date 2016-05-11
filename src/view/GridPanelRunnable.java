@@ -258,7 +258,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         GameController.singleton().doAttack(p);
         resetMaskMatrix();
         cellBeingAttack = p;
-        System.out.println("Attack cell x: " + p.x + " y:" + p.y);
         showAttackSec = 70;
     }
 
@@ -267,7 +266,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         GameController.singleton().invoke(p);
         resetMaskMatrix();
         cellBeingAttack = p;
-        System.out.println("Attack cell x: " + p.x + " y:" + p.y);
         showAttackSec = 70;
     }
 
@@ -292,7 +290,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                 if (isEntitySelectable) {
                     if(cell.getEntity() == null) {
                         maskMatrix[i][j] = 1;
-                        System.out.println("Attack range: " +range);
                     }
                 } else {
                     if(cell.getEntity() != null) {
@@ -342,16 +339,13 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(e.getActionCommand());
                 if(e.getActionCommand().compareTo(Consts.MOVE) == 0) {
                     movePiece(p);
                 }
                 if(e.getActionCommand().compareTo(Consts.ATTACK) == 0) {
-                    System.out.println(Consts.ATTACK);
                     beforeAttack(p);
                 }
                 if(e.getActionCommand().compareTo(Consts.INVOKE) == 0) {
-                    System.out.println(attackName);
                     beforeInvoke(p);
                 }
 

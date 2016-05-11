@@ -12,7 +12,7 @@ public enum ProfessionTypes {
     WARRIOR("Warrior"),
     DEFENDER("Defender"),
     COMBATENGINEER("CombatEngineer"),
-    CHEERLEADER("CheerLeader"),
+    CHEERLEADER("Cheerleader"),
     CHIEF("Chief"),
     SPAWN("Spawn"),
     LADYLISA("LadyLisa"),

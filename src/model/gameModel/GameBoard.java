@@ -65,28 +65,9 @@ public class GameBoard {
 		for(int i=0; i<boardWeapons.length; i++){
 			//create weapons and place on board
 			Random rand = new Random();
-			int num = rand.nextInt(6) + 1;
+			int num = rand.nextInt(6);
 			Weapon weapon = null;
-			switch(num) {
-				case 1: 
-					weapon = new Weapon(Weapon.Weapons.CANNON);
-					break;
-				case 2: 
-					weapon = new Weapon(Weapon.Weapons.GUN);
-					break;	
-				case 3: 
-					weapon = new Weapon(Weapon.Weapons.MAGICALHANDS);
-					break;
-				case 4: 
-					weapon = new Weapon(Weapon.Weapons.SHIELD);
-					break;
-				case 5: 
-					weapon = new Weapon(Weapon.Weapons.COMBATKIT);
-					break;
-				case 6: 
-					weapon = new Weapon(Weapon.Weapons.FLAG);
-					break;
-			}
+			weapon = new Weapon(num);
 			boardWeapons[i] = weapon;
 		}
 	}

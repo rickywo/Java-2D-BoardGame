@@ -61,7 +61,6 @@ public class MainPanel {
     }
 
     public static void showAttackIcon(final Graphics2D g2, int x, int y, int i) {
-        System.out.println("Mainpanel Attack cell x: " + x + " y:" + y);
         BufferedImage image = null;
         switch(i) {
             case 0:

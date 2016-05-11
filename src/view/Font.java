@@ -14,9 +14,11 @@ public class Font {
                             "`abcdefghijklmnopqrstuvwxyz{|}~";
     public static final String FONT8X8_LETTERS =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-*!@";
+
+    public static final int FONT_WIDTH = 18;
     private Font() {}
     public static int getStringWidth(String string) {
-        return string.length() * 18;
+        return string.length() * FONT_WIDTH;
 
     }
 

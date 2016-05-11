@@ -1,7 +1,6 @@
 package model.graphicModel;
 
 
-import model.gameModel.ProfessionTypes;
 import resources.Consts;
 
 import java.awt.*;
@@ -12,31 +11,31 @@ import java.awt.image.BufferedImage;
  */
 public class Art {
 
-    public static final int COMMANDER = 0,
-            SOLDIER = 1,
-            MEDIC = 2,
-            AREAATTACKER = 3,
-            WARRIOR = 4,
-            PROTECTOR = 5,
-            COMBATENGINEER = 6,
-            CHEERLEADER = 7,
-            CHIEF = 8,
-            SPAWN = 9,
-            LADYLISA = 10,
-            WITCH = 11,
-            GOBLIN = 12,
-            SNIPER = 13,
-            TROLL = 14,
-            DRAGON = 15;
-
-
-    //public static final Bitmap[][] sprites = cut();
-    public static final Bitmap[][] BLOCKFONT = cut("/resources/fonts/Block Font.png", 18, 32);
-    public static final Bitmap[][] KRENFONT = cut("/resources/fonts/Kren_12x12.png", 12, 12);
-    public static final Bitmap[][] FONT8X8 = cut("/resources/fonts/font8x8.png", 8, 8);
-    public static final Bitmap[][] FONT16X16 = cut("/resources/fonts/font16x16.png", 16, 16);
-    public static final Bitmap[] CHARACTERS = getCharImages();
+    private static final int WIDTH_INDEX = 0, LENGTH_INDEX = 1;
+    private static final int BLOCK_FONT_INDEX = 0;
+    private static final int KREN_FONT_INDEX = 1;
+    private static final int FONT_8X8_INDEX = 2;
+    private static final int FONT_16X16_INDEX = 3;
+    public static final int[][] FONT_SIZE = {{18, 32}, {12, 12}, {8, 8}, {16, 16}};
+    private static final String RESOURCE_PATH = "/resources/fonts/";
+    private static final String BLOCK_FONT_FILE = "Block Font.png";
+    private static final String KREN_FONT_FILE = "Kren_12x12.png";
+    private static final String FONT_8X8_FILE = "font8x8.png";
+    private static final String FONT_16X16_FILE = "font16x16.png";
+    public static final Bitmap[][] BLOCKFONT = cut(RESOURCE_PATH + BLOCK_FONT_FILE,
+            FONT_SIZE[BLOCK_FONT_INDEX][WIDTH_INDEX],
+            FONT_SIZE[BLOCK_FONT_INDEX][LENGTH_INDEX]);
+    public static final Bitmap[][] KRENFONT = cut(RESOURCE_PATH + KREN_FONT_FILE,
+            FONT_SIZE[KREN_FONT_INDEX][WIDTH_INDEX],
+            FONT_SIZE[KREN_FONT_INDEX][LENGTH_INDEX]);
+    public static final Bitmap[][] FONT8X8 = cut(RESOURCE_PATH + FONT_8X8_FILE,
+            FONT_SIZE[FONT_8X8_INDEX][WIDTH_INDEX],
+            FONT_SIZE[FONT_8X8_INDEX][LENGTH_INDEX]);
+    public static final Bitmap[][] FONT16X16 = cut(RESOURCE_PATH + FONT_16X16_FILE,
+            FONT_SIZE[FONT_16X16_INDEX][WIDTH_INDEX],
+            FONT_SIZE[FONT_16X16_INDEX][LENGTH_INDEX]);
     public static final Bitmap background = getBackGround();
+
     private static Bitmap[][] cut(String string, int w, int h) {
         return cut(string, w, h, 0, 0);
     }
@@ -54,8 +53,6 @@ public class Art {
 
             }
         }
-        System.out.println("Filename: "+ string);
-        System.out.println("xTiles: "+ xTiles + "yTiles: " + yTiles);
         return result;
     }
 
@@ -66,23 +63,6 @@ public class Art {
         Bitmap result = new Bitmap(w, h);
         image.getRGB(0, 0, w, h, result.pixels, 0, w);
         renderTiles(result);
-        return result;
-    }
-
-    private static Bitmap[] getCharImages() {
-        int i = 0;
-        Bitmap[] result = new Bitmap[16];
-        for(ProfessionTypes p: ProfessionTypes.values()) {
-            BufferedImage charImge = ImageManager.getCharSkin(p.getCharacterName());
-            BufferedImage image = ImageManager.resizeImage(charImge, (double) Consts.RECTSIZE / (double) charImge.getWidth());
-
-            int w = image.getWidth();
-            int h = image.getHeight();
-            result[i] = new Bitmap(w, h);
-            image.getRGB(0, 0, w, h, result[i].pixels, 0, w);
-
-            i ++;
-        }
         return result;
     }
 

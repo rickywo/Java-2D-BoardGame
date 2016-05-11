@@ -9,7 +9,7 @@ public final class Consts  {
     public static final int BOARD_WIDTH = 612;
     public static final int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
-    public static final int BSIZE = 12;
+    public static final int BSIZE = 16;
     // Number of Teams
     public static final int NUM_TEAMS = 2;
     public static final int HUMAN_TEAM_NUM = 0;
@@ -53,6 +53,8 @@ public final class Consts  {
     public static final int MENU_DISPLAY = 0;
     public static final int STORY_TELLING = 1;
     public static final int GAME_PLAYING = 2;
+
+    public static final int NUMBER_JOBS = 16;
 
     public static final int ATTACK_MODE = 0;
     public static final int INVOKE_MODE = 1;
