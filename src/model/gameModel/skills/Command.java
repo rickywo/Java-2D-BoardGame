@@ -7,6 +7,14 @@ import model.gameModel.Entity;
  */
 public abstract class Command {
 
+    int oldHp;
+    int oldStr;
+    int oldDef;
+    int oldDex;
+    int originX, originY;
+    Entity target;
+
+
     public abstract void execute(Entity target);
 
     public abstract void undo();

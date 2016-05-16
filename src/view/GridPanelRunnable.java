@@ -41,6 +41,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         //board = modelManager.getBoard();
         this.gameController = gameController;
         setBackground(Color.GRAY);
+        Art.resetBackground();
         initMaskMatrix();
         cursorXYPos = new Point(0, 0);
         ml = new MxMouseListener(this, this.gameController);
@@ -141,6 +142,12 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         running = false;
     }
 
+    public void resume() {
+        if (running) return;
+        running = true;
+        System.out.println("Resume");
+    }
+
     public int getAttackMode() {
         return attackMode;
     }
@@ -165,20 +172,20 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *********************************************************************/
 
     private void renderGamePieces() {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
                 BoardCell cell = gameController.getBoardCell(i, j);
                 if (cell.getEntity() != null) {
                     // If this cell has a entity in it
                     // To draw the image of a piece
                     BufferedImage charImge = cell.getCharImg();
-                    BufferedImage image = ImageManager.resizeImage(charImge, 0.9 * ((double) Consts.RECTSIZE / (double) charImge.getWidth()));
+                    BufferedImage image = ImageManager.resizeImage(charImge, 0.9 * ((double) Consts.getRectsize() / (double) charImge.getWidth()));
                     int w = image.getWidth();
                     int h = image.getHeight();
                     Bitmap result = new Bitmap(w, h);
                     image.getRGB(0, 0, w, h, result.pixels, 0, w);
 
-                    screen.render(result, i*Consts.RECTSIZE + Consts.MAP_X_OFFSET, j*Consts.RECTSIZE+Consts.MAP_Y_OFFSET+2);
+                    screen.render(result, i*Consts.getRectsize() + Consts.MAP_X_OFFSET, j*Consts.getRectsize()+Consts.MAP_Y_OFFSET+2);
                 }
             }
         }
@@ -192,8 +199,8 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *********************************************************************/
 
     private void renderMaskMatrix(Graphics2D g2) {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
                 if (maskMatrix[i][j] < 0)
                     Rectmech.highlight(i, j, g2);
                 else if(maskMatrix[i][j] > 0)
@@ -279,8 +286,8 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *********************************************************************/
 
     private void setSelectableMatrix(int x, int y, int range, boolean isEntitySelectable) {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
                 if (dist(x, y, i, j) > range) {
                     maskMatrix[i][j] = 1;
                 } else {
@@ -309,8 +316,8 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *********************************************************************/
 
     private void resetMaskMatrix() {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
                 maskMatrix[i][j] = 0;
             }
         }
@@ -322,9 +329,9 @@ class GridPanelRunnable extends Canvas implements  Runnable {
      *********************************************************************/
 
     private void initMaskMatrix() {
-        this.maskMatrix = new int[Consts.BSIZE][Consts.BSIZE];
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        this.maskMatrix = new int[Consts.getBSIZE()][Consts.getBSIZE()];
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
                 maskMatrix[i][j] = 0;
             }
         }
@@ -333,7 +340,9 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     /***************************************************************************
      * To show a popup menu for selecting action
      *****************************************************************************/
+
     public void showActionMenu(int x, int y, Point point, final String attackName) {
+        if(!running) return;
         editMenu = new PopupMenu();
         final Point p = point;
         ActionListener al = new ActionListener() {
@@ -360,8 +369,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
         MenuItem invokeMenuItem = new MenuItem(attackName);
         invokeMenuItem.setActionCommand(Consts.INVOKE);
-
-
 
         moveMenuItem.addActionListener(al);
         attackMenuItem.addActionListener(al);

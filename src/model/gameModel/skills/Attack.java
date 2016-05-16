@@ -7,9 +7,7 @@ import model.gameModel.Entity;
  */
 public class Attack extends Command {
 
-    private int oldHP;
     private int damage;
-    private Entity target;
 
     public Attack(int damage) {
         this.damage = damage;
@@ -18,7 +16,7 @@ public class Attack extends Command {
     @Override
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
-        oldHP = target.getCurrentHP();
+        oldHp = target.getCurrentHP();
 
         System.out.println("Damage:" + damage);
         target.beAttacked(damage);
@@ -29,6 +27,9 @@ public class Attack extends Command {
     public void undo() {
         if (target != null) {
             //target.setVisibility(Visibility.VISIBLE);
+            target.setCurrentHP(oldHp);
+
+            System.out.println("Restore attack");
         }
     }
 

@@ -5,7 +5,6 @@ public class DoubleShot extends Command {
 
     private int damage;
     private int defenseDamage;
-    private Entity target;
 
     public DoubleShot(int defenseDamage, int damage) {
         this.defenseDamage = defenseDamage;
@@ -15,6 +14,8 @@ public class DoubleShot extends Command {
     @Override
     public void execute(Entity target) {
     	this.target = target;
+        oldHp = target.getCurrentHP();
+        oldDef = target.getDefense();
         System.out.println("Defense Damage: " + defenseDamage);
     	System.out.println("Damage: " + damage);
         target.beDefenseAttacked(defenseDamage);
@@ -24,6 +25,9 @@ public class DoubleShot extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setCurrentHP(oldHp);
+            target.setDefense(oldDef);
+            System.out.println("Restore Doubleshot");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

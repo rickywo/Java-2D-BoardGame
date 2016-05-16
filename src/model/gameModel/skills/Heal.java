@@ -24,6 +24,8 @@ public class Heal extends Command {
 	@Override
 	public void undo() {
         if (target != null) {
+			target.setCurrentHP(oldHp);
+			System.out.println("Restore Heal");
             //target.setVisibility(Visibility.VISIBLE);
         }
 	}

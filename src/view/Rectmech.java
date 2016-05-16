@@ -12,13 +12,7 @@ public class Rectmech {
 
 	// Constants
 
-	private static int BORDERS = 50; // default number of pixels for the border.
-
 	private static int l = 0; // length of each side.
-
-	public static void setBorders(int b) {
-		BORDERS = b;
-	}
 
 	/**
 	 * This functions takes the Side length in pixels and uses that as the basic

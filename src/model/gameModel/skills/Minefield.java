@@ -18,7 +18,9 @@ public class Minefield extends Command {
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
-
+        oldHp = target.getCurrentHP();
+        oldStr = target.getStrength();
+        oldDef = target.getDefense();
         System.out.println("HP Damage:" + hpDamage);
         System.out.println("Strength Damage:" + strengthDamage);
         System.out.println("Defense Damage:" + defenseDamage);
@@ -30,6 +32,10 @@ public class Minefield extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setCurrentHP(oldHp);
+            target.setStrength(oldStr);
+            target.setDefense(oldDef);
+            System.out.println("Restore Minefield");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

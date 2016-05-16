@@ -36,7 +36,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         Entity t = gameController.getBoardCell(p.x, p.y).getEntity();
 
         // Do nothing if mouse click the area out of bound
-        if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
+        if (p.x < 0 || p.y < 0 || p.x >= Consts.getBSIZE() || p.y >= Consts.getBSIZE()) return;
 
         if (panel.isScreenLocked() && panel.maskMatrix[p.x][p.y] != 1) {
             // TODO: To call moveTo(Point p) in GridPanelRunnable if no entity in clicked cell
@@ -87,7 +87,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
             return;
         }
         // Do nothing if cursor move over the area out of boundary
-        if (p.x < 0 || p.y < 0 || p.x >= Consts.BSIZE || p.y >= Consts.BSIZE) return;
+        if (p.x < 0 || p.y < 0 || p.x >= Consts.getBSIZE() || p.y >= Consts.getBSIZE()) return;
         // Do nothing if cursor move over a cell has a n entity in it
         if (panel.isScreenLocked() && entity != null) return;
         // Do nothing if cursor move over non-selectable area

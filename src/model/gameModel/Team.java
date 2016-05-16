@@ -90,10 +90,19 @@ public class Team implements TeamInterface {
 
     @Override
     public boolean isTeamsTurnFinished() {
-        boolean finished = true;
+        // Change turn if any piece in the team is moved
         for(Entity e: members) {
-            if(!e.isMoved()) finished = false;
+            if(e.isMoved()) return true;
         }
-        return finished;
+        return false;
+    }
+
+    public Entity getEntityByXY(int x, int y) {
+        for(Entity e: members) {
+            if(e.getXPos() == x && e.getYPos() == y) {
+                return e;
+            }
+        }
+        return null;
     }
 }

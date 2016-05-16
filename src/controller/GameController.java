@@ -36,17 +36,19 @@ public class GameController {
     }
 
     private GameController() {
-        initGame();
         new MainPanel(this);
 
     }
 
 
-    void initGame() {
-        Rectmech.setLength(Consts.RECTSIZE);
-        Rectmech.setBorders(Consts.BORDERS);
-        gameBoard = GameBoard.singleton(this);
+    public void startGame(int bsize, int num_pieces, int num_weapons) {
+        Consts.setBSIZE(bsize);
+        Consts.setNumPiecesPerTeam(num_pieces);
+        Consts.setNumWeapons(num_weapons);
+        Rectmech.setLength(Consts.getRectsize());
+        gameBoard = new GameBoard(this);
     }
+
 
     /**
      * moveHandler(): Handle the first click on move menu

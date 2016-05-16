@@ -1,10 +1,6 @@
 package model.gameModel.skills;
 
 import model.gameModel.Entity;
-import model.gameModel.EntityInterface;
-
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Created by Human v Alien Team on 2016/4/30.

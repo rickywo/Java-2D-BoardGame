@@ -9,7 +9,7 @@ public final class Consts  {
     public static final int BOARD_WIDTH = 612;
     public static final int EMPTY = 0;
     // Board Size of this game BSIZE x BSIZE
-    public static final int BSIZE = 16;
+    public static int BSIZE = 16;
     // Number of Teams
     public static final int NUM_TEAMS = 2;
     public static final int HUMAN_TEAM_NUM = 0;
@@ -17,7 +17,6 @@ public final class Consts  {
 
     // Rectangle size RECTSIZE x RECTSIZE
     public static final int RECTSIZE = BOARD_WIDTH / BSIZE;
-    public static final int BORDERS = 16;
     // Screen width
     public static final int SCR_WIDTH = 849;
     // Screen height
@@ -45,16 +44,11 @@ public final class Consts  {
 
     // Game functional settings
     public static final int DIST = 4;
-    public static final int NUM_PIECES_PER_TEAM = 4;
-    public static final int NUM_WEAPONS = 80;
+    public static int NUM_PIECES_PER_TEAM = 4;
+    public static int NUM_WEAPONS = 80;
     public static final int INIT_STEPS = 1;
 
     // Game variables
-    public static final int MENU_DISPLAY = 0;
-    public static final int STORY_TELLING = 1;
-    public static final int GAME_PLAYING = 2;
-
-    public static final int NUMBER_JOBS = 16;
 
     public static final int ATTACK_MODE = 0;
     public static final int INVOKE_MODE = 1;
@@ -67,6 +61,34 @@ public final class Consts  {
         //this prevents even the native class from
         //calling this ctor as well :
         throw new AssertionError();
+    }
+
+    public static int getBSIZE() {
+        return BSIZE;
+    }
+
+    public static void setBSIZE(int size) {
+        BSIZE = size;
+    }
+
+    public static int getNumPiecesPerTeam() {
+        return NUM_PIECES_PER_TEAM;
+    }
+
+    public static void setNumPiecesPerTeam(int number) {
+        NUM_PIECES_PER_TEAM = number;
+    }
+
+    public static int getNumWeapons() {
+        return  NUM_WEAPONS;
+    }
+
+    public static void setNumWeapons(int number) {
+        NUM_WEAPONS = number;
+    }
+
+    public static int getRectsize() {
+        return BOARD_WIDTH / getBSIZE();
     }
 }
 

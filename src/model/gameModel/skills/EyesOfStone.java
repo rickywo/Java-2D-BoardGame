@@ -15,6 +15,7 @@ public class EyesOfStone extends Command {
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
+        oldHp = target.getCurrentHP();
         System.out.println("Damage: " + (target.getCurrentHP() - remainder));
         target.setCurrentHP(remainder);
     }
@@ -22,6 +23,8 @@ public class EyesOfStone extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setCurrentHP(oldHp);
+            System.out.println("Restore EyeOfStone");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

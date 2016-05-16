@@ -42,4 +42,12 @@ public class TeamManager {
 
         return teams[i].isTeamsTurnFinished();
     }
+
+    public Entity getEntityByXY(int x, int y) {
+        Entity e = null;
+        for(Team t:teams) {
+            e = t.getEntityByXY(x,y);
+        }
+        return e;
+    }
 }

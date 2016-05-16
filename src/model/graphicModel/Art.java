@@ -34,7 +34,7 @@ public class Art {
     public static final Bitmap[][] FONT16X16 = cut(RESOURCE_PATH + FONT_16X16_FILE,
             FONT_SIZE[FONT_16X16_INDEX][WIDTH_INDEX],
             FONT_SIZE[FONT_16X16_INDEX][LENGTH_INDEX]);
-    public static final Bitmap background = getBackGround();
+    public static Bitmap background = getBackGround();
 
     private static Bitmap[][] cut(String string, int w, int h) {
         return cut(string, w, h, 0, 0);
@@ -67,26 +67,30 @@ public class Art {
     }
 
     private static void renderTiles(Bitmap bkg) {
-        for (int i = 0; i < Consts.BSIZE; i++) {
-            for (int j = 0; j < Consts.BSIZE; j++) {
+        for (int i = 0; i < Consts.getBSIZE(); i++) {
+            for (int j = 0; j < Consts.getBSIZE(); j++) {
 
                 // If this cell has a entity in it
                 // To draw the image of a piece
                 BufferedImage tileImge = ImageManager.getRandomTiles();
-                BufferedImage image = ImageManager.resizeImage(tileImge, (double) Consts.RECTSIZE / (double) tileImge.getWidth());
+                BufferedImage image = ImageManager.resizeImage(tileImge, (double) Consts.getRectsize() / (double) tileImge.getWidth());
                 int w = image.getWidth();
                 int h = image.getHeight();
                 Bitmap result = new Bitmap(w, h);
                 // To make border line for tiles
-                for(int k = 0; k < Consts.RECTSIZE; k ++) {
+                for(int k = 0; k < Consts.getRectsize(); k ++) {
                     image.setRGB(0, k, Color.LIGHT_GRAY.getRGB());
                     image.setRGB(k, 0, Color.LIGHT_GRAY.getRGB());
                 }
 
                 image.getRGB(0, 0, w, h, result.pixels, 0, w);
-                bkg.render(result, i * Consts.RECTSIZE + Consts.MAP_X_OFFSET, j * Consts.RECTSIZE + Consts.MAP_Y_OFFSET);
+                bkg.render(result, i * Consts.getRectsize() + Consts.MAP_X_OFFSET, j * Consts.getRectsize() + Consts.MAP_Y_OFFSET);
 
             }
         }
+    }
+
+    public static void resetBackground() {
+        background = getBackGround();
     }
 }

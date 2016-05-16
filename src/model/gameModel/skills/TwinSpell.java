@@ -15,6 +15,9 @@ public class TwinSpell extends Command {
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
+        oldHp = target.getCurrentHP();
+        oldStr = target.getStrength();
+        oldDef = target.getDefense();
         System.out.println("Restoring HP to maximum, raising strength "
         		+ "and defense by: " + amount);
         target.setCurrentHP(target.getMaxHP());
@@ -25,6 +28,10 @@ public class TwinSpell extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setCurrentHP(oldHp);
+            target.setStrength(oldStr);
+            target.setDefense(oldDef);
+            System.out.println("Restore TwinSpell");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

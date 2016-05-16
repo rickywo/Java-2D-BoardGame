@@ -3,7 +3,6 @@ package model.gameModel.skills;
 import model.gameModel.Entity;
 
 public class UltimateDestruct extends Command {
-    private int oldHP;
     private int damage;
     private Entity target;
 
@@ -15,7 +14,7 @@ public class UltimateDestruct extends Command {
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
-    	oldHP = target.getCurrentHP();
+    	oldHp = target.getCurrentHP();
 
         System.out.println("Damage:" + damage);
         target.beAttacked(damage);
@@ -24,6 +23,7 @@ public class UltimateDestruct extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setCurrentHP(oldHp);
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

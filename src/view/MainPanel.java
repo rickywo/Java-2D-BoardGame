@@ -2,21 +2,24 @@ package view;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import javax.swing.*;
 
 import controller.GameController;
-import model.graphicModel.Art;
 import model.graphicModel.ImageManager;
 import resources.Consts;
 
 
 public class MainPanel {
     private GridPanelRunnable gameview;
+    private GameController gameController;
+    private Container content;
+    private JFrame frame;
+    private SettingPanel settingPanel;
 
 
     public MainPanel(GameController gameController) {
-        gameview = new GridPanelRunnable(gameController);
+        this.gameController = gameController;
+        settingPanel = new SettingPanel(this);
         createAndShowGUI();
     }
 
@@ -25,21 +28,50 @@ public class MainPanel {
      *****************************************************************************/
 
     private void createAndShowGUI() {
-        JFrame frame = new JFrame("Human vs Alien");
-        JMenuBar menuBar = new SystemMenu(frame);
+        frame = new JFrame("Human vs Alien");
+        JMenuBar menuBar = new SystemMenu(frame, this);
         frame.setJMenuBar(menuBar);
-        Container content = frame.getContentPane();
-        content.add(gameview);
+        content = frame.getContentPane();
         frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.pack();
         frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameview.start();
-
+        initSettingPage();
     }
+
+    public void initSettingPage() {
+        if(gameview != null) {
+            gameview.stop();
+            content.remove(gameview);
+        }
+        frame.setBounds(100, 100, 600, 300);
+        content.add(settingPanel);
+    }
+
+    public void startGame(int bsize, int num_pieces, int num_weapons) {
+        gameController.startGame(bsize, num_pieces, num_weapons);
+        content.remove(settingPanel);
+        frame.setSize(Consts.SCR_WIDTH, Consts.SCR_HEIGHT);
+        gameview = new GridPanelRunnable(gameController);
+        content.add(gameview);
+        gameview.start();
+    }
+
+    public void pauseGame() {
+        if(gameview != null) {
+            gameview.stop();
+        }
+    }
+
+    public void resumeGame() {
+        if(gameview != null) {
+            gameview.start();
+        }
+    }
+
+
 
     public static void showVerbose(String message, long timeLimit) {
         Verbose.verbose(message, timeLimit);

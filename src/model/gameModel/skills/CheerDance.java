@@ -6,7 +6,6 @@ public class CheerDance extends Command {
     private int strengthAmt;
     private int defenseAmt;
     private int agilityAmt;
-    private Entity target;
 
     public CheerDance(int strengthAmt, int defenseAmt, int agilityAmt) {
         this.strengthAmt = strengthAmt;
@@ -18,6 +17,9 @@ public class CheerDance extends Command {
     public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
+        oldStr = target.getStrength();
+        oldDef = target.getDefense();
+        oldDex = target.getAgility();
         System.out.println("Strength rose by:" + strengthAmt);
         System.out.println("Defense rose by:" + defenseAmt);
         System.out.println("Agility rose by:" + agilityAmt);
@@ -27,6 +29,10 @@ public class CheerDance extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setStrength(oldStr);
+            target.setDefense(oldDef);
+            target.setAgility(oldDex);
+            System.out.println("Restore CheerDance");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }

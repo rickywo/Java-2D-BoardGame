@@ -2,7 +2,6 @@ package model.gameModel;
 import java.util.*;
 
 import controller.GameController;
-import model.gameModel.skills.Attack;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
@@ -13,11 +12,10 @@ public class GameBoard {
 	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
 	private final int numOfTeams = Consts.NUM_TEAMS;
 	private int turn;
-	private static GameBoard game = null;
 	private static TeamManager teamManager = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
-	private final int BSIZE = Consts.BSIZE; //board size.
+	private final int BSIZE = Consts.getBSIZE(); //board size.
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
 	private final static int DIST = Consts.DIST;
 	private GameController controller;
@@ -28,13 +26,6 @@ public class GameBoard {
 		turn = 0;
 		this.controller = controller;
 		initialSetup();
-	}
-	
-	public static GameBoard singleton(GameController controller) {
-		if(game == null) {
-			game = new GameBoard(controller);
-		}
-		return game;
 	}
 
 	public void initialSetup(){
@@ -264,6 +255,7 @@ public class GameBoard {
         if(teamManager.isTeamsTurnFinished(team)) {
 			System.out.println("Team on move: " + team);
             teamManager.resetTeamMoved(team);
+			turn ++;
             controller.switchTurn();
         }
     }

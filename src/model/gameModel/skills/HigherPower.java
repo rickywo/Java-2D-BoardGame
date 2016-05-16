@@ -17,6 +17,8 @@ public class HigherPower extends Command {
 	public void execute(Entity target) {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
+        oldStr = target.getStrength();
+        oldDef = target.getDefense();
         System.out.println("Strength Damage: " + strengthDamage);
         System.out.println("Defense Damage: " + defenseDamage);
         target.beStrengthAttacked(strengthDamage);
@@ -27,6 +29,9 @@ public class HigherPower extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            target.setStrength(oldStr);
+            target.setDefense(oldDef);
+            System.out.println("Restore HigherPower");
             //target.setVisibility(Visibility.VISIBLE);
         }
     }
