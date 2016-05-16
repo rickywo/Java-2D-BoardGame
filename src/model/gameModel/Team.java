@@ -109,9 +109,16 @@ public class Team implements TeamInterface {
     public void setEntityByXY(int x, int y, Entity entity) {
         for(int i = 0 ; i < members.size() ; i ++) {
             Entity e = members.get(i);
-            if(e.getXPos() == x && e.getYPos() == y) {
+            int ox = e.getXPos();
+            int oy = e.getYPos();
+            if(ox == x && oy == y) {
+                if(entity.getXPos() != ox ||
+                        entity.getYPos() != oy) {
+                    entity.setPos(ox, oy);
+                }
                 members.remove(i);
                 members.add(i, entity);
+
              }
         }
     }

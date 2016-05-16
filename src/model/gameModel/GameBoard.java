@@ -326,7 +326,7 @@ public class GameBoard {
 		x = this.state.x;
 		y = this.state.y;
 		this.state.invoker.undoLastInvoke();
-		//teamManager.setEntityByXY(x, y, this.state.invoker);
+		teamManager.setEntityByXY(x, y, this.state.invoker);
 
 		updateBoard();
 	}
