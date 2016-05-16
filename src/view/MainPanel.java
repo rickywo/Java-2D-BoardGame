@@ -10,7 +10,7 @@ import resources.Consts;
 
 
 public class MainPanel {
-    private GridPanelRunnable gameview;
+    private static GridPanelRunnable gameview;
     private GameController gameController;
     private Container content;
     private JFrame frame;
@@ -59,19 +59,17 @@ public class MainPanel {
         gameview.start();
     }
 
-    public void pauseGame() {
+    public static void pauseGame() {
         if(gameview != null) {
             gameview.stop();
         }
     }
 
-    public void resumeGame() {
+    public static void resumeGame() {
         if(gameview != null) {
             gameview.start();
         }
     }
-
-
 
     public static void showVerbose(String message, long timeLimit) {
         Verbose.verbose(message, timeLimit);

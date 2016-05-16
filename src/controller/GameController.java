@@ -5,7 +5,6 @@ import model.gameModel.*;
 import model.gameModel.Point;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
-import sun.applet.Main;
 import view.Rectmech;
 import view.MainPanel;
 
@@ -21,6 +20,8 @@ public class GameController {
     private static int game_state;
     private GameBoard gameBoard;
     private BoardCell curMoveCell; // The entity is currently being moved
+    private static int SHORT_MESSAGE = 2000;
+    private static int LONG_MESSAGE = 100000;
 
     private static int teamOnMove = 0; // indicates which team is on moving
     private static GameController game = null;
@@ -108,7 +109,12 @@ public class GameController {
     public void switchTurn() {
         teamOnMove ++;
         teamOnMove %= Consts.NUM_TEAMS;
-        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +"'s turn.", 2000);
+        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +"'s turn.", SHORT_MESSAGE);
+    }
+
+    public void teamWin() {
+        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +" Win.", LONG_MESSAGE);
+        //MainPanel.pauseGame();
     }
 
     public boolean foundWeapon (String weaponName) {

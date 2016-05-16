@@ -103,10 +103,10 @@ public class GameBoard {
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
 		Entity t = getBoardCell(xo, yo).getEntity();
 		t.moveTo(t, xd, yd);
-		getBoardCell(xd, yd).setEntity(t);
-		getBoardCell(xo, yo).clearEntity();
+		updateBoard();
 		if(t.isUpgradable()) checkWeapon(xd, yd);
         checkTurn();
+
 	}
 
 	public void combat(Entity attacker, Point recipient) {
@@ -117,6 +117,7 @@ public class GameBoard {
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
+		checkTurn();
 	}
 
 	public void invoke(ProfessionDecorator attacker, Point recipient) {
@@ -127,19 +128,21 @@ public class GameBoard {
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
+		checkTurn();
 	}
 
 	private void destroyEntity(int x, int y) {
-		int i = controller.getTeamOnMove();
 		BoardCell cell = getBoardCell(x, y);
-		teamManager.getTeam(i).remove(cell.getEntity());
-		cell.clearEntity();
-
+		Entity e = cell.getEntity();
+		e.setPos(-1, -1);
+		checkWin();
+		updateBoard();
 	}
 
 	private void dispatchPieces(){
 		dispatchHumanTeam();
 		dispatchAlienTeam();
+		updateBoard();
 	}
 
 	private void dispatchHumanTeam(){
@@ -218,7 +221,12 @@ public class GameBoard {
 	}
 
 	public  void updateBoard() {
-
+		for(int i=0; i<BSIZE; i++){
+			for(int j=0; j<BSIZE; j++){
+				Entity e = teamManager.getEntityByXY(i, j);
+				gameBoard[i][j].setEntity(e);
+			}
+		}
 	}
 
 	//For debugging only
@@ -260,14 +268,22 @@ public class GameBoard {
         }
     }
 
+	private void checkWin() {
+		final int team = 1 - controller.getTeamOnMove();
+		if(teamManager.isTeamDefeated(team)) {
+			controller.teamWin();
+		}
+	}
+
 	private void checkWeapon(int x, int y) {
 		Weapon weapon = getBoardCell(x, y).getWeapon();
 
 		if(weapon!=null) {
 			Entity target = gameBoard[x][y].getEntity();
 			if(controller.foundWeapon(weapon.getName())) {
-				getBoardCell(x, y).setEntity(ProfessionManager.changeProfession(target, weapon.getType()));
+				ProfessionManager.changeProfession(target, weapon.getType());
 				getBoardCell(x, y).clearWeapon();
+				updateBoard();
 			}
 		}
 	}

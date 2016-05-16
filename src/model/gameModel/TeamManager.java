@@ -47,7 +47,12 @@ public class TeamManager {
         Entity e = null;
         for(Team t:teams) {
             e = t.getEntityByXY(x,y);
+            if(e != null) return e;
         }
         return e;
+    }
+
+    public boolean isTeamDefeated(int i) {
+        return teams[i].isTeamDefeated();
     }
 }

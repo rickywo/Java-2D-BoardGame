@@ -23,8 +23,10 @@ public class BoardCell {
 
     public void setEntity(Entity entity) {
         this.entity = entity;
-        String p = entity.getProfessionName();
-        this.charImg = ImageManager.getCharSkin(p);
+        if(entity != null) {
+            String p = entity.getProfessionName();
+            this.charImg = ImageManager.getCharSkin(p);
+        }
     }
 
     public Entity getEntity() {

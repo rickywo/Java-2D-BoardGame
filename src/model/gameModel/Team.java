@@ -105,4 +105,25 @@ public class Team implements TeamInterface {
         }
         return null;
     }
+
+    public boolean isTeamDefeated() {
+        int numPiecesDead = 0;
+        Entity leader = members.get(0);
+        if(leader.getXPos() == -1 && leader.getYPos() == -1) {
+            // Leader is killed
+            return true;
+        }
+
+        for(Entity e: members) {
+            if(e.getXPos() == -1 && e.getYPos() == -1) {
+                numPiecesDead ++;
+            }
+        }
+
+        if(numPiecesDead == members.size()) {
+            return true;
+        }
+
+        return false;
+    }
 }
