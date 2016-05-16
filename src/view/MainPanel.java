@@ -71,6 +71,10 @@ public class MainPanel {
         }
     }
 
+    public void undo() {
+        gameController.undo();
+    }
+
     public static void showVerbose(String message, long timeLimit) {
         Verbose.verbose(message, timeLimit);
 

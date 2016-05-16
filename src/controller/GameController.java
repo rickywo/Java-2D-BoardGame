@@ -18,7 +18,8 @@ import view.MainPanel;
 public class GameController {
 
     private static int game_state;
-    private GameBoard gameBoard;
+    private GameBoard gameBoard; // Original in Memento Pattern
+    private CareTaker careTaker; // Caretaker in Memento Pattern
     private BoardCell curMoveCell; // The entity is currently being moved
     private static int SHORT_MESSAGE = 2000;
     private static int LONG_MESSAGE = 100000;
@@ -48,6 +49,7 @@ public class GameController {
         Consts.setNumWeapons(num_weapons);
         Rectmech.setLength(Consts.getRectsize());
         gameBoard = new GameBoard(this);
+        careTaker = new CareTaker();
     }
 
 
@@ -86,14 +88,21 @@ public class GameController {
         int xPos = curMoveCell.getEntity().getXPos();
         int yPos = curMoveCell.getEntity().getYPos();
         gameBoard.movePieceTo(xPos, yPos, point.x, point.y);
+        careTaker.saveMemento(gameBoard.createMemento());
     }
 
     public void doAttack(Point point) {
         gameBoard.combat(curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+        careTaker.saveMemento(gameBoard.createMemento());
     }
 
     public void invoke(Point point) {
         gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+        careTaker.saveMemento(gameBoard.createMemento());
+    }
+
+    public void undo() {
+        gameBoard.restoreMemento(careTaker.retrieveMemento());
     }
 
 

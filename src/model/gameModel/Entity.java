@@ -27,8 +27,8 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 	private int xPos;	// x coordinates
 	private int yPos; //y coords
 
-	protected Deque<Command> undoStack = new LinkedList<Command>();
-	protected Deque<Command> redoStack = new LinkedList<Command>();
+	public Deque<Command> undoStack = new LinkedList<Command>();
+	public Deque<Command> redoStack = new LinkedList<Command>();
 
 	
 	public Entity(String name){
@@ -286,7 +286,7 @@ public class Entity implements EntityInterface, EntityActionInterface, Cloneable
 		if (!undoStack.isEmpty()) {
 			Command previousInvoke = undoStack.pollLast();
 			redoStack.offerLast(previousInvoke);
-			System.out.println(this + " undoes " + previousInvoke);
+			System.out.println(this + " undo " + previousInvoke);
 			previousInvoke.undo();
 		}
 	}

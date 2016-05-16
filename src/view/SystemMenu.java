@@ -119,7 +119,7 @@ public class SystemMenu extends JMenuBar {
         undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-
+                mainPanel.undo();
             }
         });
 

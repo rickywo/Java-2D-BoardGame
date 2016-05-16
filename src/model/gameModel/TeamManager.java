@@ -52,6 +52,12 @@ public class TeamManager {
         return e;
     }
 
+    public void setEntityByXY(int x, int y, Entity entity) {
+        for(Team t:teams) {
+            t.setEntityByXY(x,y,entity);
+        }
+    }
+
     public boolean isTeamDefeated(int i) {
         return teams[i].isTeamDefeated();
     }

@@ -29,7 +29,11 @@ public class Move extends Command {
     @Override
     public void undo() {
         if (target != null) {
+            System.out.println("ox: " + target.getXPos() + " oy:" + target.getYPos() );
             target.setPos(originX, originY);
+            System.out.println("dx: " + target.getXPos() + " dy:" + target.getYPos() );
+
+
             System.out.println("Restore Move");
             //target.setVisibility(Visibility.VISIBLE);
         }

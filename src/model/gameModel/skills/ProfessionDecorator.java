@@ -19,14 +19,14 @@ public abstract class ProfessionDecorator extends Entity {
     public void invokeSkill(Command command, Entity target) {
         //System.out.println(this + " invoke " + command + " at " + target);
         command.execute(target);
-        undoStack.offerLast(command);
+        entity.undoStack.offerLast(command);
     }
     
     public void invokeSkill(Command command, Entity[] targets) {
     	for(Entity target : targets){
     		command.execute(target);
     	}
-    	undoStack.offerLast(command);
+        entity.undoStack.offerLast(command);
     }
 
     public void attack(Entity target) {
@@ -41,8 +41,8 @@ public abstract class ProfessionDecorator extends Entity {
      */
     public void undoLastInvoke() {
         if (!undoStack.isEmpty()) {
-            Command previousInvoke = undoStack.pollLast();
-            redoStack.offerLast(previousInvoke);
+            Command previousInvoke = entity.undoStack.pollLast();
+            entity.redoStack.offerLast(previousInvoke);
             System.out.println(this + " undoes " + previousInvoke);
             previousInvoke.undo();
         }
@@ -53,8 +53,8 @@ public abstract class ProfessionDecorator extends Entity {
      */
     public void redoLastInvoke() {
         if (!redoStack.isEmpty()) {
-            Command previousInvoke = redoStack.pollLast();
-            undoStack.offerLast(previousInvoke);
+            Command previousInvoke = entity.redoStack.pollLast();
+            entity.undoStack.offerLast(previousInvoke);
             System.out.println(this + " redoes " + previousInvoke);
             previousInvoke.redo();
         }

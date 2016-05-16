@@ -5,13 +5,27 @@ import controller.GameController;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
+class State {
+	int x,y;
+	int turn;
+	Entity invoker;
+
+	State(int x, int y, int turn, Entity invoker) {
+		this.x = x;
+		this.y = y;
+		this.turn = turn;
+		this.invoker = invoker;
+	}
+
+}
+
 public class GameBoard {
 
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
 	//board has 20? weapons at start
 	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
-	private final int numOfTeams = Consts.NUM_TEAMS;
 	private int turn;
+	private State state;
 	private static TeamManager teamManager = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
@@ -24,6 +38,7 @@ public class GameBoard {
 
 	public GameBoard(GameController controller) {
 		turn = 0;
+		state = new State(0 ,0 ,turn , null);
 		this.controller = controller;
 		initialSetup();
 	}
@@ -103,6 +118,7 @@ public class GameBoard {
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
 		Entity t = getBoardCell(xo, yo).getEntity();
 		t.moveTo(t, xd, yd);
+		saveState(xo, yo, t);
 		updateBoard();
 		if(t.isUpgradable()) checkWeapon(xd, yd);
         checkTurn();
@@ -114,6 +130,7 @@ public class GameBoard {
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
 		attacker.attack(t);
+		saveState(0, 0, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
@@ -125,6 +142,7 @@ public class GameBoard {
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
 		attacker.invoke(t);
+		saveState(0, 0, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
@@ -285,6 +303,53 @@ public class GameBoard {
 				getBoardCell(x, y).clearWeapon();
 				updateBoard();
 			}
+		}
+	}
+
+	public MementoInterface createMemento(){
+		return new Memento(this.state);
+	}
+
+	public void restoreMemento(MementoInterface memento){
+		Memento aMemento = (Memento)memento;
+		this.setState(aMemento.getState());
+	}
+
+	public State getState(){
+		return this.state;
+	}
+
+	public void setState(State state){
+		int x,y;
+		this.state = state;
+		this.turn = this.state.turn;
+		x = this.state.x;
+		y = this.state.y;
+		this.state.invoker.undoLastInvoke();
+		//teamManager.setEntityByXY(x, y, this.state.invoker);
+
+		updateBoard();
+	}
+
+	public void saveState(int x, int y, Entity entity) {
+		this.state.x = x;
+		this.state.y = y;
+		this.state.turn = this.turn;
+		this.state.invoker = (Entity) entity.clone();
+	}
+
+	protected class Memento implements MementoInterface{
+		private State savedState;
+		private Memento(State state){
+			this.savedState = new State(state.x, state.y, state.turn, state.invoker);
+		}
+
+		private void setState(State someState){
+			this.savedState = someState;
+		}
+
+		private State getState(){
+			return savedState;
 		}
 	}
 }

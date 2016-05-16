@@ -106,6 +106,16 @@ public class Team implements TeamInterface {
         return null;
     }
 
+    public void setEntityByXY(int x, int y, Entity entity) {
+        for(int i = 0 ; i < members.size() ; i ++) {
+            Entity e = members.get(i);
+            if(e.getXPos() == x && e.getYPos() == y) {
+                members.remove(i);
+                members.add(i, entity);
+             }
+        }
+    }
+
     public boolean isTeamDefeated() {
         int numPiecesDead = 0;
         Entity leader = members.get(0);
