@@ -7,20 +7,25 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.Map;
+
 /**
  * Created by Human v Alien Team on 2016/4/29.
+ *
+ * Flyweight pattern, It minimizes memory use by sharing object
+ * instances. It holds a map of entity instances and new entities are
+ * created only when none of the type already exists.
+ *
+ * In this class, the factory creates a prototype of a profession class.
+ * A copy of a profession class will be cloned by a prototype instance
+ * whenever it is needed.
+ * It saves time to recreate a new entity from scratch.
+ * 
  */
+
 public class EntityFlyweightFactory {
 
     
     private static final String JOB_CLASS_URL_PREFIX = "model.gameModel.jobs.";
-    /**
-     *
-     * EntityFlyweightFactory. It minimizes memory use by sharing object
-     * instances. It holds a map of entity instances and new entities are
-     * created only when none of the type already exists.
-     *
-     */
 
     private final Map<ProfessionTypes, Entity> entities;
     // Leave ProfessionTypes here for future extension

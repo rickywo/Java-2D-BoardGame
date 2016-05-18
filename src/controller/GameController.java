@@ -11,8 +11,15 @@ import view.MainPanel;
 
 /**
  * @author Human v Alien Team
- *         This class is the controller to handle UI events,
- *         process the axial parameters and pass them to MainGame
+ * This class is the controller to handle UI events,
+ * process the axial parameters and pass them to MainGame
+ *
+ * Singleton pattern is implemented here, cause only this
+ * controller sitted in between view and model. Singleton
+ * to ensure Main view only can create once.
+ *
+ * It responsible for the initailization of GameBoard.
+ *
  */
 
 public class GameController {
