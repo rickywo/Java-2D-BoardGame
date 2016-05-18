@@ -8,6 +8,20 @@ import model.gameModel.skills.Move;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * Created by Human v Alien Team on 2016/3/10.
+ * Entity is a basic profession class
+ * All profession classes in the game extends this class.
+ *
+ * Prototype pattern:
+ * This class can be initialized to be a prototype
+ * A basic entity can be transform to a advanced profession
+ * object through decorate pattern.
+ * When a basic entity picked up a weapon on the map
+ *
+ *
+ */
+
 public class Entity implements EntityInterface, EntityActionInterface, Cloneable {
 
 	private String name;

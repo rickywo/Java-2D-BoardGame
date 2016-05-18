@@ -19,7 +19,7 @@ import java.util.Map;
  * A copy of a profession class will be cloned by a prototype instance
  * whenever it is needed.
  * It saves time to recreate a new entity from scratch.
- * 
+ *
  */
 
 public class EntityFlyweightFactory {
