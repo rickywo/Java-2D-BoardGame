@@ -138,6 +138,10 @@ public class GameController {
         return teamOnMove;
     }
 
+    public void setTeamOnMove(int i) {
+        teamOnMove = i;
+    }
+
 
     public static void setGameState(int state) {
         game_state = state;

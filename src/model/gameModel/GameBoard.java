@@ -5,19 +5,47 @@ import controller.GameController;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
+/**
+ * State class
+ * Responsibility:
+ *
+ * 1. To save current state of the game
+ *
+ */
+
 class State {
 	int x,y;
 	int turn;
 	Entity invoker;
 
 	State(int x, int y, int turn, Entity invoker) {
+		// The coordinator been clicked
 		this.x = x;
 		this.y = y;
+
+		// Current turn of the game
 		this.turn = turn;
+
+		// The invoker entity of a command in this trun
 		this.invoker = invoker;
 	}
 
 }
+
+/**
+ * Created by Human v Alien Team on 2016/5/16.
+ * Memento behavioral design pattern:
+ * Originator class
+ * Responsibility:
+ *
+ * 1. To provides a method to create a memento(snapshot)
+ * 	  object for caretaker object to save the current state
+ * 	  of this game.
+ *
+ * 2. protected class member "Memento": to ensure information
+ *    is encapsulated in memento object to avoid access from
+ *    other classes.
+ */
 
 public class GameBoard {
 
@@ -306,6 +334,14 @@ public class GameBoard {
 		}
 	}
 
+
+	/*********************************************************
+	 * Name: createMemento() Parameters: ()
+	 * Returns: MementoInterface reference
+	 * This function practices factory design pattern to create
+	 * a Memento object.
+	 *********************************************************/
+
 	public MementoInterface createMemento(){
 		return new Memento(this.state);
 	}
@@ -338,7 +374,7 @@ public class GameBoard {
 		this.state.invoker = (Entity) entity.clone();
 	}
 
-	protected class Memento implements MementoInterface{
+	protected class Memento implements MementoInterface {
 		private State savedState;
 		private Memento(State state){
 			this.savedState = new State(state.x, state.y, state.turn, state.invoker);

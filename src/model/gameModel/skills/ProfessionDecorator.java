@@ -4,7 +4,27 @@ import model.gameModel.Entity;
 
 /**
  * Created by Human v Alien Team on 2016/4/30.
+ * Decorator design pattern: To decorator Entity
+ * Class to meet more functionality requirements.
+ *
+ * In our assignment, advance professional has special
+ * ability that is different to basic attack function.
+ * Initially, all pieces in a team are basic unit "Soldier"
+ * or "Spawn". Basic unit dynamically upgrade to advanced
+ * professional class when picked up a specific weapon on
+ * the map. So what we need here includes:
+ *
+ * 1. Basic invoke function is still needed for Entity class
+ * 2. More abilities are able to attach to an entity dynamically
+ *
+ * In order to achieve it, Decorator design pattern is
+ * implemented here. All advanced professionals extends
+ * ProfessionDecorator class and implement abstract method
+ * "Invoke(Entity target)" for getting its dedicate skill
+ * work.
  */
+
+
 public abstract class ProfessionDecorator extends Entity {
 
     private Entity entity;
