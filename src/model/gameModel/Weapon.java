@@ -1,7 +1,8 @@
 package model.gameModel;
 
+import java.io.Serializable;
 
-public class Weapon {
+public class Weapon implements Serializable {
 
 	public enum Weapons {
 		CANNON,

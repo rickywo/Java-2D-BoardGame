@@ -73,6 +73,10 @@ public class Team implements TeamInterface {
     public ArrayList<Entity> getMembers() {
         return members;
     }
+    
+    public void setMembers(ArrayList<Entity> members) {
+    	this.members = members;
+    }
 
     @Override
     public void resetTeamMoved() {

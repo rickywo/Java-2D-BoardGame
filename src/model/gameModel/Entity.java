@@ -5,6 +5,7 @@ import model.gameModel.skills.Command;
 import model.gameModel.skills.EntityActionInterface;
 import model.gameModel.skills.Move;
 
+import java.io.Serializable;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -22,7 +23,8 @@ import java.util.LinkedList;
  *
  */
 
-public class Entity implements EntityInterface, EntityActionInterface, Cloneable {
+public class Entity implements EntityInterface, EntityActionInterface, 
+Cloneable, Serializable {
 
 	private String name;
 	private int team; // Camp of this unit belongs to

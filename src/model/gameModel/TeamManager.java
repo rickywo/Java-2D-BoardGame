@@ -16,6 +16,10 @@ public class TeamManager {
     public Team getTeam(int i) {
         return teams[i];
     }
+    
+    public void setTeam(Team team, int i){
+    	teams[i] = team;
+    }
 
     public void printAllPiecesAttributes() {
 

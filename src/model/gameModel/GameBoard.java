@@ -4,6 +4,7 @@ import java.util.*;
 import controller.GameController;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
+import java.io.*;
 
 /**
  * State class
@@ -388,4 +389,85 @@ public class GameBoard {
 			return savedState;
 		}
 	}
+	
+	//Saving entity arraylists, bsize, turn, weapon, gameBoard
+	public void saveGame(){
+		//variables of game data for serialization
+		ArrayList<Entity> humanTeam = teamManager.getTeam(0).getMembers();
+		ArrayList<Entity> alienTeam = teamManager.getTeam(1).getMembers();
+		int bsize = this.BSIZE;
+		int currentTurn = this.turn;
+		BoardCell[][] board = gameBoard;
+		Weapon[] weapons = this.boardWeapons;
+		
+		//write objects into single gamedata object
+		ArrayList<Object> gameData = new ArrayList<Object>();
+		gameData.add(humanTeam);
+		gameData.add(alienTeam);
+		gameData.add(bsize);
+		gameData.add(currentTurn);
+		gameData.add(board);
+		gameData.add(weapons);
+		
+		//write gamedata object to file (serializing)
+		try {
+			FileOutputStream fileOut = new FileOutputStream("saveData.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(gameData);
+			out.close();
+			fileOut.close();
+			System.out.println("Serialized data is saved in saveData.ser");
+	
+		} catch(IOException i){
+			i.printStackTrace();
+		}
+	}
+	
+	public void loadGame(){
+		//variables of game data for deserialization
+		ArrayList<Entity> humanTeam = null; //0
+		ArrayList<Entity> alienTeam = null;//1
+		int bsize;							//2
+		int currentTurn;					//3
+		BoardCell[][] board = null;			//4
+		Weapon[] weapons = null;			//5
+		ArrayList<Object> deserialized;		//stores deserialized objects
+		
+		//read the objects (deserializing)
+		try {
+			FileInputStream fileIn = new FileInputStream("saveData.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			deserialized = (ArrayList<Object>)in.readObject();
+			in.close();
+			fileIn.close();
+		} catch(IOException i){
+			i.printStackTrace();
+			return;
+		} catch(ClassNotFoundException c){
+			c.printStackTrace();
+			return;
+		}
+		
+		//Put deserialized data back into respective types
+		humanTeam = (ArrayList<Entity>)deserialized.get(0);
+		alienTeam = (ArrayList<Entity>)deserialized.get(1);
+		bsize = (int)deserialized.get(2);
+		currentTurn = (int)deserialized.get(3);
+		board = (BoardCell[][])deserialized.get(4);
+		weapons = (Weapon[])deserialized.get(5);
+		
+		//rewrite this instance's variables with loaded data
+		Team hTeam = new Team(TeamTypes.Human);
+		Team aTeam = new Team(TeamTypes.Alien);
+		hTeam.setMembers(humanTeam);
+		aTeam.setMembers(alienTeam);
+		teamManager.setTeam(hTeam, 0);
+		teamManager.setTeam(aTeam, 1);
+		Consts.BSIZE = bsize;
+		this.turn = currentTurn;
+		gameBoard = board;
+		this.boardWeapons = weapons;
+	}
+	
+	
 }
