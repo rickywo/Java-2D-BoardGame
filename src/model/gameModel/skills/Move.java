@@ -1,12 +1,14 @@
 package model.gameModel.skills;
 
+import java.io.Serializable;
+
 import model.gameModel.Entity;
 import model.gameModel.Point;
 
 /**
  * Created by blahblah Team on 2016/5/2.
  */
-public class Move extends Command {
+public class Move extends Command implements Serializable{
 
     private int originX, originY;
     private int destX, destY;

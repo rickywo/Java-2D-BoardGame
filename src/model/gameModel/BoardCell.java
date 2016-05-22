@@ -3,11 +3,12 @@ package model.gameModel;
 import model.graphicModel.ImageManager;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * Created by Human v Alien Team on 2016/4/6.
  */
-public class BoardCell {
+public class BoardCell implements Serializable {
     boolean cursorHover;
     Entity entity;
     Weapon weapon;
