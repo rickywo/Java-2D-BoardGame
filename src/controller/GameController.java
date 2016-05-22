@@ -149,12 +149,11 @@ public class GameController {
         teamOnMove = i;
     }
 
-
-    public static void setGameState(int state) {
-        game_state = state;
+    public void saveGame() {
+        gameBoard.saveGame();
     }
 
-    public static int getGameState() {
-        return game_state;
+    public void loadGame() {
+        gameBoard.loadGame();
     }
 }

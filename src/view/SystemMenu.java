@@ -59,8 +59,7 @@ public class SystemMenu extends JMenuBar {
         loadData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //LibraryController.load();
-                //controller.loadListData();
+                mainPanel.load();
             }
         });
 
@@ -68,7 +67,7 @@ public class SystemMenu extends JMenuBar {
         saveData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //LibraryController.save();
+                mainPanel.save();
             }
         });
 
