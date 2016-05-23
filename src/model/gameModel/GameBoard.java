@@ -2,7 +2,7 @@ package model.gameModel;
 import java.util.*;
 
 import controller.GameController;
-import model.gameModel.skills.ProfessionComposition;
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 import java.io.*;
 
@@ -54,14 +54,16 @@ public class GameBoard {
 
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
 	//board has 20? weapons at start
-	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
+	private final int NUM_WEAPONS = Consts.NUM_WEAPONS;
+	private final int BSIZE = Consts.getBSIZE(); //board size.
+
 	private int turn;
 	private State state;
-	private static int teamOnMove; // indicates which team is on moving
-	private static TeamManager teamManager = null;
+	private int teamOnMove; // indicates which team is on moving
+	private TeamManager teamManager = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
-	private final int BSIZE = Consts.getBSIZE(); //board size.
+
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
 	private final static int DIST = Consts.DIST;
 	private GameController controller;
@@ -158,7 +160,7 @@ public class GameBoard {
 		checkTurn();
 	}
 
-	public void invoke(ProfessionComposition attacker, Point recipient) {
+	public void invoke(ProfessionDecorator attacker, Point recipient) {
 		// TODO: to call invoke function of attacker and apply skill attack to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
@@ -335,7 +337,7 @@ public class GameBoard {
 		if(weapon!=null) {
 			Entity target = gameBoard[x][y].getEntity();
 			if(controller.foundWeapon(weapon.getName())) {
-				ProfessionManager.changeProfession(target, weapon.getType());
+				teamManager.setEntityByXY(x, y, ProfessionManager.changeProfession(target, weapon.getType()));;
 				getBoardCell(x, y).clearWeapon();
 				updateBoard();
 			}

@@ -3,7 +3,7 @@ package controller;
 import model.gameModel.*;
 
 import model.gameModel.Point;
-import model.gameModel.skills.ProfessionComposition;
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 import view.Rectmech;
 import view.MainPanel;
@@ -76,7 +76,6 @@ public class GameController {
 
     public int attackHandler(Point point) {
         curMoveCell = gameBoard.getBoardCell(point.x, point.y);
-        // return curMoveCell.getEntity().getAttackRange();
         return 1;
     }
 
@@ -103,7 +102,10 @@ public class GameController {
     }
 
     public void invoke(Point point) {
-        gameBoard.invoke((ProfessionComposition) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+        System.out.println(curMoveCell.getEntity().getClass());
+        gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+
+
         careTaker.saveMemento(gameBoard.createMemento());
     }
 
@@ -131,7 +133,6 @@ public class GameController {
 
     public void teamWin() {
         MainPanel.showVerbose(Consts.TEAM_NAME[gameBoard.getTeamOnMove()] +" Win.", LONG_MESSAGE);
-        //MainPanel.pauseGame();
     }
 
     public boolean foundWeapon (String weaponName) {
@@ -144,10 +145,6 @@ public class GameController {
 
     public int getTeamOnMove() {
         return gameBoard.getTeamOnMove();
-    }
-
-    public void setTeamOnMove(int i) {
-        gameBoard.setTeamOnMove(i);
     }
 
     public void saveGame() {
