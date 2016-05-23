@@ -1,7 +1,11 @@
+/*
+ * Copyright (C) 2016 Ricky Wu.
+ */
 package model.gameModel.skills;
 
 import model.gameModel.Entity;
 
+// TODO: Auto-generated Javadoc
 /**
  * Created by Human v Alien Team on 2016/4/30.
  * Command pattern:
@@ -17,20 +21,44 @@ import model.gameModel.Entity;
 
 public abstract class Command {
 
+    /** The previous hp. */
     int oldHp;
+    
+    /** The previous strength. */
     int oldStr;
+    
+    /** The previous defence value. */
     int oldDef;
+    
+    /** The previous agility value. */
     int oldDex;
 
+    /** The target entity that command invokes on. */
     Entity target;
 
 
+    /**
+     * Execute.
+     *
+     * @param target the target
+     */
     public abstract void execute(Entity target);
 
+    /**
+     * Undo.
+     */
     public abstract void undo();
 
+    /**
+     * Redo.
+     */
     public abstract void redo();
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public abstract String toString();
 }

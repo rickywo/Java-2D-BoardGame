@@ -1,3 +1,4 @@
+
 package model.gameModel.skills;
 
 import model.gameModel.AttackeeInterface;
@@ -30,21 +31,45 @@ import model.gameModel.EntityInterface;
 
 public abstract class ProfessionDecorator extends Entity implements EntityInterface, AttackeeInterface, AttackerInterface {
 
+    /** The basic entity of this advanced entity before convertion */
     private Entity entity;
 
+    /**
+     * Instantiates a new profession decorator.
+     *
+     * @param name the name
+     * @param entity the entity
+     */
     public ProfessionDecorator(String name, Entity entity) {
         super(name);
         this.entity = entity;
     }
 
+    /**
+     * Invoke.
+     *
+     * @param target the target
+     */
     public abstract void invoke(Entity target);
 
+    /**
+     * Invoke skill.
+     *
+     * @param command the command
+     * @param target the target
+     */
     public void invokeSkill(Command command, Entity target) {
         command.execute(target);
         entity.undoStack.offerLast(command);
         setMoved();
     }
     
+    /**
+     * Invoke skill.
+     *
+     * @param command the command object
+     * @param targets the target to be invoked on
+     */
     public void invokeSkill(Command command, Entity[] targets) {
     	for(Entity target : targets){
     		command.execute(target);
@@ -53,6 +78,11 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
         setMoved();
     }
 
+    /**
+     * Attack.
+     *
+     * @param target the target
+     */
     public void attack(Entity target) {
 
         int damage = calculateDamage();
@@ -61,7 +91,7 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
     }
 
     /**
-     * Undo
+     * Undo.
      */
     public void undoLastInvoke() {
         if (!undoStack.isEmpty()) {
@@ -72,7 +102,7 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
     }
 
     /**
-     * Redo
+     * Redo.
      */
     public void redoLastInvoke() {
         if (!redoStack.isEmpty()) {
@@ -82,16 +112,32 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
         }
     }
 
+    /**
+     * Calculate steps.
+     *
+     * @param steps the steps
+     * @return the int
+     */
     @Override
     public int calculateSteps(int steps) {
         return steps * entity.getAgility();
     }
 
+    /**
+     * Be attacked.
+     *
+     * @param damage the damage
+     */
     @Override
     public void beAttacked(int damage) {
         setCurrentHP(getCurrentHP() - (damage - calculateDefenceFactor()));
     }
     
+	/**
+	 * Be healed.
+	 *
+	 * @param amount the amount
+	 */
 	@Override
 	public void beHealed(int amount) {
 		setCurrentHP(getCurrentHP() + amount);
@@ -100,16 +146,33 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 		}
 	}
 	
+	/**
+	 * Be defended.
+	 *
+	 * @param amount the amount
+	 */
 	@Override
 	public void beDefended(int amount) {
 		setDefense(getDefense() + amount);
 	}
 	
+	/**
+	 * Be strengthened.
+	 *
+	 * @param amount the amount
+	 */
 	@Override
 	public void beStrengthened(int amount){
 		setStrength(getStrength() + amount);
 	}
 	
+	/**
+	 * Be cheered.
+	 *
+	 * @param strengthAmt the strength amt
+	 * @param defenseAmt the defense amt
+	 * @param agilityAmt the agility amt
+	 */
 	@Override
 	public void beCheered(int strengthAmt, int defenseAmt, int agilityAmt) {
 		setStrength(getStrength() + strengthAmt);
@@ -117,6 +180,11 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 		setAgility(getAgility() + agilityAmt);
 	}
 	
+	/**
+	 * Be defense attacked.
+	 *
+	 * @param damage the damage
+	 */
 	@Override
 	public void beDefenseAttacked(int damage) {
 		setDefense(getDefense() - damage);
@@ -125,6 +193,11 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 		}
 	}
 	
+	/**
+	 * Be strength attacked.
+	 *
+	 * @param damage the damage
+	 */
 	@Override
 	public void beStrengthAttacked(int damage){
 		setStrength(getStrength() - damage);
@@ -133,120 +206,262 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 		}
 	}
 
+    /**
+     * Gets the team.
+     *
+     * @return the team
+     */
     public int getTeam() {
         return entity.getTeam();
     }
 
+    /**
+     * Sets the team.
+     *
+     * @param team the new team
+     */
     public void setTeam(int team) {
         entity.setTeam(team);
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName(){
         return entity.getName();
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
     public void setName(String name){
         entity.setName(name);
     }
 
+    /**
+     * Gets the profession name.
+     *
+     * @return the profession name
+     */
     public String getProfessionName(){
         return entity.getProfessionName();
     }
 
+    /**
+     * Sets the profession name.
+     *
+     * @param name the new profession name
+     */
     public void setProfessionName(String name){
         entity.setProfessionName(name);
     }
 
+    /**
+     * Gets the description.
+     *
+     * @return the description
+     */
     public String getDescription(){
         return entity.getDescription();
     }
 
+    /**
+     * Sets the description.
+     *
+     * @param descrip the new description
+     */
     public void setDescription(String descrip){
         entity.setDescription(descrip);
     }
 
+    /**
+     * Gets the strength.
+     *
+     * @return the strength
+     */
     public int getStrength() {
         return entity.getStrength();
     }
 
+    /**
+     * Sets the strength.
+     *
+     * @param strength the new strength
+     */
     public void setStrength(int strength) {
         entity.setStrength(strength);
     }
 
+    /**
+     * Gets the agility.
+     *
+     * @return the agility
+     */
     public int getAgility() {
         return entity.getAgility();
     }
 
+    /**
+     * Sets the agility.
+     *
+     * @param agility the new agility
+     */
     public void setAgility(int agility) {
         entity.setAgility(agility);
     }
 
+    /**
+     * Gets the max hp.
+     *
+     * @return the max hp
+     */
     public int getMaxHP() {
         return entity.getMaxHP();
     }
 
+    /**
+     * Sets the max hp.
+     *
+     * @param hp the new max hp
+     */
     public void setMaxHP(int hp) {
         entity.setMaxHP(hp);
     }
 
+    /**
+     * Gets the current hp.
+     *
+     * @return the current hp
+     */
     public int getCurrentHP() {
         return entity.getCurrentHP();
     }
 
+    /**
+     * Sets the current hp.
+     *
+     * @param hp the new current hp
+     */
     public void setCurrentHP(int hp) {
         entity.setCurrentHP(hp);
     }
 
+    /**
+     * Gets the defense.
+     *
+     * @return the defense
+     */
     public int getDefense() {
         return entity.getDefense();
     }
 
+    /**
+     * Sets the defense.
+     *
+     * @param defense the new defense
+     */
     public void setDefense(int defense) {
         entity.setDefense(defense);
     }
 
+    /**
+     * Gets the attack name.
+     *
+     * @return the attack name
+     */
     public String getAttackName(){
         return entity.getAttackName();
     }
 
+    /**
+     * Sets the attack name.
+     *
+     * @param name the new attack name
+     */
     public void setAttackName(String name){
         entity.setAttackName(name);
     }
 
+    /**
+     * Sets the attack range.
+     *
+     * @param range the new attack range
+     */
     @Override
     public void setAttackRange(int range) {
         entity.setAttackRange(range);
     }
 
+    /**
+     * Gets the attack range.
+     *
+     * @return the attack range
+     */
     @Override
     public int getAttackRange() {
         return entity.getAttackRange();
     }
 
+    /**
+     * Sets the pos.
+     *
+     * @param x the x
+     * @param y the y
+     */
     public void setPos(int x, int y) {
         entity.setPos(x, y);
     }
 
+    /**
+     * Gets the x pos.
+     *
+     * @return the x pos
+     */
     public int getXPos(){
         return entity.getXPos();
     }
 
+    /**
+     * Gets the y pos.
+     *
+     * @return the y pos
+     */
     public int getYPos(){
         return entity.getYPos();
     }
 
+    /**
+     * Sets the moved.
+     */
     public void setMoved() {
         entity.setMoved();
     }
 
+    /**
+     * Unset moved.
+     */
     public void unsetMoved() {
         entity.unsetMoved();
     }
 
+    /**
+     * Checks if is moved.
+     *
+     * @return true, if is moved
+     */
     public boolean isMoved() {
         return entity.isMoved();
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return entity.getName() + ";" +
