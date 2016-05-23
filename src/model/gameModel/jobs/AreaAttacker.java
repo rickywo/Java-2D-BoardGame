@@ -2,9 +2,9 @@ package model.gameModel.jobs;
 
 import model.gameModel.Entity;
 import model.gameModel.skills.AreaBlast;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 
-public class AreaAttacker extends ProfessionDecorator {
+public class AreaAttacker extends ProfessionComposition {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 80;
 	private final static int STRENGTH = 50;

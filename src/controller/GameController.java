@@ -3,7 +3,7 @@ package controller;
 import model.gameModel.*;
 
 import model.gameModel.Point;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 import resources.Consts;
 import view.Rectmech;
 import view.MainPanel;
@@ -24,14 +24,13 @@ import view.MainPanel;
 
 public class GameController {
 
-    private static int game_state;
     private GameBoard gameBoard; // Original in Memento Pattern
     private CareTaker careTaker; // Caretaker in Memento Pattern
     private BoardCell curMoveCell; // The entity is currently being moved
     private static int SHORT_MESSAGE = 2000;
     private static int LONG_MESSAGE = 100000;
 
-    private static int teamOnMove = 0; // indicates which team is on moving
+
     private static GameController game = null;
 
 
@@ -104,7 +103,7 @@ public class GameController {
     }
 
     public void invoke(Point point) {
-        gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
+        gameBoard.invoke((ProfessionComposition) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
         careTaker.saveMemento(gameBoard.createMemento());
     }
 
@@ -123,13 +122,11 @@ public class GameController {
      */
 
     public void switchTurn() {
-        teamOnMove ++;
-        teamOnMove %= Consts.NUM_TEAMS;
-        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +"'s turn.", SHORT_MESSAGE);
+        MainPanel.showVerbose(Consts.TEAM_NAME[gameBoard.getTeamOnMove()] +"'s turn.", SHORT_MESSAGE);
     }
 
     public void teamWin() {
-        MainPanel.showVerbose(Consts.TEAM_NAME[teamOnMove] +" Win.", LONG_MESSAGE);
+        MainPanel.showVerbose(Consts.TEAM_NAME[gameBoard.getTeamOnMove()] +" Win.", LONG_MESSAGE);
         //MainPanel.pauseGame();
     }
 
@@ -142,11 +139,11 @@ public class GameController {
      */
 
     public int getTeamOnMove() {
-        return teamOnMove;
+        return gameBoard.getTeamOnMove();
     }
 
     public void setTeamOnMove(int i) {
-        teamOnMove = i;
+        gameBoard.setTeamOnMove(i);
     }
 
     public void saveGame() {

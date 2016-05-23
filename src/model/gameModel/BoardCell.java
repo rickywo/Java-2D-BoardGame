@@ -2,7 +2,11 @@ package model.gameModel;
 
 import model.graphicModel.ImageManager;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -12,8 +16,8 @@ public class BoardCell implements Serializable {
     boolean cursorHover;
     Entity entity;
     Weapon weapon;
-    BufferedImage charImg;
-    BufferedImage tileImg;
+    transient BufferedImage charImg;
+    transient BufferedImage tileImg;
     
     public BoardCell() {
         cursorHover = false;
@@ -57,5 +61,19 @@ public class BoardCell implements Serializable {
 
     public BufferedImage getTileImg() {
         return tileImg;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        if(charImg != null)
+            ImageIO.write(charImg, "png", out); // png is lossless
+        if(tileImg != null)
+            ImageIO.write(tileImg, "png", out); // png is lossless
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        charImg = ImageIO.read(in);
+        tileImg = ImageIO.read(in);
     }
 }

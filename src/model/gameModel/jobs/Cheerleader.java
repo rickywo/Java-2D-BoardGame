@@ -2,9 +2,9 @@ package model.gameModel.jobs;
 
 import model.gameModel.Entity;
 import model.gameModel.skills.CheerDance;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 
-public class Cheerleader extends ProfessionDecorator {
+public class Cheerleader extends ProfessionComposition {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 75;
 	private final static int STRENGTH = 30;

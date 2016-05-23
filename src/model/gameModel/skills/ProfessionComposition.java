@@ -17,19 +17,19 @@ import model.gameModel.Entity;
  * 1. Basic invoke function is still needed for Entity class
  * 2. More abilities are able to attach to an entity dynamically
  *
- * In order to achieve it, Decorator design pattern is
+ * In order to achieve it, Composition design pattern is
  * implemented here. All advanced professionals extends
- * ProfessionDecorator class and implement abstract method
+ * ProfessionComposition class and implement abstract method
  * "Invoke(Entity target)" for getting its dedicate skill
  * work.
  */
 
 
-public abstract class ProfessionDecorator extends Entity {
+public abstract class ProfessionComposition extends Entity {
 
     private Entity entity;
 
-    public ProfessionDecorator(String name, Entity entity) {
+    public ProfessionComposition(String name, Entity entity) {
         super(name);
         this.entity = entity;
     }
@@ -40,6 +40,7 @@ public abstract class ProfessionDecorator extends Entity {
         //System.out.println(this + " invoke " + command + " at " + target);
         command.execute(target);
         entity.undoStack.offerLast(command);
+        setMoved();
     }
     
     public void invokeSkill(Command command, Entity[] targets) {
@@ -47,6 +48,7 @@ public abstract class ProfessionDecorator extends Entity {
     		command.execute(target);
     	}
         entity.undoStack.offerLast(command);
+        setMoved();
     }
 
     public void attack(Entity target) {

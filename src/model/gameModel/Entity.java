@@ -291,7 +291,7 @@ Cloneable, Serializable {
 
 	@Override
 	public void invokeSkill(Command command, Entity target) {
-
+		setMoved();
 	}
 
 	/**

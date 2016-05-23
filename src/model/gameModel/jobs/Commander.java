@@ -2,9 +2,9 @@ package model.gameModel.jobs;
 
 import model.gameModel.Entity;
 import model.gameModel.skills.Attack;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 
-public class Commander extends ProfessionDecorator {
+public class Commander extends ProfessionComposition {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 200;
 	private final static int STRENGTH = 30;

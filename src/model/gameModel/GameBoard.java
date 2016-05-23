@@ -2,7 +2,7 @@ package model.gameModel;
 import java.util.*;
 
 import controller.GameController;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 import resources.Consts;
 import java.io.*;
 
@@ -17,15 +17,17 @@ import java.io.*;
 class State {
 	int x,y;
 	int turn;
+	int teamOnMove;
 	Entity invoker;
 
-	State(int x, int y, int turn, Entity invoker) {
+	State(int x, int y, int turn, int teamOnMove, Entity invoker) {
 		// The coordinator been clicked
 		this.x = x;
 		this.y = y;
 
 		// Current turn of the game
 		this.turn = turn;
+		this.teamOnMove = teamOnMove;
 
 		// The invoker entity of a command in this trun
 		this.invoker = invoker;
@@ -55,6 +57,7 @@ public class GameBoard {
 	private static final int NUM_WEAPONS = Consts.NUM_WEAPONS;
 	private int turn;
 	private State state;
+	private static int teamOnMove; // indicates which team is on moving
 	private static TeamManager teamManager = null;
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
@@ -67,7 +70,8 @@ public class GameBoard {
 
 	public GameBoard(GameController controller) {
 		turn = 0;
-		state = new State(0 ,0 ,turn , null);
+		teamOnMove = 0;
+		state = new State(0 ,0 ,turn, 0, null);
 		this.controller = controller;
 		initialSetup();
 	}
@@ -166,7 +170,7 @@ public class GameBoard {
 		checkTurn();
 	}
 
-	public void invoke(ProfessionDecorator attacker, Point recipient) {
+	public void invoke(ProfessionComposition attacker, Point recipient) {
 		// TODO: to call invoke function of attacker and apply skill attack to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
@@ -306,20 +310,35 @@ public class GameBoard {
      *****************************************************************************/
 
     private void checkTurn() {
-        final int team = controller.getTeamOnMove();
+        final int team = getTeamOnMove();
         if(teamManager.isTeamsTurnFinished(team)) {
-			System.out.println("Team on move: " + team);
             teamManager.resetTeamMoved(team);
-			turn ++;
-            controller.switchTurn();
+            nextTurn();
         }
     }
 
 	private void checkWin() {
-		final int team = 1 - controller.getTeamOnMove();
+		final int team = 1 - getTeamOnMove();
 		if(teamManager.isTeamDefeated(team)) {
 			controller.teamWin();
 		}
+	}
+
+	public void nextTurn() {
+		turn ++;
+		teamOnMove ++;
+		teamOnMove %= Consts.NUM_TEAMS;
+		// Reset moved flag of all pieces in a team
+		teamManager.resetTeamMoved(getTeamOnMove());
+		controller.switchTurn();
+	}
+
+	public void setTurn(int turn, int teamOnMove) {
+		this.turn = turn;
+		this.setTeamOnMove(teamOnMove);
+		// Reset moved flag of all pieces in a team
+		teamManager.resetTeamMoved(teamOnMove);
+		controller.switchTurn();
 	}
 
 	private void checkWeapon(int x, int y) {
@@ -333,6 +352,14 @@ public class GameBoard {
 				updateBoard();
 			}
 		}
+	}
+
+	public int getTeamOnMove() {
+		return teamOnMove;
+	}
+
+	public void setTeamOnMove(int i) {
+		teamOnMove = i;
 	}
 
 
@@ -352,19 +379,15 @@ public class GameBoard {
 		this.setState(aMemento.getState());
 	}
 
-	public State getState(){
-		return this.state;
-	}
-
 	public void setState(State state){
 		int x,y;
 		this.state = state;
-		this.turn = this.state.turn;
+
 		x = this.state.x;
 		y = this.state.y;
 		this.state.invoker.undoLastInvoke();
 		teamManager.setEntityByXY(x, y, this.state.invoker);
-
+		setTurn(this.state.turn, this.state.teamOnMove);
 		updateBoard();
 	}
 
@@ -372,17 +395,14 @@ public class GameBoard {
 		this.state.x = x;
 		this.state.y = y;
 		this.state.turn = this.turn;
+		this.state.teamOnMove = this.teamOnMove;
 		this.state.invoker = (Entity) entity.clone();
 	}
 
 	protected class Memento implements MementoInterface {
 		private State savedState;
 		private Memento(State state){
-			this.savedState = new State(state.x, state.y, state.turn, state.invoker);
-		}
-
-		private void setState(State someState){
-			this.savedState = someState;
+			this.savedState = new State(state.x, state.y, state.turn, state.teamOnMove, state.invoker);
 		}
 
 		private State getState(){
@@ -451,8 +471,8 @@ public class GameBoard {
 		//Put deserialized data back into respective types
 		humanTeam = (ArrayList<Entity>)deserialized.get(0);
 		alienTeam = (ArrayList<Entity>)deserialized.get(1);
-		bsize = (int)deserialized.get(2);
-		currentTurn = (int)deserialized.get(3);
+		bsize = (Integer) deserialized.get(2);
+		currentTurn = (Integer)deserialized.get(3);
 		board = (BoardCell[][])deserialized.get(4);
 		weapons = (Weapon[])deserialized.get(5);
 		

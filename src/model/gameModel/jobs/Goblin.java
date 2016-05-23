@@ -1,9 +1,9 @@
 package model.gameModel.jobs;
 import model.gameModel.skills.*;
 import model.gameModel.Entity;
-import model.gameModel.skills.ProfessionDecorator;
+import model.gameModel.skills.ProfessionComposition;
 
-public class Goblin extends ProfessionDecorator {
+public class Goblin extends ProfessionComposition {
 	private final static int TEAM = 1;
 	private final static int MAX_HP = 70;
 	private final static int STRENGTH = 35;
