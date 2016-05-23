@@ -16,8 +16,6 @@ public class DoubleShot extends Command {
     	this.target = target;
         oldHp = target.getCurrentHP();
         oldDef = target.getDefense();
-        System.out.println("Defense Damage: " + defenseDamage);
-    	System.out.println("Damage: " + damage);
         target.beDefenseAttacked(defenseDamage);
     	target.beAttacked(damage);
     }
@@ -27,15 +25,12 @@ public class DoubleShot extends Command {
         if (target != null) {
             target.setCurrentHP(oldHp);
             target.setDefense(oldDef);
-            System.out.println("Restore Doubleshot");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

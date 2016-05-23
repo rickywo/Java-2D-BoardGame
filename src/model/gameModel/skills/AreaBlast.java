@@ -12,9 +12,7 @@ public class AreaBlast extends Command {
 	
 	@Override
 	public void execute(Entity target) {
-		 //target.setVisibility(Visibility.INVISIBLE);
 	  	this.target = target;
-        System.out.println("Damage to HP, Strength, Defense: " + damage);
     	oldHp = target.getCurrentHP();
         oldStr = target.getStrength();
         oldDef = target.getDefense();
@@ -32,15 +30,12 @@ public class AreaBlast extends Command {
             target.setStrength(oldStr);
             target.setDefense(oldDef);
 
-            System.out.println("Restore AreaBlast");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

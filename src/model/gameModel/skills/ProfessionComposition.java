@@ -37,7 +37,6 @@ public abstract class ProfessionComposition extends Entity {
     public abstract void invoke(Entity target);
 
     public void invokeSkill(Command command, Entity target) {
-        //System.out.println(this + " invoke " + command + " at " + target);
         command.execute(target);
         entity.undoStack.offerLast(command);
         setMoved();
@@ -65,7 +64,6 @@ public abstract class ProfessionComposition extends Entity {
         if (!undoStack.isEmpty()) {
             Command previousInvoke = entity.undoStack.pollLast();
             entity.redoStack.offerLast(previousInvoke);
-            System.out.println(this + " undoes " + previousInvoke);
             previousInvoke.undo();
         }
     }
@@ -77,7 +75,6 @@ public abstract class ProfessionComposition extends Entity {
         if (!redoStack.isEmpty()) {
             Command previousInvoke = entity.redoStack.pollLast();
             entity.undoStack.offerLast(previousInvoke);
-            System.out.println(this + " redoes " + previousInvoke);
             previousInvoke.redo();
         }
     }

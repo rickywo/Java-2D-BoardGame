@@ -19,8 +19,6 @@ public class HigherPower extends Command {
     	this.target = target;
         oldStr = target.getStrength();
         oldDef = target.getDefense();
-        System.out.println("Strength Damage: " + strengthDamage);
-        System.out.println("Defense Damage: " + defenseDamage);
         target.beStrengthAttacked(strengthDamage);
         target.beDefenseAttacked(defenseDamage);
   
@@ -31,15 +29,12 @@ public class HigherPower extends Command {
         if (target != null) {
             target.setStrength(oldStr);
             target.setDefense(oldDef);
-            System.out.println("Restore HigherPower");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

@@ -15,10 +15,7 @@ public class Attack extends Command {
 
     @Override
     public void execute(Entity target) {
-        //target.setVisibility(Visibility.INVISIBLE);
         oldHp = target.getCurrentHP();
-
-        System.out.println("Damage:" + damage);
         target.beAttacked(damage);
         this.target = target;
     }
@@ -26,17 +23,13 @@ public class Attack extends Command {
     @Override
     public void undo() {
         if (target != null) {
-            //target.setVisibility(Visibility.VISIBLE);
             target.setCurrentHP(oldHp);
-
-            System.out.println("Restore attack");
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

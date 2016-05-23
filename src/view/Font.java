@@ -43,7 +43,6 @@ public class Font {
         for(int i = 0; i < length; i ++) {
             int c = BLOCKFONT_LETTERS.indexOf(string.charAt(i));
             if(c < 0) continue;
-            // System.out.println("x axial: " + (c%16) + " y axial: " + (c/16)  );
             screen.render(Art.KRENFONT[c % 16][(c / 16) + 2], x, y);
             x += 10;
             //y += 32;

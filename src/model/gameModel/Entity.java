@@ -302,7 +302,6 @@ Cloneable, Serializable {
 		if (!undoStack.isEmpty()) {
 			Command previousInvoke = undoStack.pollLast();
 			redoStack.offerLast(previousInvoke);
-			System.out.println(this + " undo " + previousInvoke);
 			previousInvoke.undo();
 		}
 	}
@@ -315,7 +314,6 @@ Cloneable, Serializable {
 		if (!redoStack.isEmpty()) {
 			Command previousInvoke = redoStack.pollLast();
 			undoStack.offerLast(previousInvoke);
-			System.out.println(this + " redoes " + previousInvoke);
 			previousInvoke.redo();
 		}
 	}

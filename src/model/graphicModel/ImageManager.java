@@ -28,7 +28,6 @@ public class ImageManager {
 
 		BufferedImage b = ImageIO.read(ImageManager.class.getClass().getResource(name));
 		cache.put(name, b);
-		System.out.println("Loaded image resource "+name);
 
 	}
 

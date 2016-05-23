@@ -21,7 +21,6 @@ public class Move extends Command implements Serializable{
 
     @Override
     public void execute(Entity target) {
-        //target.setVisibility(Visibility.INVISIBLE);
         originX = target.getXPos();
         originY = target.getYPos();
         target.setPos(destX, destY);
@@ -31,20 +30,13 @@ public class Move extends Command implements Serializable{
     @Override
     public void undo() {
         if (target != null) {
-            System.out.println("ox: " + target.getXPos() + " oy:" + target.getYPos() );
             target.setPos(originX, originY);
-            System.out.println("dx: " + target.getXPos() + " dy:" + target.getYPos() );
-
-
-            System.out.println("Restore Move");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

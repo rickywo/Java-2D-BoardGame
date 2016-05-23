@@ -20,9 +20,6 @@ public class CheerDance extends Command {
         oldStr = target.getStrength();
         oldDef = target.getDefense();
         oldDex = target.getAgility();
-        System.out.println("Strength rose by:" + strengthAmt);
-        System.out.println("Defense rose by:" + defenseAmt);
-        System.out.println("Agility rose by:" + agilityAmt);
         target.beCheered(strengthAmt, defenseAmt, agilityAmt);
     }
 
@@ -32,15 +29,12 @@ public class CheerDance extends Command {
             target.setStrength(oldStr);
             target.setDefense(oldDef);
             target.setAgility(oldDex);
-            System.out.println("Restore CheerDance");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

@@ -14,25 +14,19 @@ public class GreatWall extends Command {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
     	oldDef = target.getDefense();
-        System.out.println("Defense Increase:" + amount);
         target.beDefended(amount);
-        System.out.println("Defense rose from " + oldDef + " to " +
-        		target.getDefense());
     }
 
     @Override
     public void undo() {
         if (target != null) {
             target.setDefense(oldDef);
-            System.out.println("Restore Heal");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 

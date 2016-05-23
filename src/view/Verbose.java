@@ -20,16 +20,7 @@ public class Verbose {
                     (Consts.SCR_WIDTH - Consts.MAP_X_OFFSET) / 2 + Consts.MAP_X_OFFSET - width / 2,
                     Consts.SCR_HEIGHT / 2);
     }
-    public static void tick() {
-        /*long curTime = System.currentTimeMillis();
-
-        if(curTime - ft > fi && curTime - ft < limit) {
-            Y ++;
-            ft += fi;
-            System.out.println("ft: " + (curTime - ft));
-        }*/
-    }
-
+    
     public static void verbose(String message, long limit) {
         verboseMessage = message;
         verboseTime = System.currentTimeMillis();

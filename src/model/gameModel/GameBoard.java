@@ -82,9 +82,6 @@ public class GameBoard {
 		generateWeapons();
 		dispatchPieces();
 		dispatchWeapons();
-        teamManager.printAllPiecesAttributes(); //remove later
-		printAllWeaponInfo(); //remove later
-		printBoard(); //remove later
 	}
 	
 	private void generateBoard(){
@@ -128,20 +125,11 @@ public class GameBoard {
 		}
 	}
 
-	public Weapon[] getWeapons(){
-		return boardWeapons;
-	}
-
 	public void printAllWeaponInfo(){
 		System.out.println("WEAPON INFO:");
 		for(int i=0; i<boardWeapons.length; i++){
 			boardWeapons[i].printWeaponInfo();
 		}
-	}
-
-
-	public BoardCell[][] getBoard(){
-		return gameBoard;
 	}
 
 	public BoardCell getBoardCell(int x, int y) {
@@ -436,7 +424,6 @@ public class GameBoard {
 			out.writeObject(gameData);
 			out.close();
 			fileOut.close();
-			System.out.println("Serialized data is saved in saveData.ser");
 	
 		} catch(IOException i){
 			i.printStackTrace();

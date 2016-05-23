@@ -15,7 +15,6 @@ public class LongLaser extends Command {
         //target.setVisibility(Visibility.INVISIBLE);
     	this.target = target;
         oldHp = target.getCurrentHP();
-        System.out.println("Damage:" + damage);
         target.beAttacked(damage);
     }
 
@@ -23,15 +22,12 @@ public class LongLaser extends Command {
     public void undo() {
         if (target != null) {
             target.setCurrentHP(oldHp);
-            System.out.println("Restore LongLaser");
-            //target.setVisibility(Visibility.VISIBLE);
         }
     }
 
     @Override
     public void redo() {
         if (target != null) {
-            //target.setVisibility(Visibility.INVISIBLE);
         }
     }
 
