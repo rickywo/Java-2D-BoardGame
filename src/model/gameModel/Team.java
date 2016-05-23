@@ -34,9 +34,6 @@ public class Team implements TeamInterface {
         this.type = type;
         members = new ArrayList<Entity>();
         initialise();
-        for (int i = 0; i < members.size(); i++) {
-            get(i).printAllAttributes();
-        }
     }
 
     /**

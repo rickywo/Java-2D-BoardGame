@@ -159,7 +159,6 @@ public class GameController {
      * @param point the cooridinate of a cell being clicked
      */
     public void invoke(Point point) {
-        System.out.println(curMoveCell.getEntity().getClass());
         gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
 
 

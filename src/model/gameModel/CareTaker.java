@@ -22,9 +22,11 @@ public class CareTaker {
     protected Deque<MementoInterface> undoStack = new LinkedList<MementoInterface>();
 
     public MementoInterface retrieveMemento(){
-        MementoInterface m = undoStack.pollLast();
-
-        return m;
+        if (!undoStack.isEmpty()) {
+            MementoInterface m = undoStack.pollLast();
+            return m;
+        }
+        return null;
     }
 
     public void saveMemento(MementoInterface memento){

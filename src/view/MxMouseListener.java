@@ -31,7 +31,12 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        model.gameModel.Point p = new model.gameModel.Point(Rectmech.pxtoRect(x, y));
+        model.gameModel.Point p;
+        try {
+            p = new model.gameModel.Point(Rectmech.pxtoRect(x, y));
+        } catch (IndexOutOfBoundsException ie) {
+            return;
+        }
         Entity t = gameController.getBoardCell(p.x, p.y).getEntity();
 
         // Do nothing if mouse click the area out of bound

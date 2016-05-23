@@ -3,6 +3,7 @@
  */
 package model.gameModel;
 
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
 /**

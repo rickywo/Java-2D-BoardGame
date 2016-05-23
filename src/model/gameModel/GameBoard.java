@@ -519,8 +519,10 @@ public class GameBoard {
 	 */
 	public void restoreMemento(MementoInterface memento){
 		// get a saved state from memento object passed in
-		Memento aMemento = (Memento)memento;
-		this.setState(aMemento.getState());
+		if(memento != null) {
+			Memento aMemento = (Memento) memento;
+			this.setState(aMemento.getState());
+		}
 	}
 
 	/**
@@ -574,7 +576,7 @@ public class GameBoard {
 		/**
 		 * Instantiates a new memento.
 		 *
-		 * @param state the state
+		 * @param state the state object
 		 */
 		private Memento(State state){
 			this.savedState = new State(state.x, state.y, state.turn, state.teamOnMove, state.invoker);
