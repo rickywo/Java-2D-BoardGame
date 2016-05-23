@@ -2,7 +2,6 @@ package model.gameModel;
 
 import model.gameModel.skills.Attack;
 import model.gameModel.skills.Command;
-import model.gameModel.skills.EntityActionInterface;
 import model.gameModel.skills.Move;
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ import java.util.LinkedList;
  *
  */
 
-public class Entity implements EntityInterface, EntityActionInterface, 
+public class Entity implements EntityInterface, AttackeeInterface, AttackerInterface,
 Cloneable, Serializable {
 
 	private String name;
@@ -103,14 +102,6 @@ Cloneable, Serializable {
 		setDefense(getDefense() - damage);
 		if(getDefense() < 0){
 			setDefense(0);
-		}
-	}
-	
-	@Override
-	public void beAgilityAttacked(int damage){
-		setAgility(getAgility() - damage);
-		if(getAgility() < 0){
-			setAgility(0);
 		}
 	}
 	

@@ -1,9 +1,9 @@
 package model.gameModel.jobs;
 import model.gameModel.skills.*;
 import model.gameModel.Entity;
-import model.gameModel.skills.ProfessionComposition;
+import model.gameModel.skills.ProfessionDecorator;
 
-public class Warrior extends ProfessionComposition {
+public class Warrior extends ProfessionDecorator {
 	private final static int TEAM = 0;
 	private final static int MAX_HP = 65;
 	private final static int STRENGTH = 80;

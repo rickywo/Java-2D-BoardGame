@@ -1,6 +1,9 @@
 package model.gameModel.skills;
 
+import model.gameModel.AttackeeInterface;
+import model.gameModel.AttackerInterface;
 import model.gameModel.Entity;
+import model.gameModel.EntityInterface;
 
 /**
  * Created by Human v Alien Team on 2016/4/30.
@@ -19,17 +22,17 @@ import model.gameModel.Entity;
  *
  * In order to achieve it, Composition design pattern is
  * implemented here. All advanced professionals extends
- * ProfessionComposition class and implement abstract method
+ * ProfessionDecorator class and implement abstract method
  * "Invoke(Entity target)" for getting its dedicate skill
  * work.
  */
 
 
-public abstract class ProfessionComposition extends Entity {
+public abstract class ProfessionDecorator extends Entity implements EntityInterface, AttackeeInterface, AttackerInterface {
 
     private Entity entity;
 
-    public ProfessionComposition(String name, Entity entity) {
+    public ProfessionDecorator(String name, Entity entity) {
         super(name);
         this.entity = entity;
     }
@@ -119,14 +122,6 @@ public abstract class ProfessionComposition extends Entity {
 		setDefense(getDefense() - damage);
 		if(getDefense() < 0){
 			setDefense(0);
-		}
-	}
-	
-	@Override
-	public void beAgilityAttacked(int damage){
-		setAgility(getAgility() - damage);
-		if(getAgility() < 0){
-			setAgility(0);
 		}
 	}
 	
