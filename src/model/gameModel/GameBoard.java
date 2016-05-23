@@ -403,8 +403,11 @@ public class GameBoard {
 	//Saving entity arraylists, bsize, turn, weapon, gameBoard
 	public void saveGame(){
 		//variables of game data for serialization
-		ArrayList<Entity> humanTeam = teamManager.getTeam(0).getMembers();
-		ArrayList<Entity> alienTeam = teamManager.getTeam(1).getMembers();
+		
+		ArrayList<Entity> humanTeam = 
+				teamManager.getTeam(Consts.HUMAN_TEAM_NUM).getMembers();
+		ArrayList<Entity> alienTeam = 
+				teamManager.getTeam(Consts.ALIEN_TEAM_NUM).getMembers();
 		int bsize = this.BSIZE;
 		int currentTurn = this.turn;
 		int teamOnMove = getTeamOnMove();
@@ -437,11 +440,11 @@ public class GameBoard {
 	
 	public void loadGame(){
 		//variables of game data for deserialization
-		ArrayList<Entity> humanTeam = null; //0
-		ArrayList<Entity> alienTeam = null;//1
-		int bsize;							//2
-		int currentTurn;					//3
-		int teamOnMove;						//4
+		ArrayList<Entity> humanTeam = null; //0 (index of deserialized arraylist)
+		ArrayList<Entity> alienTeam = null; //1
+		int bsize = 0;						//2
+		int currentTurn = 0;				//3
+		int teamOnMove = 0;					//4
 		BoardCell[][] board = null;			//5
 		Weapon[] weapons = null;			//6
 		ArrayList<Object> deserialized;		//stores deserialized objects
@@ -462,20 +465,31 @@ public class GameBoard {
 		}
 		
 		//Put deserialized data back into respective types
-		humanTeam = (ArrayList<Entity>)deserialized.get(0);
-		alienTeam = (ArrayList<Entity>)deserialized.get(1);
-		bsize = (Integer) deserialized.get(2);
-		currentTurn = (Integer)deserialized.get(3);
-		teamOnMove = (Integer)deserialized.get(4);
-		board = (BoardCell[][])deserialized.get(5);
-		weapons = (Weapon[])deserialized.get(6);
-		//rewrite this instance's variables with loaded data
+		for(int i=0; i<deserialized.size(); i++){
+			switch(i){
+				case 0: humanTeam = (ArrayList<Entity>)deserialized.get(i);
+						break;
+				case 1: alienTeam = (ArrayList<Entity>)deserialized.get(i);
+						break;
+				case 2: bsize = (Integer) deserialized.get(i);
+						break;
+				case 3: currentTurn = (Integer)deserialized.get(i);
+						break;
+				case 4: teamOnMove = (Integer)deserialized.get(i);
+						break;
+				case 5: board = (BoardCell[][])deserialized.get(i);
+						break;
+				case 6: weapons = (Weapon[])deserialized.get(i);
+						break;
+			}
+		}
+		
 		Team hTeam = new Team(TeamTypes.Human);
 		Team aTeam = new Team(TeamTypes.Alien);
 		hTeam.setMembers(humanTeam);
 		aTeam.setMembers(alienTeam);
-		teamManager.setTeam(hTeam, 0);
-		teamManager.setTeam(aTeam, 1);
+		teamManager.setTeam(hTeam, Consts.HUMAN_TEAM_NUM);
+		teamManager.setTeam(aTeam, Consts.ALIEN_TEAM_NUM);
 		Consts.BSIZE = bsize;
 
 		gameBoard = board;
