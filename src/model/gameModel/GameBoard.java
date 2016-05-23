@@ -52,32 +52,69 @@ class State {
 
 public class GameBoard {
 
+	/** The FlyweightFactory factory instance. */
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
-
+	
+	/** The Constant TEAM_ONE_ARRAYLIST_OBJECT_INDEX. */
 	private static final int TEAM_ONE_ARRAYLIST_OBJECT_INDEX = 0;
+	
+	/** The Constant TEAM_TWO_ARRAYLIST_OBJECT_INDEX. */
 	private static final int TEAM_TWO_ARRAYLIST_OBJECT_INDEX = 1;
+	
+	/** The Constant BOARD_SIZE_OBJECT_INDEX. */
 	private static final int BOARD_SIZE_OBJECT_INDEX = 2;
+	
+	/** The Constant TURN_COUNT_OBJECT_INDEX. */
 	private static final int TURN_COUNT_OBJECT_INDEX = 3;
+	
+	/** The Constant TEAM_ON_MOVE_OBJECT_INDEX. */
 	private static final int TEAM_ON_MOVE_OBJECT_INDEX = 4;
+	
+	/** The Constant BOARD_CELL_2DARRAY_OBJECT_INDEX. */
 	private static final int BOARD_CELL_2DARRAY_OBJECT_INDEX = 5;
+	
+	/** The Constant WEAPON_ARRAY_OBJECT_INDEX. */
 	private static final int WEAPON_ARRAY_OBJECT_INDEX = 6;
+	
+	/** The num of weapons. */
 	//board has 20? weapons at start
 	private final int NUM_WEAPONS = Consts.NUM_WEAPONS;
+	
+	/** The board size. */
 	private final int BSIZE = Consts.getBSIZE(); //board size.
 
+	/** The turn count. */
 	private int turn;
+	
+	/** The current state. */
 	private State state;
+	
+	/** The team number on move. */
 	private int teamOnMove; // indicates which team is on moving
+	
+	/** The team manager. */
 	private TeamManager teamManager = null;
+	
+	/** The board contains weapons. */
 	//Board variables
 	private Weapon[] boardWeapons = new Weapon[NUM_WEAPONS];
 
+	/** The Constant DIST. */
 	//radius of squares to generate pieces around leader (5x5 grid) - 1
 	private final static int DIST = Consts.DIST;
+	
+	/** The controller reference. */
 	private GameController controller;
+	
+	/** The game board. */
 	public static BoardCell[][] gameBoard;
 
 
+	/**
+	 * Instantiates a new game board.
+	 *
+	 * @param controller the game controller reference
+	 */
 	public GameBoard(GameController controller) {
 		turn = 0;
 		teamOnMove = 0;
@@ -86,6 +123,9 @@ public class GameBoard {
 		initialSetup();
 	}
 
+	/**
+	 * Initial setup.
+	 */
 	public void initialSetup(){
 		generateBoard();
 		generatePieces();
@@ -94,6 +134,9 @@ public class GameBoard {
 		dispatchWeapons();
 	}
 	
+	/**
+	 * Generate board.
+	 */
 	private void generateBoard(){
 		gameBoard = new BoardCell[BSIZE][BSIZE];
 		for(int i=0; i<gameBoard[0].length; i++){
@@ -103,10 +146,16 @@ public class GameBoard {
 		}
 	}
 	
+	/**
+	 * Generate pieces.
+	 */
 	private void generatePieces(){
         teamManager = new TeamManager();
 	}
 	
+	/**
+	 * Generate weapons.
+	 */
 	private void generateWeapons(){
 		for(int i=0; i<boardWeapons.length; i++){
 			//create weapons and place on board
@@ -118,6 +167,9 @@ public class GameBoard {
 		}
 	}
 	
+	/**
+	 * Dispatch weapons.
+	 */
 	private void dispatchWeapons(){
 		Random rand = new Random();
 		int x; //xPos of weapon
@@ -135,6 +187,9 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Prints the all weapon info.
+	 */
 	public void printAllWeaponInfo(){
 		System.out.println("WEAPON INFO:");
 		for(int i=0; i<boardWeapons.length; i++){
@@ -142,10 +197,25 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Gets the board cell.
+	 *
+	 * @param x the x coordinate on game board
+	 * @param y the y coordinate on game board
+	 * @return the board cell
+	 */
 	public BoardCell getBoardCell(int x, int y) {
 		return gameBoard[x][y];
 	}
 
+	/**
+	 * Move piece to.
+	 *
+	 * @param xo from x 
+	 * @param yo from y
+	 * @param xd destination x
+	 * @param yd destination y
+	 */
 	public void movePieceTo(int xo, int yo, int xd, int yd) {
 		Entity t = getBoardCell(xo, yo).getEntity();
 		t.moveTo(t, xd, yd);
@@ -156,6 +226,12 @@ public class GameBoard {
 
 	}
 
+	/**
+	 * Combat.
+	 *
+	 * @param attacker the attacker who making attack
+	 * @param recipient the recipient who being attacked
+	 */
 	public void combat(Entity attacker, Point recipient) {
 		// TODO: to call attack function of attacker and apply attacking to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
@@ -168,6 +244,12 @@ public class GameBoard {
 		checkTurn();
 	}
 
+	/**
+	 * Invoke.
+	 *
+	 * @param attacker the attacker who making attack
+	 * @param recipient the recipient who being attacked
+	 */
 	public void invoke(ProfessionDecorator attacker, Point recipient) {
 		// TODO: to call invoke function of attacker and apply skill attack to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
@@ -180,6 +262,13 @@ public class GameBoard {
 		checkTurn();
 	}
 
+	/**
+	 * Destroy an entity.
+	 * Move its cooridinates to -1, -1
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	private void destroyEntity(int x, int y) {
 		BoardCell cell = getBoardCell(x, y);
 		Entity e = cell.getEntity();
@@ -188,12 +277,19 @@ public class GameBoard {
 		updateBoard();
 	}
 
+	/**
+	 * Dispatch pieces.
+	 * Places pieces on the game board
+	 */
 	private void dispatchPieces(){
 		dispatchHumanTeam();
 		dispatchAlienTeam();
 		updateBoard();
 	}
 
+	/**
+	 * Dispatch human team.
+	 */
 	private void dispatchHumanTeam(){
 		//SET HUMAN TEAM POSITIONS
 		//Set Commander position
@@ -219,6 +315,9 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Dispatch alien team.
+	 */
 	private void dispatchAlienTeam(){
 		//SET ALIEN TEAM POSITIONS
 		//Set Chief position and check there is clear space of 5x5 grid
@@ -269,6 +368,9 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Update pieces on the game board.
+	 */
 	public  void updateBoard() {
 		for(int i=0; i<BSIZE; i++){
 			for(int j=0; j<BSIZE; j++){
@@ -278,6 +380,9 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Prints the board.
+	 */
 	//For debugging only
 	public void printBoard(){
 		//copy board
@@ -299,13 +404,13 @@ public class GameBoard {
 		}
 	}
 
-    /***************************************************************************
+    /**
      * checkTurn(): go over all entities in a team to see if any of them has not
      * been moved
      *
      * It called by function movePieceTo(). It calls switchTurn when all entities
      * are finished its movement
-     *****************************************************************************/
+     */
 
     private void checkTurn() {
         final int team = getTeamOnMove();
@@ -315,6 +420,10 @@ public class GameBoard {
         }
     }
 
+	/**
+	 * Check if current moving team wins.
+	 */
+    
 	private void checkWin() {
 		final int team = 1 - getTeamOnMove();
 		if(teamManager.isTeamDefeated(team)) {
@@ -322,6 +431,9 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Give turn to next team.
+	 */
 	public void nextTurn() {
 		turn ++;
 		teamOnMove ++;
@@ -331,6 +443,13 @@ public class GameBoard {
 		controller.switchTurn();
 	}
 
+	/**
+	 * Sets the turn.
+	 * Set turn and team on move to current gameboard and continue gmae
+	 *
+	 * @param turn the turn count to be set
+	 * @param teamOnMove the team number on move
+	 */
 	public void setTurn(int turn, int teamOnMove) {
 		this.turn = turn;
 		this.setTeamOnMove(teamOnMove);
@@ -339,6 +458,13 @@ public class GameBoard {
 		controller.switchTurn();
 	}
 
+	/**
+	 * Check weapon.
+	 * Check any weapon in the cell(x, y). Convert a basic entity(Soldier or Spawn) 
+	 * to an advanced professional class according to weapon it picked up
+	 * @param x the x
+	 * @param y the y
+	 */
 	private void checkWeapon(int x, int y) {
 		Weapon weapon = getBoardCell(x, y).getWeapon();
 
@@ -352,63 +478,123 @@ public class GameBoard {
 		}
 	}
 
+	/**
+	 * Gets the team on move.
+	 *
+	 * @return the team number on move
+	 */
 	public int getTeamOnMove() {
 		return teamOnMove;
 	}
 
+	/**
+	 * Sets the team number on move.
+	 *
+	 * @param i the new team on move
+	 */
 	public void setTeamOnMove(int i) {
 		teamOnMove = i;
 	}
 
 
-	/*********************************************************
+	/**
+	 * 
 	 * Name: createMemento() Parameters: ()
 	 * Returns: MementoInterface reference
 	 * This function practices factory design pattern to create
 	 * a Memento object.
-	 *********************************************************/
+	 * 
+	 *
+	 * @return the memento interface
+	 */
 
 	public MementoInterface createMemento(){
 		return new Memento(this.state);
 	}
 
+	/**
+	 * Restore memento.
+	 *
+	 * @param memento the memento
+	 */
 	public void restoreMemento(MementoInterface memento){
+		// get a saved state from memento object passed in
 		Memento aMemento = (Memento)memento;
 		this.setState(aMemento.getState());
 	}
 
+	/**
+	 * Sets the current game state.
+	 *
+	 * @param state the new state
+	 */
 	public void setState(State state){
 		int x,y;
 		this.state = state;
 
 		x = this.state.x;
 		y = this.state.y;
+		// Call undo method
 		this.state.invoker.undoLastInvoke();
+		// Set cloned entity from its previous state to current position
+		// For handling convertion between basic unit and advanced unit
 		teamManager.setEntityByXY(x, y, this.state.invoker);
+
 		setTurn(this.state.turn, this.state.teamOnMove);
 		updateBoard();
 	}
 
+	/**
+	 * Save state.
+	 *
+	 * @param x the x cooridinate
+	 * @param y the y cooridinate
+	 * @param entity the entity
+	 */
 	public void saveState(int x, int y, Entity entity) {
 		this.state.x = x;
 		this.state.y = y;
 		this.state.turn = this.turn;
 		this.state.teamOnMove = this.teamOnMove;
+		// Prototype pattern:
+		// Here we make a good use of prototype pattern
+		// We make a clone from a entity in case it changes class after
+		// it been moved.
 		this.state.invoker = (Entity) entity.clone();
 	}
 
+	/**
+	 * The Class Memento.
+	 */
 	protected class Memento implements MementoInterface {
+		
+		/** The saved state. */
 		private State savedState;
+		
+		/**
+		 * Instantiates a new memento.
+		 *
+		 * @param state the state
+		 */
 		private Memento(State state){
 			this.savedState = new State(state.x, state.y, state.turn, state.teamOnMove, state.invoker);
 		}
 
+		/**
+		 * Gets the state.
+		 *
+		 * @return the state
+		 */
 		private State getState(){
 			return savedState;
 		}
 	}
 	
-	//Saving entity arraylists, bsize, turn, weapon, gameBoard
+	/**
+	 * Save game.
+	 * Saving entity arraylists, bsize, turn, weapon, gameBoard.
+	 */
+
 	public void saveGame(){
 		//variables of game data for serialization
 		
@@ -446,6 +632,10 @@ public class GameBoard {
 		}
 	}
 	
+	/**
+	 * Load game.
+	 * Loading entity arraylists, bsize, turn, weapon, gameBoard.
+	 */
 	public void loadGame(){
 		//variables of game data for deserialization
 		ArrayList<Entity> humanTeam = null; //0 (index of deserialized arraylist)
