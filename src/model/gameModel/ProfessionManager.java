@@ -1,13 +1,23 @@
+/*
+ * Copyright (C) 2016 Ricky Wu.
+ */
 package model.gameModel;
 
 import resources.Consts;
 
 /**
- * Created by blahblah Team on 2016/5/2.
+ * Created by Human v Alien Team on 2016/5/2.
  */
 public class ProfessionManager {
 
-    public static Entity changeProfession(Entity target, Weapon.Weapons weapon) {
+    /**
+     * Change profession.
+     *
+     * @param target the original entity to be transfered
+     * @param weapon the weapon it picked up
+     * @return the entity
+     */
+    public static ProfessionDecorator changeProfession(Entity target, Weapon.Weapons weapon) {
         EntityFlyweightFactory fwFactory = GameBoard.fwFactory;
         ProfessionTypes type = null;
         switch(weapon) {

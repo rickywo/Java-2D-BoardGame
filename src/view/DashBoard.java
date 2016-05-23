@@ -26,8 +26,6 @@ public class DashBoard {
         }
         Font.draw_krenfont(screen, "--------------", Consts.DASHBOARD_X_OFFSET, Consts.DASHBOARD_Y_OFFSET + 6 * Y);
     }
-    public static void tick() {
-    }
 
     public static void parseCharInfo(String characterInfoStr) {
         characterInfo = characterInfoStr.split(";");
