@@ -2,6 +2,7 @@ package model.gameModel;
 
 
 import model.gameModel.jobs.*;
+import model.gameModel.skills.ProfessionDecorator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +54,7 @@ public class EntityFlyweightFactory {
         return (Entity) prototype.clone();
     }
 
-    Entity createProfessionalEntity(ProfessionTypes type, Entity soldier) {
+    ProfessionDecorator createProfessionalEntity(ProfessionTypes type, Entity soldier) {
         Entity prototype = entities.get(type);
         if (prototype == null) {
             try {
@@ -76,6 +77,6 @@ public class EntityFlyweightFactory {
 
 
         }
-        return (Entity) prototype.clone();
+        return (ProfessionDecorator) prototype.clone();
     }
 }

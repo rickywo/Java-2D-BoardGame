@@ -53,6 +53,7 @@ class State {
 public class GameBoard {
 
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
+
 	private static final int TEAM_ONE_ARRAYLIST_OBJECT_INDEX = 0;
 	private static final int TEAM_TWO_ARRAYLIST_OBJECT_INDEX = 1;
 	private static final int BOARD_SIZE_OBJECT_INDEX = 2;

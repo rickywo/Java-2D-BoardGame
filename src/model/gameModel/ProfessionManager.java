@@ -1,5 +1,6 @@
 package model.gameModel;
 
+import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
 
 /**
@@ -7,7 +8,7 @@ import resources.Consts;
  */
 public class ProfessionManager {
 
-    public static Entity changeProfession(Entity target, Weapon.Weapons weapon) {
+    public static ProfessionDecorator changeProfession(Entity target, Weapon.Weapons weapon) {
         EntityFlyweightFactory fwFactory = GameBoard.fwFactory;
         ProfessionTypes type = null;
         switch(weapon) {
