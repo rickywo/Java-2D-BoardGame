@@ -125,6 +125,10 @@ public class GameController {
         MainPanel.showVerbose(Consts.TEAM_NAME[gameBoard.getTeamOnMove()] +"'s turn.", SHORT_MESSAGE);
     }
 
+    public void showSavingVerbose() {
+        MainPanel.showVerbose("Saving game", SHORT_MESSAGE);
+    }
+
     public void teamWin() {
         MainPanel.showVerbose(Consts.TEAM_NAME[gameBoard.getTeamOnMove()] +" Win.", LONG_MESSAGE);
         //MainPanel.pauseGame();

@@ -37,10 +37,6 @@ public class BoardCell implements Serializable {
     public Entity getEntity() {
         return entity;
     }
-
-    public void clearEntity() {
-        this.entity = null;
-    }
     
     public void setWeapon(Weapon weapon){
     	this.weapon = weapon;
@@ -57,10 +53,6 @@ public class BoardCell implements Serializable {
 
     public BufferedImage getCharImg() {
         return charImg;
-    }
-
-    public BufferedImage getTileImg() {
-        return tileImg;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

@@ -405,6 +405,7 @@ public class GameBoard {
 		ArrayList<Entity> alienTeam = teamManager.getTeam(1).getMembers();
 		int bsize = this.BSIZE;
 		int currentTurn = this.turn;
+		int teamOnMove = getTeamOnMove();
 		BoardCell[][] board = gameBoard;
 		Weapon[] weapons = this.boardWeapons;
 		
@@ -414,11 +415,13 @@ public class GameBoard {
 		gameData.add(alienTeam);
 		gameData.add(bsize);
 		gameData.add(currentTurn);
+		gameData.add(teamOnMove);
 		gameData.add(board);
 		gameData.add(weapons);
 		
 		//write gamedata object to file (serializing)
 		try {
+			controller.showSavingVerbose();
 			FileOutputStream fileOut = new FileOutputStream("saveData.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(gameData);
@@ -436,8 +439,9 @@ public class GameBoard {
 		ArrayList<Entity> alienTeam = null;//1
 		int bsize;							//2
 		int currentTurn;					//3
-		BoardCell[][] board = null;			//4
-		Weapon[] weapons = null;			//5
+		int teamOnMove;						//4
+		BoardCell[][] board = null;			//5
+		Weapon[] weapons = null;			//6
 		ArrayList<Object> deserialized;		//stores deserialized objects
 		
 		//read the objects (deserializing)
@@ -460,9 +464,9 @@ public class GameBoard {
 		alienTeam = (ArrayList<Entity>)deserialized.get(1);
 		bsize = (Integer) deserialized.get(2);
 		currentTurn = (Integer)deserialized.get(3);
-		board = (BoardCell[][])deserialized.get(4);
-		weapons = (Weapon[])deserialized.get(5);
-		
+		teamOnMove = (Integer)deserialized.get(4);
+		board = (BoardCell[][])deserialized.get(5);
+		weapons = (Weapon[])deserialized.get(6);
 		//rewrite this instance's variables with loaded data
 		Team hTeam = new Team(TeamTypes.Human);
 		Team aTeam = new Team(TeamTypes.Alien);
@@ -471,9 +475,10 @@ public class GameBoard {
 		teamManager.setTeam(hTeam, 0);
 		teamManager.setTeam(aTeam, 1);
 		Consts.BSIZE = bsize;
-		this.turn = currentTurn;
+
 		gameBoard = board;
 		this.boardWeapons = weapons;
+		setTurn(currentTurn, teamOnMove);
 	}
 	
 	
