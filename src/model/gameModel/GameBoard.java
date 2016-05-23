@@ -53,6 +53,13 @@ class State {
 public class GameBoard {
 
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
+	private static final int TEAM_ONE_ARRAYLIST_OBJECT_INDEX = 0;
+	private static final int TEAM_TWO_ARRAYLIST_OBJECT_INDEX = 1;
+	private static final int BOARD_SIZE_OBJECT_INDEX = 2;
+	private static final int TURN_COUNT_OBJECT_INDEX = 3;
+	private static final int TEAM_ON_MOVE_OBJECT_INDEX = 4;
+	private static final int BOARD_CELL_2DARRAY_OBJECT_INDEX = 5;
+	private static final int WEAPON_ARRAY_OBJECT_INDEX = 6;
 	//board has 20? weapons at start
 	private final int NUM_WEAPONS = Consts.NUM_WEAPONS;
 	private final int BSIZE = Consts.getBSIZE(); //board size.
@@ -465,24 +472,13 @@ public class GameBoard {
 		}
 		
 		//Put deserialized data back into respective types
-		for(int i=0; i<deserialized.size(); i++){
-			switch(i){
-				case 0: humanTeam = (ArrayList<Entity>)deserialized.get(i);
-						break;
-				case 1: alienTeam = (ArrayList<Entity>)deserialized.get(i);
-						break;
-				case 2: bsize = (Integer) deserialized.get(i);
-						break;
-				case 3: currentTurn = (Integer)deserialized.get(i);
-						break;
-				case 4: teamOnMove = (Integer)deserialized.get(i);
-						break;
-				case 5: board = (BoardCell[][])deserialized.get(i);
-						break;
-				case 6: weapons = (Weapon[])deserialized.get(i);
-						break;
-			}
-		}
+		humanTeam = (ArrayList<Entity>)deserialized.get(TEAM_ONE_ARRAYLIST_OBJECT_INDEX);
+		alienTeam = (ArrayList<Entity>)deserialized.get(TEAM_TWO_ARRAYLIST_OBJECT_INDEX);
+		bsize = (Integer) deserialized.get(BOARD_SIZE_OBJECT_INDEX);
+		currentTurn = (Integer)deserialized.get(TURN_COUNT_OBJECT_INDEX);
+		teamOnMove = (Integer)deserialized.get(TEAM_ON_MOVE_OBJECT_INDEX);
+		board = (BoardCell[][])deserialized.get(BOARD_CELL_2DARRAY_OBJECT_INDEX);
+		weapons = (Weapon[])deserialized.get(WEAPON_ARRAY_OBJECT_INDEX);
 		
 		Team hTeam = new Team(TeamTypes.Human);
 		Team aTeam = new Team(TeamTypes.Alien);
