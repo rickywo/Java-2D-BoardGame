@@ -8,6 +8,7 @@ import model.gameModel.*;
 import model.gameModel.Point;
 import model.gameModel.skills.ProfessionDecorator;
 import resources.Consts;
+import sun.applet.Main;
 import view.Rectmech;
 import view.MainPanel;
 
@@ -159,9 +160,9 @@ public class GameController {
      * @param point the cooridinate of a cell being clicked
      */
     public void invoke(Point point) {
-        gameBoard.invoke((ProfessionDecorator) curMoveCell.getEntity(), point); // curMoveCell: attacker, points: recipients
-
-
+        Entity e = curMoveCell.getEntity();
+        ProfessionDecorator p = (ProfessionDecorator) getBoardCell(e.getXPos(), e.getYPos()).getEntity();
+        gameBoard.invoke(p, point); // curMoveCell: attacker, points: recipients
         careTaker.saveMemento(gameBoard.createMemento());
     }
 
@@ -242,5 +243,9 @@ public class GameController {
      */
     public void loadGame() {
         gameBoard.loadGame();
+    }
+
+    public void setAttack(String type) {
+        MainPanel.setAttackEffect(type);
     }
 }

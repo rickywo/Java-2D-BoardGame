@@ -4,6 +4,8 @@
 package model.gameModel.skills;
 
 import model.gameModel.Entity;
+import model.gameModel.InvokeObservableInterface;
+import model.gameModel.ObservationSubject;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,7 +21,7 @@ import model.gameModel.Entity;
  *
  */
 
-public abstract class Command {
+public abstract class Command implements InvokeObservableInterface {
 
     /** The previous hp. */
     int oldHp;
@@ -35,6 +37,9 @@ public abstract class Command {
 
     /** The target entity that command invokes on. */
     Entity target;
+
+    /** The ObservationSubject reference */
+    ObservationSubject subject;
 
 
     /**

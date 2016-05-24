@@ -264,9 +264,9 @@ Cloneable, Serializable {
 	}
 
 	@Override
-	public void attack(Entity target) {
+	public void attack(Entity target, ObservationSubject subject) {
 		int damage = calculateDamage();
-		Command attack = new Attack(damage);
+		Command attack = new Attack(damage, subject);
 		attack.execute(target);
 		setMoved();
 		undoStack.offerLast(attack);
@@ -294,18 +294,6 @@ Cloneable, Serializable {
 			Command previousInvoke = undoStack.pollLast();
 			redoStack.offerLast(previousInvoke);
 			previousInvoke.undo();
-		}
-	}
-
-	/**
-	 * Redo
-	 */
-	@Override
-	public void redoLastInvoke() {
-		if (!redoStack.isEmpty()) {
-			Command previousInvoke = redoStack.pollLast();
-			undoStack.offerLast(previousInvoke);
-			previousInvoke.redo();
 		}
 	}
 

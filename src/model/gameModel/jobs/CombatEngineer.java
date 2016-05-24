@@ -1,4 +1,5 @@
 package model.gameModel.jobs;
+import model.gameModel.ObservationSubject;
 import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
@@ -35,8 +36,8 @@ public class CombatEngineer extends ProfessionDecorator {
 	}
 
 	@Override
-	public void invoke(Entity target) {
-		invokeSkill(new Minefield(HP_DAMAGE, STRENGTH_DAMAGE, DEFENSE_DAMAGE), 
+	public void invoke(Entity target, ObservationSubject subject) {
+		invokeSkill(new Minefield(HP_DAMAGE, STRENGTH_DAMAGE, DEFENSE_DAMAGE, subject),
 				target);
 	}
 }

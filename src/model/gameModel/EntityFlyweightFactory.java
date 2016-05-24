@@ -54,29 +54,24 @@ public class EntityFlyweightFactory {
         return (Entity) prototype.clone();
     }
 
-    ProfessionDecorator createProfessionalEntity(ProfessionTypes type, Entity soldier) {
-        Entity prototype = entities.get(type);
-        if (prototype == null) {
-            try {
-                ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                Class<Entity> _tempClass = (Class<Entity>) classLoader.loadClass(JOB_CLASS_URL_PREFIX + type.getCharacterName());
-                Constructor<Entity> e = _tempClass.getDeclaredConstructor(String.class, Entity.class);
-                prototype = e.newInstance(type.getCharacterName(), soldier);
-                entities.put(type, prototype);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
-
+    Entity createProfessionalEntity(ProfessionTypes type, Entity soldier) {
+        Entity prototype = null;
+        try {
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            Class<Entity> _tempClass = (Class<Entity>) classLoader.loadClass(JOB_CLASS_URL_PREFIX + type.getCharacterName());
+            Constructor<Entity> e = _tempClass.getDeclaredConstructor(String.class, Entity.class);
+            prototype = e.newInstance(type.getCharacterName(), soldier);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return (ProfessionDecorator) prototype.clone();
+        return prototype;
     }
 }

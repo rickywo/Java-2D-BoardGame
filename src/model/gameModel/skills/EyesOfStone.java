@@ -1,14 +1,17 @@
 package model.gameModel.skills;
 
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 
 public class EyesOfStone extends Command {
 
     private Entity target;
     private int remainder;
 
-    public EyesOfStone(int remainder) {
+    public EyesOfStone(int remainder, ObservationSubject subject) {
     	this.remainder = remainder;
+        this.subject = subject;
     }
 
     @Override
@@ -17,6 +20,7 @@ public class EyesOfStone extends Command {
     	this.target = target;
         oldHp = target.getCurrentHP();
         target.setCurrentHP(remainder);
+        notifySubject(subject);
     }
 
     @Override
@@ -35,6 +39,11 @@ public class EyesOfStone extends Command {
     @Override
     public String toString() {
     	return "Eyes of Stone " + target.getName();
+    }
+
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.DOWNCAST);
     }
 
 }

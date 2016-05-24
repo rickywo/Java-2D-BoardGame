@@ -50,7 +50,7 @@ class State {
  *    other classes.
  */
 
-public class GameBoard {
+public class GameBoard implements InvokeObserverInterface {
 
 	/** The FlyweightFactory factory instance. */
 	public static EntityFlyweightFactory fwFactory = new EntityFlyweightFactory();
@@ -105,6 +105,9 @@ public class GameBoard {
 	
 	/** The controller reference. */
 	private GameController controller;
+
+	/** The ObservationSubject instance */
+	private ObservationSubject observationSubject;
 	
 	/** The game board. */
 	public static BoardCell[][] gameBoard;
@@ -120,6 +123,8 @@ public class GameBoard {
 		teamOnMove = 0;
 		state = new State(0 ,0 ,turn, 0, null);
 		this.controller = controller;
+		observationSubject = new ObservationSubject();
+		observationSubject.addObserver(this);
 		initialSetup();
 	}
 
@@ -236,7 +241,7 @@ public class GameBoard {
 		// TODO: to call attack function of attacker and apply attacking to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
-		attacker.attack(t);
+		attacker.attack(t, observationSubject);
 		saveState(0, 0, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
@@ -254,7 +259,7 @@ public class GameBoard {
 		// TODO: to call invoke function of attacker and apply skill attack to those recipients
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
-		attacker.invoke(t);
+		attacker.invoke(t, observationSubject);
 		saveState(0, 0, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
@@ -471,7 +476,9 @@ public class GameBoard {
 		if(weapon!=null) {
 			Entity target = gameBoard[x][y].getEntity();
 			if(controller.foundWeapon(weapon.getName())) {
-				teamManager.setEntityByXY(x, y, ProfessionManager.changeProfession(target, weapon.getType()));;
+				Entity ne = ProfessionManager.changeProfession(target, weapon.getType());
+				//System.out.println(ne.getClass());
+				teamManager.setEntityByXY(x, y, ne);
 				getBoardCell(x, y).clearWeapon();
 				updateBoard();
 			}
@@ -563,6 +570,18 @@ public class GameBoard {
 		// We make a clone from a entity in case it changes class after
 		// it been moved.
 		this.state.invoker = (Entity) entity.clone();
+	}
+
+	/**
+	 *
+	 * @param type: Command type CommandType.Attack/UPCAST/DOWNCAST
+     */
+
+	@Override
+	public void update(CommandType type) {
+		CommandType[] enumValues = CommandType.values();
+		type = enumValues[(type.ordinal()) % enumValues.length];
+		controller.setAttack(type.toString());
 	}
 
 	/**

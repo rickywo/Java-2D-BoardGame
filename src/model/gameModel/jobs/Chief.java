@@ -1,4 +1,5 @@
 package model.gameModel.jobs;
+import model.gameModel.ObservationSubject;
 import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
@@ -33,7 +34,7 @@ public class Chief extends ProfessionDecorator {
 	}
 
 	@Override
-	public void invoke(Entity target) {
-		invokeSkill(new Attack(DAMAGE), target);
+	public void invoke(Entity target, ObservationSubject subject) {
+		invokeSkill(new Attack(DAMAGE, subject), target);
 	}
 }

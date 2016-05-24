@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 import model.gameModel.skills.Attack;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -34,8 +35,8 @@ public class Commander extends ProfessionDecorator {
 		super.setDescription(DESCRIPTION);
 	}
 
-	public void invoke(Entity target) {
-		invokeSkill(new Attack(DAMAGE),target);
+	public void invoke(Entity target, ObservationSubject subject) {
+		invokeSkill(new Attack(DAMAGE, subject),target);
 	}
 
 }

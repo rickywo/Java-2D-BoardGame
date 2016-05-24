@@ -1,5 +1,7 @@
 package model.gameModel.skills;
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 
 public class Minefield extends Command {
 	
@@ -8,10 +10,11 @@ public class Minefield extends Command {
     private int defenseDamage;
     private Entity target;
 
-    public Minefield(int hpDamage, int strengthDamage, int defenseDamage) {
+    public Minefield(int hpDamage, int strengthDamage, int defenseDamage, ObservationSubject subject) {
         this.hpDamage = hpDamage;
         this.strengthDamage = strengthDamage;
         this.defenseDamage = defenseDamage;
+        this.subject = subject;
     }
 
     @Override
@@ -24,6 +27,7 @@ public class Minefield extends Command {
         target.beAttacked(hpDamage);
         target.beStrengthAttacked(strengthDamage);
         target.beDefenseAttacked(defenseDamage);
+        notifySubject(subject);
     }
 
     @Override
@@ -44,5 +48,10 @@ public class Minefield extends Command {
     @Override
     public String toString() {
         return "Minefield " + target.getName();
+    }
+
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.DOWNCAST);
     }
 }

@@ -18,7 +18,7 @@ public class ProfessionManager {
      * @param weapon the weapon it picked up
      * @return ProfessionDecorator the advanced professional entiy
      */
-    public static ProfessionDecorator changeProfession(Entity target, Weapon.Weapons weapon) {
+    public static Entity changeProfession(Entity target, Weapon.Weapons weapon) {
         EntityFlyweightFactory fwFactory = GameBoard.fwFactory;
         ProfessionTypes type = null;
         switch(weapon) {

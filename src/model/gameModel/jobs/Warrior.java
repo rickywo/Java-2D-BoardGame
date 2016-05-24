@@ -1,4 +1,5 @@
 package model.gameModel.jobs;
+import model.gameModel.ObservationSubject;
 import model.gameModel.skills.*;
 import model.gameModel.Entity;
 import model.gameModel.skills.ProfessionDecorator;
@@ -32,8 +33,8 @@ public class Warrior extends ProfessionDecorator {
 	}
 
 	@Override
-	public void invoke(Entity target) {
-		invokeSkill(new AllIn(DAMAGE), target);
+	public void invoke(Entity target, ObservationSubject subject) {
+		invokeSkill(new AllIn(DAMAGE, subject), target);
 	}
 
 }

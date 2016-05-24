@@ -1,6 +1,8 @@
 package model.gameModel.skills;
 
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 
 public class HigherPower extends Command {
 	
@@ -8,9 +10,10 @@ public class HigherPower extends Command {
     private int strengthDamage;
     private int defenseDamage;
     
-    public HigherPower(int strengthDamage, int defenseDamage) {
+    public HigherPower(int strengthDamage, int defenseDamage, ObservationSubject subject) {
     	this.strengthDamage = strengthDamage;
     	this.defenseDamage = defenseDamage;
+        this.subject = subject;
     }
 
 	@Override
@@ -21,6 +24,7 @@ public class HigherPower extends Command {
         oldDef = target.getDefense();
         target.beStrengthAttacked(strengthDamage);
         target.beDefenseAttacked(defenseDamage);
+        notifySubject(subject);
   
 	}
     
@@ -43,5 +47,9 @@ public class HigherPower extends Command {
     	return "Higher Power " + target.getName();
     }
 
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.DOWNCAST);
+    }
 
 }

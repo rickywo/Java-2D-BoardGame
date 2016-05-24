@@ -1,6 +1,7 @@
 package model.gameModel.jobs;
 
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 import model.gameModel.skills.AreaBlast;
 import model.gameModel.skills.ProfessionDecorator;
 
@@ -33,8 +34,7 @@ public class AreaAttacker extends ProfessionDecorator {
 	}
 
 	@Override
-	public void invoke(Entity target) {
-		invokeSkill(new AreaBlast(DAMAGE),target);
+	public void invoke(Entity target, ObservationSubject subject) {
+		invokeSkill(new AreaBlast(DAMAGE, subject),target);
 	}
-
 }

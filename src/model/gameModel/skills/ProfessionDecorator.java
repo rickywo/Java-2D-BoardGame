@@ -1,10 +1,7 @@
 
 package model.gameModel.skills;
 
-import model.gameModel.AttackeeInterface;
-import model.gameModel.AttackerInterface;
-import model.gameModel.Entity;
-import model.gameModel.EntityInterface;
+import model.gameModel.*;
 
 /**
  * Created by Human v Alien Team on 2016/4/30.
@@ -50,7 +47,7 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
      *
      * @param target the target
      */
-    public abstract void invoke(Entity target);
+    public abstract void invoke(Entity target, ObservationSubject subject);
 
     /**
      * Invoke skill.
@@ -83,10 +80,10 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
      *
      * @param target the target
      */
-    public void attack(Entity target) {
+    public void attack(Entity target, ObservationSubject subject) {
 
         int damage = calculateDamage();
-        invokeSkill(new Attack(damage), target);
+        invokeSkill(new Attack(damage, subject), target);
         setMoved();
     }
 

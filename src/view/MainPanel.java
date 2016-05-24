@@ -132,6 +132,10 @@ public class MainPanel {
         gameController.loadGame();
     }
 
+    public static void setAttackEffect(String type) {
+        gameview.prepareAttackEffect(type);
+    }
+
     /**
      * Show verbose.
      *
@@ -171,17 +175,17 @@ public class MainPanel {
      * @param y the y
      * @param i the i
      */
-    public static void showAttackIcon(final Graphics2D g2, int x, int y, int i) {
+    public static void showAttackEffect(final Graphics2D g2, int x, int y, int i, String type) {
         BufferedImage image = null;
         switch(i) {
             case 0:
-                image = ImageManager.getAttackEffect("sword3");
+                image = ImageManager.getAttackEffect(type+"3");
                 break;
             case 1:
-                image = ImageManager.getAttackEffect("sword2");
+                image = ImageManager.getAttackEffect(type+"2");
                 break;
-            case 3:
-                image = ImageManager.getAttackEffect("sword1");
+            case 2:
+                image = ImageManager.getAttackEffect(type+"1");
                 break;
             default:
                 break;

@@ -9,11 +9,6 @@ public class Point extends java.awt.Point{
 	public int x;
 	public int y;
 
-	public Point() {
-		x = 0;
-		y = 0;
-	}
-
 	public Point(int x, int y) throws IndexOutOfBoundsException {
 		if (x < 0 || y < 0 || x >= Consts.getBSIZE() || y >= Consts.getBSIZE())
 			throw new IndexOutOfBoundsException();

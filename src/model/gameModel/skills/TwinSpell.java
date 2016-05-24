@@ -1,14 +1,18 @@
 package model.gameModel.skills;
 
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 public class TwinSpell extends Command {
 
     private Entity target;
     private int amount;
 
-    public TwinSpell(int amount) {
+    public TwinSpell(int amount, ObservationSubject subject) {
     	this.amount = amount;
+        this.subject = subject;
     }
     
     @Override
@@ -20,6 +24,7 @@ public class TwinSpell extends Command {
         target.setCurrentHP(target.getMaxHP());
         target.beDefended(amount);
         target.beStrengthened(amount);
+        notifySubject(subject);
     }
 	
     @Override
@@ -42,5 +47,8 @@ public class TwinSpell extends Command {
         return "Twin Spell " + target.getName();
     }
 
-
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.ATTACK);
+    }
 }

@@ -13,6 +13,9 @@ import java.awt.event.MouseEvent;
  */
 class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPanel
 
+    public static final int SELECTABLE = 0;
+    public static final int NONSELECTABLE = 1;
+    public static final int HIGHLIGHTED = -1;
     private GridPanelRunnable panel;
     private GameController gameController;
     public MxMouseListener(GridPanelRunnable panel, GameController controller) {
@@ -42,7 +45,7 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         // Do nothing if mouse click the area out of bound
         if (p.x < 0 || p.y < 0 || p.x >= Consts.getBSIZE() || p.y >= Consts.getBSIZE()) return;
 
-        if (panel.isScreenLocked() && panel.maskMatrix[p.x][p.y] != 1) {
+        if (panel.isScreenLocked() && panel.maskMatrix[p.x][p.y] != NONSELECTABLE) {
             // TODO: To call moveTo(Point p) in GridPanelRunnable if no entity in clicked cell
 
             if (t != null) {
@@ -74,6 +77,8 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
 
             return;
         }
+
+        panel.doNothing();
         //panel.repaint();
     }
     /***************************************************************************
@@ -95,19 +100,17 @@ class MxMouseListener extends MouseAdapter {    //inner class inside DrawingPane
         // Do nothing if cursor move over a cell has a n entity in it
         if (panel.isScreenLocked() && entity != null) return;
         // Do nothing if cursor move over non-selectable area
-        if (panel.maskMatrix[p.x][p.y] == 1) return;
+        if (panel.maskMatrix[p.x][p.y] == NONSELECTABLE) return;
         // highlight the cell when cursor is hovering over it.
         if (!p.equals(panel.cursorXYPos)) {
             // Set the color of a cell, which has been hovered over, to normal
-            panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = 0;
+            if(panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] != NONSELECTABLE)
+                panel.maskMatrix[panel.cursorXYPos.x][panel.cursorXYPos.y] = SELECTABLE;
             // Keep the coordinator in cursorXYPos
             panel.cursorXYPos = new model.gameModel.Point(p);
             if(entity != null) DashBoard.parseCharInfo(entity.toString());
         }
-        panel.maskMatrix[p.x][p.y] = -1;
-    }
-
-    public static void update() {
+        panel.maskMatrix[p.x][p.y] = HIGHLIGHTED;
     }
 
 } //end of MxMouseListener class

@@ -21,17 +21,22 @@ import java.awt.image.BufferedImage;
 class GridPanelRunnable extends Canvas implements  Runnable {
 
 
-    //public BoardCell[][] board;
     public model.gameModel.Point cursorXYPos;
     public int[][] maskMatrix; // mask matrix for game board
-
+    private static final double FPS = 60.0;
+    private static final double ONE_SEC_PER_NS = 1000000000.0;
+    private static final int ATTACK_EFFECT_DISPLAYING_TIME = 60;
+    private static final int DISPLAYING_TIME_DIVIDENT = 20;
+    private static final double INIT_IMAGE_RESIZE_FACTOR = 0.9;
+    private static final int INIT_IMAGE_Y_OFFSET = 2;
     private GameController gameController;
     private boolean running;
     private PopupMenu editMenu;
     private boolean screenLock; // Lock screen for moving pieces
     MxMouseListener ml;
     private GameScreen screen;
-    private int showAttackSec = 70;
+    private int showAttackSec;
+    private String type;
     private Point cellBeingAttack;
     private int attackMode = Consts.ATTACK_MODE;
 
@@ -55,8 +60,8 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     public void run() {
         running = true;
         requestFocus();
-        double target = 60.0;
-        double nsPerTick = 1000000000.0 / target;
+        double target = FPS;
+        double nsPerTick = ONE_SEC_PER_NS / target;
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
         double unprocessed = 0.0;
@@ -87,7 +92,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                 render();
                 fps++;
             }
-
+            // Reset fps, tps
             if (System.currentTimeMillis() - 1000 > timer) {
                 timer += 1000;
                 fps = 0;
@@ -141,11 +146,6 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         running = false;
     }
 
-    public void resume() {
-        if (running) return;
-        running = true;
-    }
-
     public int getAttackMode() {
         return attackMode;
     }
@@ -160,8 +160,14 @@ class GridPanelRunnable extends Canvas implements  Runnable {
 
     }
 
+    public void prepareAttackEffect(String type) {
+        showAttackSec = ATTACK_EFFECT_DISPLAYING_TIME;
+        this.type = type;
+    }
+
     private void renderAttackEffect(Graphics2D g2d) {
-        MainPanel.showAttackIcon(g2d, cellBeingAttack.x, cellBeingAttack.y, showAttackSec / 20);
+        MainPanel.showAttackEffect(g2d, cellBeingAttack.x, cellBeingAttack.y,
+                showAttackSec / DISPLAYING_TIME_DIVIDENT, type);
     }
 
     /********************************************************************
@@ -177,13 +183,15 @@ class GridPanelRunnable extends Canvas implements  Runnable {
                     // If this cell has a entity in it
                     // To draw the image of a piece
                     BufferedImage charImge = cell.getCharImg();
-                    BufferedImage image = ImageManager.resizeImage(charImge, 0.9 * ((double) Consts.getRectsize() / (double) charImge.getWidth()));
+                    BufferedImage image = ImageManager.resizeImage(charImge,
+                            INIT_IMAGE_RESIZE_FACTOR * ((double) Consts.getRectsize() / (double) charImge.getWidth()));
                     int w = image.getWidth();
                     int h = image.getHeight();
                     Bitmap result = new Bitmap(w, h);
                     image.getRGB(0, 0, w, h, result.pixels, 0, w);
 
-                    screen.render(result, i*Consts.getRectsize() + Consts.MAP_X_OFFSET, j*Consts.getRectsize()+Consts.MAP_Y_OFFSET+2);
+                    screen.render(result, i*Consts.getRectsize() + Consts.MAP_X_OFFSET,
+                            j*Consts.getRectsize()+Consts.MAP_Y_OFFSET+INIT_IMAGE_Y_OFFSET);
                 }
             }
         }
@@ -263,7 +271,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         GameController.singleton().doAttack(p);
         resetMaskMatrix();
         cellBeingAttack = p;
-        showAttackSec = 70;
+
     }
 
     public void invoke(Point p) {
@@ -271,7 +279,11 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         GameController.singleton().invoke(p);
         resetMaskMatrix();
         cellBeingAttack = p;
-        showAttackSec = 70;
+    }
+
+    public void doNothing() {
+        setScreenLock(false);
+        resetMaskMatrix();
     }
 
     private int dist(int x, int y, int x1, int y1) {
@@ -287,25 +299,25 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         for (int i = 0; i < Consts.getBSIZE(); i++) {
             for (int j = 0; j < Consts.getBSIZE(); j++) {
                 if (dist(x, y, i, j) > range) {
-                    maskMatrix[i][j] = 1;
+                    maskMatrix[i][j] = MxMouseListener.NONSELECTABLE;
                 } else {
 
                 }
                 BoardCell cell = gameController.getBoardCell(i, j);
                 if (isEntitySelectable) {
                     if(cell.getEntity() == null) {
-                        maskMatrix[i][j] = 1;
+                        maskMatrix[i][j] = MxMouseListener.NONSELECTABLE;
                     }
                 } else {
                     if(cell.getEntity() != null) {
-                        maskMatrix[i][j] = 1;
+                        maskMatrix[i][j] = MxMouseListener.NONSELECTABLE;
                     }
 
                 }
 
             }
         }
-        maskMatrix[x][y] = 0;
+        maskMatrix[x][y] = MxMouseListener.NONSELECTABLE;
         //repaint();
     }
 
@@ -316,7 +328,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
     private void resetMaskMatrix() {
         for (int i = 0; i < Consts.getBSIZE(); i++) {
             for (int j = 0; j < Consts.getBSIZE(); j++) {
-                maskMatrix[i][j] = 0;
+                maskMatrix[i][j] = MxMouseListener.SELECTABLE;
             }
         }
         //repaint();
@@ -330,7 +342,7 @@ class GridPanelRunnable extends Canvas implements  Runnable {
         this.maskMatrix = new int[Consts.getBSIZE()][Consts.getBSIZE()];
         for (int i = 0; i < Consts.getBSIZE(); i++) {
             for (int j = 0; j < Consts.getBSIZE(); j++) {
-                maskMatrix[i][j] = 0;
+                maskMatrix[i][j] = MxMouseListener.SELECTABLE;
             }
         }
     }

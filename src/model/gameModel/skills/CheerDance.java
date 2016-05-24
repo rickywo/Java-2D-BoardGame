@@ -1,5 +1,7 @@
 package model.gameModel.skills;
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 
 public class CheerDance extends Command {
 
@@ -7,10 +9,11 @@ public class CheerDance extends Command {
     private int defenseAmt;
     private int agilityAmt;
 
-    public CheerDance(int strengthAmt, int defenseAmt, int agilityAmt) {
+    public CheerDance(int strengthAmt, int defenseAmt, int agilityAmt, ObservationSubject subject) {
         this.strengthAmt = strengthAmt;
         this.defenseAmt = defenseAmt;
         this.agilityAmt = agilityAmt;
+        this.subject = subject;
     }
 
     @Override
@@ -21,6 +24,7 @@ public class CheerDance extends Command {
         oldDef = target.getDefense();
         oldDex = target.getAgility();
         target.beCheered(strengthAmt, defenseAmt, agilityAmt);
+        notifySubject(subject);
     }
 
     @Override
@@ -41,5 +45,10 @@ public class CheerDance extends Command {
     @Override
     public String toString() {
         return "Cheer " + target.getName();
+    }
+
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.UPCAST);
     }
 }

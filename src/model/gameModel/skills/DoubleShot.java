@@ -1,14 +1,17 @@
 package model.gameModel.skills;
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 
 public class DoubleShot extends Command {
 
     private int damage;
     private int defenseDamage;
 
-    public DoubleShot(int defenseDamage, int damage) {
+    public DoubleShot(int defenseDamage, int damage, ObservationSubject subject) {
         this.defenseDamage = defenseDamage;
     	this.damage = damage;
+        this.subject = subject;
     }
 
     @Override
@@ -18,6 +21,7 @@ public class DoubleShot extends Command {
         oldDef = target.getDefense();
         target.beDefenseAttacked(defenseDamage);
     	target.beAttacked(damage);
+        notifySubject(subject);
     }
 
     @Override
@@ -37,6 +41,11 @@ public class DoubleShot extends Command {
     @Override
     public String toString() {
     	return "Double Shot " + target.getName();
+    }
+
+    @Override
+    public void notifySubject(ObservationSubject subject) {
+        subject.commandInvoked(CommandType.ATTACK);
     }
 
 

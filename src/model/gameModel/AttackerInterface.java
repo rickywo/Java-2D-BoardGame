@@ -1,7 +1,4 @@
 package model.gameModel;
-
-import model.gameModel.Entity;
-import model.gameModel.Point;
 import model.gameModel.skills.Command;
 
 /**
@@ -9,10 +6,10 @@ import model.gameModel.skills.Command;
  */
 public interface AttackerInterface {
 
-    void attack(Entity target);
+    void attack(Entity target, ObservationSubject subject);
     void moveTo(Entity target, int x, int y);
     void invokeSkill(Command command, Entity target);
     void undoLastInvoke();
-    void redoLastInvoke();
+    // void redoLastInvoke();
 
 }

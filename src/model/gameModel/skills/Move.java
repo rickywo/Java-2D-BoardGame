@@ -2,7 +2,9 @@ package model.gameModel.skills;
 
 import java.io.Serializable;
 
+import model.gameModel.CommandType;
 import model.gameModel.Entity;
+import model.gameModel.ObservationSubject;
 import model.gameModel.Point;
 
 /**
@@ -43,5 +45,9 @@ public class Move extends Command implements Serializable{
     @Override
     public String toString() {
         return "Move to x:" + destX + " y:" + destY;
+    }
+
+    @Override
+    public void notifySubject(ObservationSubject subject) {
     }
 }
