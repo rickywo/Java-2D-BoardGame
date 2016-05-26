@@ -1,6 +1,5 @@
 package model.gameModel;
 
-import model.gameModel.skills.Command;
 
 import java.util.ArrayList;
 import java.util.List;
