@@ -242,7 +242,7 @@ public class GameBoard implements InvokeObserverInterface {
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
 		attacker.attack(t, observationSubject);
-		saveState(0, 0, attacker);
+		saveState(-1, -1, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
@@ -260,7 +260,7 @@ public class GameBoard implements InvokeObserverInterface {
 		Entity t = getBoardCell(recipient.x, recipient.y).getEntity();
 		if(t == null) return;
 		attacker.invoke(t, observationSubject);
-		saveState(0, 0, attacker);
+		saveState(-1, -1, attacker);
 		if(t.getCurrentHP() <= 0) {
 			destroyEntity(recipient.x, recipient.y);
 		}
@@ -539,15 +539,31 @@ public class GameBoard implements InvokeObserverInterface {
 	 */
 	public void setState(State state){
 		int x,y;
-		this.state = state;
 
+		this.state = state;
+		Entity invoker = this.state.invoker;
 		x = this.state.x;
 		y = this.state.y;
 		// Call undo method
 		this.state.invoker.undoLastInvoke();
 		// Set cloned entity from its previous state to current position
 		// For handling convertion between basic unit and advanced unit
-		teamManager.setEntityByXY(x, y, this.state.invoker);
+		//
+		Entity e = teamManager.getEntityByName(this.state.invoker.getName());
+		if(invoker.getClass() != e.getClass()) {
+			Entity inner = ((ProfessionDecorator)e).getEntity();
+			inner.setProfessionName(invoker.getProfessionName());
+			inner.setCurrentHP(invoker.getCurrentHP());
+			inner.setPos(x, y);
+			inner.setMaxHP(invoker.getMaxHP());
+			inner.setStrength(invoker.getStrength());
+			inner.setAgility(invoker.getAgility());
+			inner.setDefense(invoker.getDefense());
+			inner.setUpgradable(invoker.isUpgradable());
+			inner.setAttackName(invoker.getAttackName());
+			inner.setDescription(invoker.getDescription());
+			teamManager.setEntityByXY(x, y, ((ProfessionDecorator)e).getEntity());
+		}
 
 		setTurn(this.state.turn, this.state.teamOnMove);
 		updateBoard();
@@ -569,7 +585,13 @@ public class GameBoard implements InvokeObserverInterface {
 		// Here we make a good use of prototype pattern
 		// We make a clone from a entity in case it changes class after
 		// it been moved.
-		this.state.invoker = (Entity) entity.clone();
+		try {
+			Point p = new Point(x, y);
+			this.state.invoker = (Entity) entity.clone();
+		} catch (IndexOutOfBoundsException e) {
+			this.state.invoker = entity;
+		}
+
 	}
 
 	/**

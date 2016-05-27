@@ -225,4 +225,14 @@ public class Team implements TeamInterface {
 
         return false;
     }
+
+    public Entity getEntityByName(String name) {
+        for(int i = 0 ; i < members.size() ; i ++) {
+            Entity e = members.get(i);
+            if(e.getName() == name) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

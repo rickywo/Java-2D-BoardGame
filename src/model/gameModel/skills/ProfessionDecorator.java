@@ -30,6 +30,7 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 
     /** The basic entity of this advanced entity before convertion */
     private Entity entity;
+    private final boolean upgradable = false;
 
     /**
      * Instantiates a new profession decorator.
@@ -60,20 +61,6 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
         entity.undoStack.offerLast(command);
         setMoved();
     }
-    
-    /**
-     * Invoke skill.
-     *
-     * @param command the command object
-     * @param targets the target to be invoked on
-     */
-    public void invokeSkill(Command command, Entity[] targets) {
-    	for(Entity target : targets){
-    		command.execute(target);
-    	}
-        entity.undoStack.offerLast(command);
-        setMoved();
-    }
 
     /**
      * Attack.
@@ -84,29 +71,27 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
 
         int damage = calculateDamage();
         invokeSkill(new Attack(damage, subject), target);
-        setMoved();
+    }
+
+    @Override
+    public void moveTo(Entity target, int x, int y) {
+        invokeSkill(new Move(x, y), target);
     }
 
     /**
      * Undo.
      */
     public void undoLastInvoke() {
-        if (!undoStack.isEmpty()) {
+
+        if (!entity.undoStack.isEmpty()) {
             Command previousInvoke = entity.undoStack.pollLast();
-            entity.redoStack.offerLast(previousInvoke);
             previousInvoke.undo();
         }
     }
 
-    /**
-     * Redo.
-     */
-    public void redoLastInvoke() {
-        if (!redoStack.isEmpty()) {
-            Command previousInvoke = entity.redoStack.pollLast();
-            entity.undoStack.offerLast(previousInvoke);
-            previousInvoke.redo();
-        }
+    @Override
+    public boolean isUpgradable() {
+        return upgradable;
     }
 
     /**
@@ -452,6 +437,10 @@ public abstract class ProfessionDecorator extends Entity implements EntityInterf
      */
     public boolean isMoved() {
         return entity.isMoved();
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 
     /**

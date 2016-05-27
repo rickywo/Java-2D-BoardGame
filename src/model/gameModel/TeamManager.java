@@ -56,6 +56,15 @@ public class TeamManager {
         return e;
     }
 
+    public Entity getEntityByName(String name) {
+        Entity e = null;
+        for(Team t:teams) {
+            e = t.getEntityByName(name);
+            if(e != null) return e;
+        }
+        return e;
+    }
+
     public void setEntityByXY(int x, int y, Entity entity) {
         for(Team t:teams) {
             t.setEntityByXY(x,y,entity);
